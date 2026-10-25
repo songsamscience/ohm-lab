@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
-<meta name="version" content="4.2">
+<meta name="version" content="5.0">
 <meta name="description" content="전원 장치·스위치·전구·니크롬선·전류계·전압계를 격자 실험판에 연결해 옴의 법칙, 저항의 직렬·병렬 연결, 도체·부도체·반도체를 탐구하는 가상실험실">
 <meta property="og:title" content="송쌤과학 가상실험실 | 옴의 법칙 · 직렬 · 병렬 연결">
 <meta property="og:description" content="회로를 직접 연결하고 전압·전류·저항의 관계를 측정해 보는 중학교 과학 가상실험실">
@@ -649,6 +649,58 @@ body.lab-focus .stage{flex:1!important;height:auto!important;min-height:0}}
 .lab-material .pg-grow .help{flex:none;margin-top:6px;font-size:12px}
 }
 
+/* ── 02 도선과 저항 ── */
+.lab-resist .panel-scroll{display:flex;flex-direction:column;padding-bottom:8px}
+.lab-resist .panel-scroll>*{flex:none}
+.lab-resist .pg{padding:7px 0}
+.lab-resist .pg-title{margin-bottom:8px}
+.rs-pick .field{display:grid;grid-template-columns:72px 1fr;align-items:center;gap:6px;margin-bottom:6px}
+.rs-pick .field-label{flex-direction:column;align-items:flex-start;gap:2px;font-size:12px}
+.lab-resist .field{margin-bottom:6px;gap:3px}
+.lab-resist .field-label{align-items:center}
+.lab-resist .seg.full button{min-height:36px;font-size:12px;padding:0 4px}
+.lab-resist .stepper{min-height:40px;grid-template-columns:40px 1fr 40px}
+.lab-resist .stepper button{height:40px}
+.lab-resist .stepper output{font-size:19px}
+.lab-resist .seg button[aria-disabled="true"]{opacity:.42;cursor:not-allowed}
+.lab-resist .seg button[aria-disabled="true"][aria-pressed="true"]{opacity:1}
+.lockb{font-size:10px;font-weight:600;color:var(--text-2);border:1px solid var(--line-1);border-radius:4px;padding:0 5px;line-height:1.6}
+.lockb::before{content:'🔒 ';font-size:9px}
+.rs-fixed{margin:7px 0 0;font-size:11.5px;line-height:1.55;color:var(--text-2)}
+.rs-fixed b{color:var(--text-1)}
+.rs-volt{margin-top:8px}
+.rs-q{margin:0 0 8px;font-size:12.5px;font-weight:600;line-height:1.5}
+.rs-pred .pg-title{margin-bottom:6px}
+.rs-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.rs-opts button{min-height:36px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface-0);font:600 12px/1.3 var(--font-ui);color:var(--text-1);cursor:pointer;padding:4px 6px;touch-action:manipulation}
+.rs-opts button:hover{border-color:var(--accent);background:var(--accent-bg)}
+.rs-mine{display:flex;align-items:center;gap:6px;margin:0;font-size:12.5px;font-weight:600;flex-wrap:wrap}
+.rs-mine .ok{color:var(--accent-strong)}.rs-mine .no{color:var(--warn)}
+.rs-fb{margin:5px 0 0;font-size:11.5px;line-height:1.55;color:var(--text-2)}
+.lab-resist .panel-scroll>.rs-data{flex:1 1 auto;min-height:196px;display:grid;grid-template-columns:1.2fr 1fr;gap:10px;border-bottom:0;padding-bottom:0}
+.rs-data .data-col{display:flex;flex-direction:column;min-height:0;min-width:0}
+.rs-data .pg-title{margin-bottom:6px;flex-wrap:nowrap}
+.rs-data .pg-act{align-items:center}
+.rs-data .rec-wrap{flex:1;min-height:0;max-height:none;border:1px solid var(--line-1);border-radius:8px}
+.rs-data .rec th,.rs-data .rec td{padding:5px 4px;font-size:12px}.rs-data .rec th:first-child,.rs-data .rec td:first-child{padding-left:7px}
+.rs-data .rec-empty{font-size:11.5px;line-height:1.55}
+.rs-data .graph-box{flex:1;min-height:150px}
+.rec td .vtag{display:block;font-size:10px;line-height:1.2;color:var(--text-3);font-weight:500}
+.seg-mini{padding:1px}
+.seg-mini button,.lab-resist .seg-mini button{min-height:28px!important;padding:0 7px;font-size:11px}
+.rs-data .check{font-size:11px;color:var(--text-2);min-height:28px;gap:4px}
+.rs-sum{margin:6px 0 0;padding:7px 10px;border-radius:8px;background:var(--accent-bg);color:var(--accent-strong);font-size:11.5px;line-height:1.5;font-weight:600}
+.rs-sum:empty{display:none}
+.rsscene .rs-shelf:hover .lbl,.rsscene .rs-shelf:focus-visible .lbl{fill:var(--accent-strong)}
+.rsscene [data-act]:focus-visible{outline:none}
+.rsscene [data-act]:focus-visible .part-hit{stroke:var(--accent);stroke-width:2.5}
+@media(min-width:1201px){.lab-resist{--panel-w:500px}.lab-resist .pg-duo{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}}
+@media(min-width:861px){.rs-sum{display:none}.lab-resist .panel-foot{display:none}}
+@media(min-width:1280px){.lab-resist .bh-tools .tool .t{display:inline}.lab-resist .bh-tools{flex-wrap:nowrap}}
+@media(max-width:1279px){.lab-resist .bh-tools .tool .t{display:none!important}}
+@media(max-width:1500px){.lab-resist .bh-tools .tool{padding:0 9px}}
+@media(max-width:860px){.lab-resist .panel-scroll>.rs-data{min-height:0}.rs-data .rec-wrap{max-height:260px}.rs-data .graph-box{height:220px;flex:none}}
+@media(max-width:600px){.lab-resist .panel-scroll>.rs-data{display:block}.rs-data .data-col+.data-col{margin-top:14px}.rs-opts button{font-size:11.5px}}
 /* v3 styles are consolidated in shell.html. */
 </style>
 </head>
@@ -690,7 +742,7 @@ const IMAGES={"supply": {"w": 460, "h": 340, "src": "data:image/png;base64,iVBOR
    · 묶인 마디 안의 갈래 전류는 전선 한 칸 = 같은 작은 저항으로 보고 다시 나눈다(흐름 표시·전류계 값).
    · 전원 장치는 내부 저항 0.002 Ω(거의 이상적인 직류 전원), 2 A를 넘으면 보호 회로가 출력을 끈다.
    ═══════════════════════════════════════════════════════════════════ */
-const APP_VERSION = '4.2', APP_DATE = '2026-10-03';
+const APP_VERSION = '5.0', APP_DATE = '2026-10-26';
 
 const MODEL = {
   bulbR: 10,            // 전구 저항(Ω) — 3.0 V에서 0.30 A. 필라멘트 온도에 따른 저항 변화는 무시
@@ -2398,6 +2450,8 @@ const ICONS = {
   grid: '<circle cx="5" cy="5" r="1.2"/><circle cx="12" cy="5" r="1.2"/><circle cx="19" cy="5" r="1.2"/><circle cx="5" cy="19" r="1.2"/><circle cx="19" cy="19" r="1.2"/><path d="M5 5v14h4m6 0h4V5h-7"/><rect x="9" y="17" width="6" height="4" rx="1"/>',
   graph: '<path d="M4 3v17h17"/><path d="M6 17 19 6M6 17l13-5"/><circle cx="12" cy="11.7" r="1.3"/>',
   atom: '<rect x="3" y="9" width="18" height="6" rx="3"/><path d="M7 9v6m5-6v6m5-6v6"/><path d="M5 5h3m8 0h3M5 19h3m8 0h3"/>',
+  resist: '<path d="M2 12h3.5l1.5-4 3 8 3-8 3 8 1.5-4H22"/>',
+  target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>',
   bulbs: '<path d="M4 20h16"/><path d="M8 20v-3m8 3v-3"/><circle cx="8" cy="12" r="4"/><circle cx="16" cy="12" r="4"/><path d="M8 16h0m8 0h0"/>',
   doc: '<path d="M6 3h9l4 4v14H6Z"/><path d="M14 3v5h5M9 12h7M9 16h5"/>', report: '<path d="M7 8V3h10v5M7 17H4V9h16v8h-3"/><path d="M7 14h10v7H7Z"/>',
   play: '<path d="M8 5.5v13l10-6.5Z"/>', reset: '<path d="M4 10a8 8 0 1 1 1.6 6.5"/><path d="M4 4v6h6"/>', check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
@@ -2478,11 +2532,12 @@ PRESETS.guided = () => PRESETS.starter().filter(e => ekey(e.a,e.b) !== ekey('5,0
 /* ── 화면 목록 ─────────────────────────────── */
 const TABS = [
   { id: 'bench', num: '01', rail: '실험판', icon: 'grid', title: '회로 실험판', sub: '처음이라면 네 단계로, 익숙해지면 나만의 회로로.' },
-  { id: 'ohm', num: '02', rail: '옴의 법칙', icon: 'graph', title: '전압과 전류의 관계', sub: '전압을 바꾸며 니크롬선에 흐르는 전류를 재고 그래프로 나타내요.' },
-  { id: 'material', num: '03', rail: '물질과 저항', icon: 'atom', title: '도체 · 부도체 · 반도체', sub: '집게 사이에 여러 물질을 끼워 전류가 흐르는 정도를 비교해요.' },
-  { id: 'series', num: '04', rail: '직렬·병렬', icon: 'bulbs', title: '저항의 직렬연결과 병렬연결', sub: '전구 두 개를 이어 밝기를 비교하고, 하나를 빼 봐요.' },
-  { id: 'questions', num: '05', rail: '탐구 질문', icon: 'doc', title: '탐구 질문', sub: '' },
-  { id: 'meters', num: '06', rail: '계기 읽기', icon: 'gauge', title: '전류계 · 전압계 눈금 읽기', sub: '(−)단자에 맞는 눈금 줄을 찾아 최소 눈금의 1/10까지 어림해 읽어요.' },
+  { id: 'resist', num: '02', rail: '도선과 저항', icon: 'resist', title: '도선의 길이·굵기와 저항', sub: '도선 속 전자가 원자와 부딪히는 모습을 보고, 길이와 굵기를 바꿔 전류를 재요.' },
+  { id: 'ohm', num: '03', rail: '옴의 법칙', icon: 'graph', title: '전압과 전류의 관계', sub: '전압을 바꾸며 니크롬선에 흐르는 전류를 재고 그래프로 나타내요.' },
+  { id: 'material', num: '04', rail: '물질과 저항', icon: 'atom', title: '도체 · 부도체 · 반도체', sub: '집게 사이에 여러 물질을 끼워 전류가 흐르는 정도를 비교해요.' },
+  { id: 'series', num: '05', rail: '직렬·병렬', icon: 'bulbs', title: '저항의 직렬연결과 병렬연결', sub: '전구 두 개를 이어 밝기를 비교하고, 하나를 빼 봐요.' },
+  { id: 'questions', num: '06', rail: '탐구 질문', icon: 'doc', title: '탐구 질문', sub: '' },
+  { id: 'meters', num: '07', rail: '계기 읽기', icon: 'gauge', title: '전류계 · 전압계 눈금 읽기', sub: '(−)단자에 맞는 눈금 줄을 찾아 최소 눈금의 1/10까지 어림해 읽어요.' },
 ];
 let current = getSaved('tab', 'bench');
 if (!TABS.find(t => t.id === current)) current = 'bench';
@@ -2496,7 +2551,7 @@ function getBoard(id) {
   if (id === 'series') { b = new Board({ fine:true, crop: true, name: '직렬·병렬 실험판', perm: { toggle: true, bulb: true }, tap: 'toggle', chip: false, onChange: onBoardChange }); b.setEls(PRESETS[lab.series]()); }
   b.camera = workspaceCamera(id); b.view = view; boards[id] = b; return b;
 }
-const active = () => (current === 'material' ? matScene : boards[current]);
+const active = () => (current === 'material' ? matScene : current === 'resist' ? rsScene : boards[current]);
 
 /* ── 레일 ─────────────────────────────── */
 function renderRail() {
@@ -2505,7 +2560,7 @@ function renderRail() {
 }
 function setTab(id) {
   if (id === current && $('#main').childElementCount) return;
-  ohmGraphRO?.disconnect();
+  ohmGraphRO?.disconnect(); rsGraphRO?.disconnect();
   document.body.classList.remove('lab-focus');
   closeMinis();
   current = id; save('tab', id); history.replaceState(null, '', '#' + id);
@@ -2513,7 +2568,7 @@ function setTab(id) {
   const t = TABS.find(x => x.id === id);
   document.title = `송쌤과학 가상실험실 | ${id === 'questions' ? '탐구 질문' : t.title}`;
   $('#main').scrollTop = 0;
-  ({ bench: renderBench, ohm: renderOhm, material: renderMaterial, series: renderSeries, questions: renderQuestions, meters: renderMeters })[id]();
+  ({ bench: renderBench, resist: renderResist, ohm: renderOhm, material: renderMaterial, series: renderSeries, questions: renderQuestions, meters: renderMeters })[id]();
 }
 
 /* ── 공통 틀 ─────────────────────────────── */
@@ -2545,7 +2600,7 @@ function labFrame({ tab, tools, panel, foot, card, ribbon = true, rec = false, w
 }
 function bindCommon(scene) {
   bindWorkspace(scene);
-  $$('[data-flow]').forEach(b => b.onclick = () => { view.flow = b.dataset.flow; save('view', view); $$('[data-flow]').forEach(x => x.setAttribute('aria-pressed', x.dataset.flow === view.flow)); if (current === 'material') { matScene.flowMode = view.flow; matScene.buildFlow(); } else scene?.render(); syncFlowLegend(); });
+  $$('[data-flow]').forEach(b => b.onclick = () => { view.flow = b.dataset.flow; save('view', view); $$('[data-flow]').forEach(x => x.setAttribute('aria-pressed', x.dataset.flow === view.flow)); if (current === 'material') { matScene.flowMode = view.flow; matScene.buildFlow(); } else scene?.render(); if (current === 'resist') syncResist(); syncFlowLegend(); });
   $$('[data-toggle]').forEach(b => b.onclick = () => { const k = b.dataset.toggle; view[k] = !view[k]; save('view', view); b.setAttribute('aria-pressed', view[k]); scene?.render(); });
   $$('[data-view]').forEach(b => b.onclick = () => setViewMode(b.dataset.view, scene));
   syncViewMode(scene);
@@ -2566,7 +2621,7 @@ function stageHeight() { // 좁은 화면에서 판 높이(보이는 범위의 �
   if (document.body.classList.contains('lab-focus') || innerWidth > 860) { panes.forEach(p => p.style.height = ''); return; }
   const b = boards[current]; if (b?.svg) b.fit(); // 가로↔세로 배치가 바뀌었으면 먼저 맞춘다
   const bb = b?.svg && b.baseBox();
-  const ratio = current === 'material' ? (innerWidth <= 600 ? 960 / 700 : 560 / 1000) : current === 'meters' ? (innerWidth <= 600 ? 1010 / 520 : 560 / 1000) : bb ? bb[3] / bb[2] : innerWidth <= 600 ? 820 / 520 : 520 / 820;
+  const ratio = current === 'material' ? (innerWidth <= 600 ? 960 / 700 : 560 / 1000) : current === 'resist' ? (rsScene?.isPort ? rsScene.vb[1] / rsScene.vb[0] : 560 / 1040) : current === 'meters' ? (innerWidth <= 600 ? 1010 / 520 : 560 / 1000) : bb ? bb[3] / bb[2] : innerWidth <= 600 ? 820 / 520 : 520 / 820;
   const cap = panes.length > 1 && innerWidth <= 600 ? 0.62 : 0.74; // 휴대폰 비교 보기: 두 판이 위아래로 쌓이므로 조금 낮게
   for (const p of panes) { const w = p.getBoundingClientRect().width || innerWidth - 24; p.style.height = Math.round(Math.min(w * ratio, innerHeight * cap)) + 'px'; }
 }
@@ -2723,7 +2778,7 @@ function bindTray(b) {
   });
 }
 
-/* ══════════ 02 옴의 법칙 ══════════ */
+/* ══════════ 03 옴의 법칙 ══════════ */
 function ohmChecks(b) {
   const els = b.els, f = t => els.find(e => e.type === t);
   const nich = f('nichrome'), am = f('ammeter'), vm = f('voltmeter'), sw = f('switch');
@@ -2913,7 +2968,7 @@ function drawOhmGraph() {
   host.innerHTML = ohmGraphSVG(ohmRec, { live, trend: $('#trend')?.checked, w, h, legend: true });
 }
 
-/* ══════════ 03 도체 · 부도체 · 반도체 ══════════ */
+/* ══════════ 04 도체 · 부도체 · 반도체 ══════════ */
 let matScene = null;
 function renderMaterial() {
   const st = lab.matState;
@@ -2984,7 +3039,7 @@ function recordMat() {
   save('mat', matRec); syncMat(); toast(`${MATERIALS[st.mat].name} · ${fmtA(I)}를 기록했어요.`);
 }
 
-/* ══════════ 04 직렬 · 병렬 ══════════ */
+/* ══════════ 05 직렬 · 병렬 ══════════ */
 const SER_NAME = { one: '전구 1개', series: '직렬 2개', parallel: '병렬 2개' };
 function renderSeries() {
   const b = getBoard('series');
@@ -3038,7 +3093,7 @@ function recordSeries() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   06 전류계 · 전압계 눈금 읽기 — 학교 실험실의 바늘(아날로그) 계기
+   07 전류계 · 전압계 눈금 읽기 — 학교 실험실의 바늘(아날로그) 계기
    · (−)단자 세 개: 전류계 50 mA · 500 mA · 5 A, 전압계 3 V · 15 V · 30 V. 연결한 (−)단자의 값이 눈금 끝 값.
    · 눈금판에는 줄이 세 개(맨 위 = 가장 큰 단자). 작은 눈금은 큰 눈금 한 칸의 1/10, 그 1/10까지 어림해 읽는다.
    · 단자를 바꾸면 흐르는 전류(걸린 전압)는 그대로이고 바늘이 움직인다 — 끝을 넘으면 바늘이 멈춤쇠에 걸린다.
@@ -3395,6 +3450,605 @@ function syncMeters() {
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   02 도선과 저항 — 전원 장치·스위치·전류계와 집게 사이의 니크롬 도선(길이 10·20·30 cm × 굵기 1·2·3배)을
+   직렬로 잇고, 오른쪽 확대 모형(잘라 연 원통)에서 전자가 원자와 부딪히며 지나가는 모습을 보여 준다.
+   · 저항 R = 길이(cm) ÷ 굵기 배수(단면적) Ω — 1배 1 cm = 1 Ω, 다른 화면의 니크롬선 모형과 같다.
+   · 원자 한 줄 = 2 cm. 전자는 원자 줄을 지날 때마다 한 번 부딪힌다 → 전자 1개당 부딪힘 = 길이 ÷ 2(굵기와 무관).
+   · 줄의 원자 수(세로) = 2 × 굵기 배수, 전자 수 = 원자 수 × 1.5 → 1초에 끝면을 지나는 전자 = 전류(mA) ÷ 25.
+     (부딪힐 때마다 앞으로 가는 속도를 잃고 다시 가속 — 평균 속도 u = 26.7 × V ÷ L cm/s)
+   · 굵은 도선은 전자가 많아 ‘도선 전체의 충돌 수’는 오히려 많다. 저항의 지표가 아니므로 어디에도 세지 않는다.
+   ═══════════════════════════════════════════════════════════════════ */
+const RS = { lens: [10, 20, 30], areas: [1, 2, 3], colCm: 2, ePerAtom: 1.5, perSec: 25, baseV: 3 };
+const RS_MODES = {
+  length: { name: '길이 비교', vary: '길이', fixed: { A: 1, V: 3 }, shelf: () => RS.lens.map(L => ({ L, A: 1 })) },
+  thick: { name: '굵기 비교', vary: '굵기', fixed: { L: 10, V: 3 }, shelf: () => RS.areas.map(A => ({ L: 10, A })) },
+  free: { name: '자유', vary: '길이 · 굵기 · 전압', fixed: {}, shelf: () => [] },
+};
+const RS_PRED = {
+  length: { q: '굵기는 그대로 두고 도선의 길이를 2배로 늘리면 전류는 어떻게 될까요?', ans: 2,
+    opts: ['2배로 커져요', '변하지 않아요', '절반으로 줄어요'],
+    fb: ['원자 줄이 2배로 늘어 전자 1개가 부딪히는 횟수도 2배가 됐어요. 그래서 전류는 오히려 절반으로 줄었어요.',
+      '원자 줄이 늘어 전자 1개가 부딪히는 횟수가 2배가 됐어요. 저항이 커져 전류는 절반으로 줄었어요.',
+      '맞아요. 원자 줄이 2배라 전자 1개가 부딪히는 횟수도 2배, 저항이 2배라 전류는 절반이에요.'] },
+  thick: { q: '길이는 그대로 두고 도선을 2배 굵게(단면적 2배) 하면 전류는 어떻게 될까요?', ans: 0,
+    opts: ['2배로 커져요', '변하지 않아요', '절반으로 줄어요'],
+    fb: ['맞아요. 전자 1개가 부딪히는 횟수는 같지만 통로가 넓어 같은 시간에 2배의 전자가 지나가요. 저항은 절반이에요.',
+      '전자 1개만 보면 부딪히는 횟수는 같아요. 하지만 통로가 넓어 1초에 끝면을 지나는 전자가 2배가 돼 전류도 2배예요.',
+      '굵은 도선에는 전자가 많아 부딪힘이 더 많아 보일 수 있어요. 하지만 전자 1개당 횟수는 같고 지나가는 전자가 2배라 전류는 2배예요.'] },
+  free: { q: '도전 · 10 cm·1배 도선을 20 cm·2배 도선으로 바꾸면 전류는 어떻게 될까요?', ans: 1,
+    opts: ['커져요', '같아요', '작아져요'],
+    fb: ['길이가 2배라 전자 1개의 부딪힘도 2배예요. 굵기 2배로 통로가 넓어진 효과와 비겨 전류는 같아요.',
+      '맞아요. 길이 2배로 저항이 2배, 굵기 2배로 절반이 되어 저항이 같아요. 전류도 같아요.',
+      '굵기가 2배라 통로도 2배 넓어요. 길이 2배의 효과와 비겨 전류는 같아요.'] },
+};
+const RS_SERIES = ['var(--series-a)', 'var(--series-b)', 'var(--accent)'], RS_DASH = ['', '6 4', '2 4'];
+lab.rs = { mode: 'length', wire: null, V: RS.baseV, closed: false, ref: innerWidth > 600, follow: true };
+let rsScene = null, rsRec = getSaved('resist', []), rsPred = getSaved('rsPred', {}), rsFresh = null, rsNote = null, rsGraphRO = null;
+const rsTold = {};
+const rsR = w => w ? w.L / w.A : Infinity;
+const rsKey = (L, A, V) => `${L}-${A}-${(+V).toFixed(1)}`;
+function rsSolve(st = lab.rs) {
+  const R = rsR(st.wire), on = !!st.wire && st.closed && st.V > 0, I = on ? st.V / R : 0;
+  return { R, I, on, mA: on ? meterMA(I) : 0, Iref: on ? st.V / 10 : 0 }; // 기준 도선은 ‘지금 도선과 같은 전압을 걸었을 때’
+}
+const rsHits = w => w.L / RS.colCm;                       // 전자 1개가 지나며 부딪히는 횟수(모형)
+const rsRate = mA => mA / RS.perSec;                       // 1초에 끝면을 지나는 전자 수(모형)
+const rsNum = n => Number.isInteger(Math.round(n * 10) / 10) ? String(Math.round(n)) : (Math.round(n * 10) / 10).toFixed(1);
+const rsWireName = w => `${w.L} cm · 굵기 ${w.A}배`;
+const rsEstW = (t, px) => [...t].reduce((w, c) => w + (/[가-힣]/.test(c) ? px : px * .58), 0); // SVG 글자 폭 어림
+const rsNextCol = (xd, cols) => xd < 1 ? 0 : Math.min(cols, Math.floor((xd - 1) / 2) + 1);
+
+/* ── 도선 하나의 입자 모형(위치 단위: x는 cm, y는 원자 줄 간격) ── */
+class RsWireModel {
+  constructor(L, A) {
+    Object.assign(this, { L, A, cols: L / RS.colCm, rows: 2 * A, t: 0, flashes: [], endFlash: -9, lastHits: null, trail: [], trailT: 0 });
+    this.atoms = []; for (let i = 0; i < this.cols; i++) for (let j = 0; j < this.rows; j++) this.atoms.push({ i, j, ph: Math.random() * 6.283, hit: -9 });
+    const N = Math.round(this.cols * this.rows * RS.ePerAtom);
+    this.es = Array.from({ length: N }, (_, n) => { const xd = (n + Math.random()) / N * L; return { xd, next: rsNextCol(xd, this.cols), v: 0, y: .3 + Math.random() * (this.rows - .6), jx: (Math.random() - .5) * .8, dx: 0, dy: 0, turn: 0 }; });
+    this.follow = { e: null, hits: 0, armed: true, nextAt: .6, done: null, pop: -9 };
+  }
+  // u = 평균 흐름 속도(cm/s). 2 cm마다 부딪혀 멈췄다가 다시 가속하므로 가속도 a = 2u²/2cm
+  step(dt, u, gap, onRun, onStart) {
+    this.t += dt;
+    const a = u > 0 ? 2 * u * u / RS.colCm : 0, lo = .2, hi = this.rows - .2, f = this.follow;
+    for (const e of this.es) {
+      e.turn -= dt; if (e.turn <= 0) { const g = Math.random() * 6.283; e.dx = Math.cos(g); e.dy = Math.sin(g); e.turn = .08 + Math.random() * .1; }
+      e.y += e.dy * 1.25 * dt;                               // 열운동 2.5 cm/s(= 1.25줄/s)
+      if (e.y < lo) { e.y = 2 * lo - e.y; e.dy = Math.abs(e.dy); } else if (e.y > hi) { e.y = 2 * hi - e.y; e.dy = -Math.abs(e.dy); }
+      const jm = u > 0 ? .3 : .75; e.jx += e.dx * 2.5 * dt; if (Math.abs(e.jx) > jm) { e.jx = Math.sign(e.jx) * jm; e.dx = -e.dx; }
+      if (u <= 0) { e.v = 0; continue; }
+      e.v += a * dt; e.xd += e.v * dt;
+      if (e.next < this.cols && e.xd >= 2 * e.next + 1) {      // 원자 줄을 지나는 순간 = 한 번 부딪힘
+        const c = e.next, j = clamp(Math.round(e.y - .5), 0, this.rows - 1), ay = j + .5;
+        let s = e.y >= ay ? 1 : -1, ny = ay + s * gap; if (ny < lo || ny > hi) { s = -s; ny = ay + s * gap; }
+        e.xd = 2 * c + 1; e.v = 0; e.next++; e.y = ny; e.jx = 0; e.dy = s * Math.abs(e.dy || 1);
+        this.atoms[c * this.rows + j].hit = this.t;
+        this.flashes.push({ c, y: ay + s * gap * .5, t0: this.t });
+        if (f.e === e) { f.hits++; f.pop = this.t; }
+      } else if (e.next >= this.cols && e.xd >= this.L) {    // (+)쪽 끝면을 지나면 (−)쪽으로 다시 들어온다(전자 수 일정)
+        e.xd -= this.L; e.next = 0; this.endFlash = this.t;
+        if (f.e === e) { this.lastHits = f.hits; f.done = { hits: f.hits, t0: this.t }; f.e = null; f.nextAt = this.t + 1; onRun?.(this); }
+        else if (!f.e && f.armed && this.t >= f.nextAt) { f.e = e; f.hits = 0; f.pop = -9; this.trail = []; onStart?.(this); }
+      }
+    }
+    this.flashes = this.flashes.filter(x => this.t - x.t0 < .28);
+    if (f.e) { this.trailT -= dt; if (this.trailT <= 0) { this.trailT = .06; this.trail.push([f.e.xd + f.e.jx, f.e.y]); if (this.trail.length > 400) this.trail.shift(); } }
+  }
+}
+
+/* ── 장면 ── */
+class RsScene {
+  constructor(st) { this.st = st; this.uid = 'r' + Math.random().toString(36).slice(2, 6); this.ref = new RsWireModel(10, 1); this.ref.follow.armed = false; this.main = null; this.syncWire(); }
+  syncWire() {
+    const w = this.st.wire;
+    if (!w) { this.main = null; return; }
+    if (!this.main || this.main.L !== w.L || this.main.A !== w.A) { this.main = new RsWireModel(w.L, w.A); this.main.follow.armed = this.st.follow; }
+  }
+  mount(host) {
+    this.host = host; host.innerHTML = '';
+    const svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('class', 'scene board rsscene'); svg.setAttribute('role', 'group');
+    if (this.isPort !== undefined && this.isPort !== this.port && this.camera) this.camera.z = 1;
+    this.isPort = this.port; svg.setAttribute('viewBox', this.baseBox().join(' '));
+    this.svg = svg; host.append(svg);
+    svg.addEventListener('click', e => this.onAct(e.target.closest('[data-act]')));
+    svg.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[data-act]')) { e.preventDefault(); this.onAct(e.target.closest('[data-act]')); } });
+    this.render();
+  }
+  onAct(el) {
+    if (!el) return;
+    const a = el.dataset.act;
+    if (a === 'switch') rsSet({ closed: !this.st.closed });
+    else if (a === 'shelf') rsInsert({ L: +el.dataset.l, A: +el.dataset.a });
+    else if (a === 'wire') rsInsert(null);
+  }
+  // 휴대폰 세로(≤600px)는 회로 위 · 확대 모형 아래로 쌓는다(선반은 숨기고 조작판에서 고른다)
+  get port() { return innerWidth <= 600; }
+  get vb() { return this.isPort ? [560, this.st.ref ? 940 : 830] : [1040, 560]; }
+  refit() { if (this.host && this.port !== this.isPort) this.mount(this.host); else this.applyView(); }
+  baseBox() { return [0, 0, ...this.vb]; }
+  applyView() { if (!this.svg || !this.host) return; const r = this.host.getBoundingClientRect(); this.svg.setAttribute('viewBox', cameraBox(this.baseBox(), this.camera, r.width, r.height).join(' ')); }
+  get L() {
+    return this.isPort
+      ? { left: 60, right: 500, top: 80, bot: 330, sup: [195, 80], supW: 140, sw: [400, 80], swW: 104, am: [60, 210], amW: 96, bx0: 130, shelf: null, mag: [14, 386, 532, this.st.ref ? 548 : 438], bx: 62, k: 15 }
+      : { left: 52, right: 448, top: 96, bot: 486, sup: [160, 96], supW: 150, sw: [352, 96], swW: 110, am: [52, 300], amW: 100, bx0: 104, shelf: [118, 180, 318, 236], mag: [478, 14, 548, 532], bx: 528, k: 15.5 };
+  }
+  // 확대 창 안 원통 자리: 기준(10 cm·1배)과 지금 끼운 도선
+  geo() {
+    const L = this.L, [mx, my] = L.mag, pitch = L.k * RS.colCm, refOn = this.st.ref;
+    const g = { pitch, k: L.k, bx: L.bx, ra: pitch * .31, re: pitch * .17 };
+    g.ref = refOn ? { top: my + 70, h: 2 * pitch, w: 10 * L.k } : null;
+    const mt = my + (refOn ? 192 : 84);
+    g.main = this.main ? { top: mt, h: this.main.rows * pitch, w: this.main.L * L.k } : { top: mt, h: 2 * pitch, w: 0 };
+    g.cnt = my + L.mag[3] - 104; g.labelY = mt - 14;
+    return g;
+  }
+  render() {
+    const st = this.st, L = this.L, sol = rsSolve(st), u = this.uid; this.sol = sol;
+    this.syncWire();
+    const g = this.geo(); this.g = g;
+    const flow = view.flow;
+    let s = `<defs><linearGradient id="${u}-m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3f5f7"/><stop offset=".42" stop-color="#cdd3d8"/><stop offset="1" stop-color="#9ba3aa"/></linearGradient>
+      <linearGradient id="${u}-f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b9c0c6"/><stop offset="1" stop-color="#7f8890"/></linearGradient>
+      <linearGradient id="${u}-n" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9cfd3"/><stop offset=".5" stop-color="#9aa3aa"/><stop offset="1" stop-color="#6c757c"/></linearGradient></defs>`;
+    s += `<rect width="${this.vb[0]}" height="${this.vb[1]}" fill="var(--board)"/>`;
+    /* ── 회로 ── */
+    const w = st.wire, x0 = L.bx0, x1 = w ? x0 + 10 * w.L : x0 + 200, cy = L.bot;
+    // 확대 창으로 가는 지시선(선반 아래에 깔리도록 먼저 그린다)
+    if (w) {
+      const [mx] = L.mag, ex = this.capRx(g.main.h), lx = this.isPort ? L.bx - ex : mx + 2, mid = (x0 + x1) / 2;
+      const p = this.isPort ? [[L.mag[0] + 40, L.mag[1]], [L.mag[0] + L.mag[2] - 40, L.mag[1]]] : [[lx + 12, g.main.top + 4], [lx + 12, g.main.top + g.main.h - 4]];
+      s += `<path d="M${mid} ${cy - 10}L${p[0][0]} ${p[0][1]}M${mid} ${cy - 10}L${p[1][0]} ${p[1][1]}" stroke="var(--text-3)" stroke-width="1.4" stroke-dasharray="4 5" fill="none"/>`;
+    }
+    const loop = `M${x0 - 44} ${cy}H${L.left}V${L.top}H${L.right}V${cy}H${x1 + 44}`;
+    s += `<path class="wire-edge" d="${loop}" style="stroke-linejoin:round"/><path class="wire-core" d="${loop}" style="stroke-linejoin:round"/><path class="wire-hi" d="${loop}" transform="translate(0 -1.4)" style="stroke-linejoin:round"/>`;
+    s += `<g class="mflow" aria-hidden="true"></g>`;
+    // 도선 선반(넓은 화면): 지금 비교 방법의 도선 3개만
+    if (L.shelf) {
+      const [sx, sy, sw, sh] = L.shelf, items = RS_MODES[st.mode].shelf();
+      s += `<rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="12" fill="var(--surface-1)" opacity=".92" stroke="var(--line-1)"/>`;
+      s += `<text class="lbl strong" x="${sx + 14}" y="${sy + 24}" style="font-size:14px">도선 선반</text><text class="lbl" x="${sx + sw - 14}" y="${sy + 24}" text-anchor="end" style="font-size:12.5px">${items.length ? '눌러서 집게 사이에 끼워요' : '조작판에서 골라요'}</text>`;
+      if (!items.length) s += `<text class="lbl" x="${sx + sw / 2}" y="${sy + sh / 2 + 18}" text-anchor="middle" style="font-size:13.5px">자유 모드 · 길이·굵기·전압을<tspan x="${sx + sw / 2}" dy="20">조작판에서 마음대로 바꿔요</tspan></text>`;
+      items.forEach((it, i) => {
+        const by = sy + 74 + i * 60, on = w && w.L === it.L && w.A === it.A, th = 6 * it.A;
+        s += `<g data-act="shelf" data-l="${it.L}" data-a="${it.A}" role="button" tabindex="0" aria-label="니크롬 ${rsWireName(it)} 끼우기${on ? ' (끼워져 있음)' : ''}" class="rs-shelf${on ? ' on' : ''}" style="cursor:pointer">
+          <rect class="part-hit" x="${sx + 6}" y="${by - 30}" width="${sw - 12}" height="52" rx="8" fill="transparent"/>
+          <text class="lbl${on ? '' : ' strong'}" x="${sx + 14}" y="${by - 13}" style="font-size:13px">${rsWireName(it)}${on ? ' · 끼움' : ''}</text>
+          ${on ? `<rect x="${sx + 14}" y="${by - th / 2}" width="${10 * it.L}" height="${th}" rx="${th / 2}" fill="none" stroke="var(--text-3)" stroke-width="1.4" stroke-dasharray="4 4"/>` : this.barSVG(sx + 14, by, it, false)}</g>`;
+      });
+    }
+    // 집게와 도선
+    if (w) s += `<g data-act="wire" role="button" tabindex="0" aria-label="끼운 도선(${rsWireName(w)}) 빼기" style="cursor:pointer"><rect class="part-hit" x="${x0 - 4}" y="${cy - 24}" width="${x1 - x0 + 8}" height="48" fill="transparent"/>${this.barSVG(x0, cy, w, true)}</g>`;
+    else s += `<text class="lbl" x="${(x0 + x1) / 2}" y="${cy - 16}" text-anchor="middle" style="font-size:14px">집게 사이에 도선을 끼워요</text>`;
+    s += `<g filter="url(#fx-shadow)"><g transform="translate(${x0 + 20} 0) scale(-1 1)">${useImg('clip_black', 0, cy - 13.5, 64)}</g></g><g filter="url(#fx-shadow)">${useImg('clip_red', x1 - 20, cy - 13.5, 64)}</g>`;
+    if (w) {
+      s += `<text class="lbl strong" x="${(x0 + x1) / 2}" y="${cy + 34}" text-anchor="middle" style="font-size:15px">${w.L} cm · 굵기 ${w.A}배</text>`;
+      s += `<circle cx="${(x0 + x1) / 2}" cy="${cy - 10}" r="7" fill="none" stroke="var(--text-2)" stroke-width="1.8"/>`;
+    }
+    // 전원 장치
+    const supW = L.supW, sx = L.sup[0] - supW / 2, sy = L.sup[1] - supW * 340 / 460 / 2, ss = supW / 460;
+    const supI = sol.on ? sol.I : 0;
+    s += `<g filter="url(#fx-shadow)">${useImg('supply', sx, sy, supW)}</g>
+      <text class="led" x="${sx + 272 * ss}" y="${sy + 150 * ss}" text-anchor="end" style="font-size:${22 * supW / 138}px">${st.V.toFixed(1)}</text>
+      <text class="led" x="${sx + 272 * ss}" y="${sy + 258 * ss}" text-anchor="end" style="font-size:${22 * supW / 138}px">${supI.toFixed(2)}</text>`;
+    s += `<text class="lbl" x="${L.sup[0]}" y="${sy - 10}" text-anchor="middle" style="font-size:14px">전원 장치 ${st.V.toFixed(1)} V${st.mode === 'free' ? '' : ' · 고정'}</text>`;
+    // 스위치
+    const swW = L.swW, ang = st.closed ? 0 : -34, swy = L.sw[1] - swW * 150 / 400 / 2;
+    s += `<g data-act="switch" role="button" tabindex="0" aria-label="스위치 ${st.closed ? '열기' : '닫기'}" style="cursor:pointer"><rect class="part-hit" x="${L.sw[0] - 62}" y="${L.sw[1] - 34}" width="124" height="60" fill="transparent"/><g filter="url(#fx-shadow)">${useImg('switch_base', L.sw[0] - swW / 2, swy, swW)}</g>
+      <g class="lever" style="transform:translate(${L.sw[0] - swW / 2 + 69 * swW / 400}px,${swy + 62 * swW / 400}px) rotate(${ang}deg)">${useImg('switch_lever', -20 * swW / 400, -30 * swW / 400, 300 * swW / 400)}</g></g>`;
+    s += `<text class="lbl" x="${L.sw[0]}" y="${L.top - 36}" text-anchor="middle" style="font-size:14px">스위치 · ${st.closed ? '닫힘' : '열림'}</text>`;
+    // 전류계
+    const amW = L.amW, ax = L.am[0] - amW / 2, ay = L.am[1] - amW * 240 / 300 / 2, as = amW / 300, p = fmtAparts(sol.I);
+    s += `<g filter="url(#fx-shadow)">${useImg('ammeter', ax, ay, amW)}</g>
+      <text class="lcd" x="${ax + 252 * as}" y="${ay + 110 * as}" text-anchor="end" style="font-size:${26 * amW / 120}px">${p.n}<tspan style="font-size:${13 * amW / 120}px" dx="3">${p.u}</tspan></text>
+      <text class="meter-letter" x="${L.am[0]}" y="${ay + 202 * as}" text-anchor="middle" style="font-size:${20 * amW / 120}px">A</text>
+      <text class="lbl" x="${L.am[0]}" y="${ay + amW * .8 + 20}" text-anchor="middle" style="font-size:14px">전류계</text>`;
+    /* ── 확대 창 ── */
+    const [mx, my, mw, mh] = L.mag;
+    s += `<rect x="${mx}" y="${my}" width="${mw}" height="${mh}" rx="16" fill="var(--surface-1)" stroke="var(--line-2)" stroke-width="1.6"/>`;
+    s += `<text class="lbl strong" x="${mx + 18}" y="${my + 30}" style="font-size:16px">확대 모형 · 도선 속 원자와 전자</text>`;
+    s += `<text class="lbl" x="${mx + mw - 18}" y="${my + 30}" text-anchor="end" style="font-size:12.5px"><tspan fill="#d9773f">●</tspan> 원자 <tspan dx="6" fill="#1764c4">●</tspan> 전자</text>`;
+    if (g.ref) {
+      s += this.cylSVG('ref', this.ref, g, g.ref);
+      s += `<text class="lbl strong" x="${g.bx + g.ref.w + 40}" y="${g.ref.top + 22}" style="font-size:14px">기준 도선 · 10 cm · 1배</text><text class="lbl" x="${g.bx + g.ref.w + 40}" y="${g.ref.top + 42}" style="font-size:12.5px">같은 전압을 걸었을 때</text>`;
+      s += `<g class="rs-stamp" data-stamp="ref"></g>`;
+    }
+    if (this.main) {
+      s += `<text class="lbl strong" x="${g.bx - 30}" y="${g.labelY}" style="font-size:14px">지금 끼운 도선 · ${rsWireName(this.main)}</text>`;
+      s += this.cylSVG('main', this.main, g, g.main);
+      if (this.main.A > 1) s += `<text class="lbl" x="${g.bx - 30}" y="${g.main.top + g.main.h + 40}" style="font-size:12.5px">굵기 ${this.main.A}배 = 1배 도선 ${this.main.A}가닥을 나란히 묶은 것과 같아요 (점선)</text>`;
+    } else s += `<text class="lbl" x="${mx + mw / 2}" y="${g.main.top + 40}" text-anchor="middle" style="font-size:15px">도선을 끼우면 안쪽이 보여요</text>`;
+    // 계수기 두 칸(도선 전체의 충돌 수는 세지 않는다)
+    const cw = (mw - 48) / 2;
+    [['hit', '전자 1개가 지나며 부딪힌 횟수'], ['rate', '1초에 끝면을 지난 전자 (모형)']].forEach(([id, t], i) => {
+      const cx = mx + 18 + i * (cw + 12);
+      s += `<rect ${i ? '' : 'data-hitcard '}x="${cx}" y="${g.cnt}" width="${cw}" height="74" rx="10" fill="var(--surface-0)" stroke="var(--line-1)"/>
+        <text class="lbl" x="${cx + 14}" y="${g.cnt + 22}" style="font-size:12.5px">${t}</text>
+        <text data-cnt="${id}" x="${cx + 14}" y="${g.cnt + 58}" style="font-size:27px;font-weight:800;fill:var(--text-1)"></text>
+        <text data-cnt="${id}-s" x="${cx + cw - 14}" y="${g.cnt + 58}" text-anchor="end" style="font-size:12px;fill:var(--text-2);font-weight:600"></text>`;
+    });
+    s += `<text class="lbl" x="${mx + mw / 2}" y="${my + mh - 12}" text-anchor="middle" style="font-size:11.5px">교육용 모형 · 입자의 크기·수·빠르기는 실제와 달라요 · 원자는 제자리에서 떨리기만 해요</text>`;
+    this.svg.innerHTML = s;
+    this.svg.setAttribute('aria-label', this.ariaText());
+    this.flowG = this.svg.querySelector('.mflow');
+    this.dyn = {};
+    for (const k of ['ref', 'main']) {
+      const root = this.svg.querySelector(`[data-cyl="${k}"]`); if (!root) continue;
+      this.dyn[k] = { atoms: [...root.querySelectorAll('.rs-atom')], es: [...root.querySelectorAll('.rs-e')], fl: root.querySelector('.rs-fl'), trail: root.querySelector('.rs-trail'), ring: root.querySelector('.rs-ring'), badge: root.querySelector('.rs-badge'), end: root.querySelector('.rs-end'), stamp: this.svg.querySelector(`[data-stamp="${k}"]`) };
+    }
+    this.hitCard = this.svg.querySelector('[data-hitcard]');
+    this.cnt = { hit: this.svg.querySelector('[data-cnt="hit"]'), hitS: this.svg.querySelector('[data-cnt="hit-s"]'), rate: this.svg.querySelector('[data-cnt="rate"]'), rateS: this.svg.querySelector('[data-cnt="rate-s"]') };
+    if (reduced.matches && sol.on && this.main) { this.main.lastHits = rsHits(this.main); if (this.ref) this.ref.lastHits = 5; } // 움직임 줄이기: 결과만 바로
+    this.buildFlow(); this.draw(); this.syncCounters(true);
+  }
+  ariaText() {
+    const st = this.st, w = st.wire;
+    if (!w) return '도선과 저항 장면. 집게 사이에 도선이 없어 전류가 흐르지 않아요.';
+    const m = this.main;
+    return `도선과 저항 장면. 니크롬 ${rsWireName(w)}, 전원 ${st.V.toFixed(1)} V, 스위치 ${st.closed ? '닫힘' : '열림'}, 전류 ${fmtA(this.sol.I)}. 확대 모형: 원자 ${m.cols}줄 ${m.rows}개씩, 전자가 왼쪽 (−)에서 오른쪽 (+)으로 흐르며 원자 줄마다 한 번 부딪혀요.`;
+  }
+  capRx(h) { return clamp(h * .12, 6, 18); }
+  // 회로의 니크롬 막대(길이 10 px/cm, 두께 6 px × 굵기 배수). 끝의 타원은 단면
+  barSVG(x, y, w, inCircuit) {
+    const th = 6 * w.A, len = 10 * w.L, r = th / 2, u = this.uid;
+    return `<rect x="${x}" y="${y - r}" width="${len}" height="${th}" rx="${Math.min(r, 3)}" fill="url(#${u}-n)" stroke="#555e65" stroke-width="1"/><ellipse cx="${x + len}" cy="${y}" rx="${Math.max(2, r * .45)}" ry="${r}" fill="#b4bcc2" stroke="#555e65" stroke-width="1"/>${inCircuit ? '' : ''}`;
+  }
+  // 잘라 연 원통: 왼쪽 끝 타원 = 단면, 안쪽에 원자(+)와 전자(−)
+  cylSVG(key, m, g, c) {
+    const u = this.uid, ex = this.capRx(c.h), x0 = g.bx, x1 = g.bx + c.w, y0 = c.top, y1 = c.top + c.h, flow = view.flow;
+    let s = `<g data-cyl="${key}">`;
+    s += `<rect x="${x0 - ex}" y="${y0}" width="${c.w + ex}" height="${c.h}" fill="url(#${u}-m)" stroke="#7d868d" stroke-width="1.2"/>`;
+    s += `<path class="rs-end" d="M${x1} ${y0}A${ex} ${c.h / 2} 0 0 1 ${x1} ${y1}" fill="#c3c9ce" stroke="#7d868d" stroke-width="1.2"/>`;
+    s += `<ellipse cx="${x0 - ex}" cy="${(y0 + y1) / 2}" rx="${ex}" ry="${c.h / 2}" fill="url(#${u}-f)" stroke="#6d767d" stroke-width="1.2"/>`;
+    for (let k = 1; k < m.A; k++) s += `<path d="M${x0} ${y0 + k * 2 * g.pitch}H${x1}" stroke="#6d767d" stroke-width="1.2" stroke-dasharray="5 5" opacity=".55"/>`; // 1배 도선 한 가닥 = 2줄
+    s += `<path class="rs-trail" d="" fill="none" stroke="#e0a100" stroke-width="2" stroke-dasharray="3 4" stroke-linecap="round"/>`;
+    s += m.atoms.map(a => `<g class="rs-atom"><circle r="${g.ra}" fill="#d9773f" stroke="#00000030" stroke-width="1"/><path d="M${-g.ra * .42} 0H${g.ra * .42}M0 ${-g.ra * .42}V${g.ra * .42}" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></g>`).join('');
+    s += `<g class="rs-fl"></g>`;
+    s += m.es.map(() => `<g class="rs-e"><circle r="${g.re}" fill="#1764c4"/><path d="M${-g.re * .5} 0H${g.re * .5}" stroke="#fff" stroke-width="1.4"/></g>`).join('');
+    s += `<circle class="rs-ring" r="${g.re + 4}" fill="none" stroke="#f0b400" stroke-width="2.6" style="display:none"/><g class="rs-badge" style="display:none"><circle r="10" fill="#f0b400"/><text y="4" text-anchor="middle" style="font-size:12px;font-weight:800;fill:#1d1d1d"></text></g>`;
+    // (−)·(+) 끝과 방향 화살표(흐름 보기: 전자 = 파랑 왼→오, 전류 = 주황 오→왼, 끔 = 숨김)
+    const ay = y1 + 18;
+    s += `<text class="lbl strong" x="${x0 - ex}" y="${ay + 5}" text-anchor="middle" style="font-size:14px">(−)</text><text class="lbl strong" x="${x1 + ex * .6}" y="${ay + 5}" text-anchor="middle" style="font-size:14px">(+)</text>`;
+    if (flow !== 'off' && c.w > 60) {
+      const col = flow === 'electron' ? 'var(--electron)' : 'var(--current)', a = x0 + 16, b = x1 - 18;
+      s += flow === 'electron' ? `<path d="M${a} ${ay}H${b}M${b - 8} ${ay - 5}L${b} ${ay}L${b - 8} ${ay + 5}" stroke="${col}" stroke-width="2" fill="none"/>` : `<path d="M${b} ${ay}H${a}M${a + 8} ${ay - 5}L${a} ${ay}L${a + 8} ${ay + 5}" stroke="${col}" stroke-width="2" fill="none"/>`;
+      if (key === 'main' && c.w > 220) s += `<text class="lbl" x="${(a + b) / 2}" y="${ay - 6}" text-anchor="middle" style="font-size:12px;fill:${col}">${flow === 'electron' ? '전자 이동 (−) → (+)' : '전류 방향 (+) → (−)'}</text>`;
+    }
+    return s + '</g>';
+  }
+  /* 회로 전선 위 흐름 점 */
+  buildFlow() {
+    const I = this.sol.I, mode = view.flow || 'current';
+    if (!this.flowG) return;
+    if (Math.abs(I) < 1e-9 || mode === 'off') { this.flowG.innerHTML = ''; this.fdots = []; return; }
+    const L = this.L, x1 = L.bx0 + 10 * this.st.wire.L;
+    // (+)극 → 스위치 → 오른쪽 아래 → 도선(오른쪽 → 왼쪽) → 왼쪽 → 전류계 → 전원(−)
+    const pts = [[L.sup[0] + 52, L.top], [L.right, L.top], [L.right, L.bot], [x1, L.bot], [L.bx0, L.bot], [L.left, L.bot], [L.left, L.top], [L.sup[0] - 52, L.top]];
+    const cum = [0]; for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+    this.fpath = { pts, cum, len: cum[cum.length - 1] };
+    const n = Math.round(this.fpath.len / 36);
+    this.flowG.innerHTML = Array.from({ length: n }, () => mode === 'current' ? `<path class="flow-cur" d="M-6 -5L5 0L-6 5Z" style="fill:var(--current)"/>` : `<g class="electron-particle"><circle r="6" fill="var(--electron)"/><path class="electron-minus" d="M-3 0H3"/><path class="electron-arrow" d="M9 -4L14 0L9 4"/></g>`).join('');
+    this.fdots = [...this.flowG.children]; this.fphase = this.fphase || 0;
+  }
+  step(dt) {
+    const sol = this.sol; if (!sol) return true;
+    const gap = (this.g.ra + this.g.re + 1) / this.g.pitch;
+    const speed = (mA, A) => mA > 0 ? rsRate(mA) / (RS.ePerAtom * A) : 0; // 평균 흐름 속도(cm/s) = 1초 전자 수 ÷ 1 cm당 전자 수
+    if (this.main) this.main.step(dt, speed(sol.on ? sol.I * 1000 : 0, this.main.A), gap, m => rsOnRun(m), () => { if (this.st.ref) this.ref.follow.armed = true; });
+    if (this.st.ref) { const f = this.ref.follow; this.ref.step(dt, speed(sol.Iref * 1000, 1), gap, () => { f.armed = false; }); }
+    if (this.fdots && this.fdots.length) {
+      const sgn = view.flow === 'electron' ? -1 : 1, p = this.fpath;
+      this.fphase += sgn * clamp(Math.abs(sol.I) * 300, 5, 240) * dt;
+      this.fdots.forEach((el, i) => {
+        let q = (this.fphase + i * p.len / this.fdots.length) % p.len; if (q < 0) q += p.len;
+        let k = 1; while (k < p.cum.length - 1 && p.cum[k] < q) k++;
+        const a = p.pts[k - 1], b = p.pts[k], t = (q - p.cum[k - 1]) / (p.cum[k] - p.cum[k - 1] || 1);
+        const ang = Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI + (sgn < 0 ? 180 : 0);
+        el.setAttribute('transform', `translate(${(a[0] + (b[0] - a[0]) * t).toFixed(1)} ${(a[1] + (b[1] - a[1]) * t).toFixed(1)}) rotate(${ang.toFixed(0)})`);
+        el.querySelector('.electron-minus')?.setAttribute('transform', `rotate(${-ang.toFixed(0)})`);
+      });
+    }
+    this.draw(); this.syncCounters();
+    return true;
+  }
+  draw() {
+    const g = this.g; if (!g) return;
+    const still = reduced.matches;
+    for (const [k, m] of [['ref', this.st.ref ? this.ref : null], ['main', this.main]]) {
+      const d = this.dyn?.[k], c = g[k]; if (!d || !m || !c) continue;
+      const X = xd => clamp(g.bx + xd * g.k, g.bx + g.re, g.bx + c.w - g.re), Y = y => c.top + y * g.pitch;
+      d.atoms.forEach((el, n) => {
+        const a = m.atoms[n], hit = m.t - a.hit < .12, j = still ? 0 : .9;
+        el.setAttribute('transform', `translate(${(g.bx + (2 * a.i + 1) * g.k + Math.sin(m.t * 13 + a.ph) * j).toFixed(1)} ${(c.top + (a.j + .5) * g.pitch + Math.cos(m.t * 11 + a.ph * 1.7) * j).toFixed(1)})${hit ? ' scale(1.14)' : ''}`);
+      });
+      d.es.forEach((el, n) => { const e = m.es[n]; el.setAttribute('transform', `translate(${X(e.xd + e.jx).toFixed(1)} ${Y(e.y).toFixed(1)})`); });
+      d.fl.innerHTML = m.flashes.map(f => { const q = (m.t - f.t0) / .28; return `<circle cx="${(g.bx + (2 * f.c + 1) * g.k).toFixed(1)}" cy="${Y(f.y).toFixed(1)}" r="${(g.pitch * .26 * (1 - q * (still ? 0 : .7))).toFixed(1)}" fill="#fffbe6" stroke="#ffd24a" stroke-width="1.5" opacity="${(1 - q).toFixed(2)}"/>`; }).join('');
+      d.end.setAttribute('fill', m.t - m.endFlash < .15 ? '#fff3c4' : '#c3c9ce');
+      const f = m.follow, on = this.st.follow && !!f.e;
+      d.ring.style.display = d.badge.style.display = on ? '' : 'none';
+      if (on) {
+        const ex = X(f.e.xd + f.e.jx), ey = Y(f.e.y), pop = m.t - f.pop < .2 && !still ? 1.25 : 1;
+        d.ring.setAttribute('cx', ex.toFixed(1)); d.ring.setAttribute('cy', ey.toFixed(1));
+        d.badge.setAttribute('transform', `translate(${(ex + 14).toFixed(1)} ${(ey - 16).toFixed(1)}) scale(${pop})`);
+        d.badge.querySelector('text').textContent = f.hits;
+        d.trail.setAttribute('d', m.trail.length ? 'M' + m.trail.map(([x, y]) => `${X(x).toFixed(1)} ${Y(y).toFixed(1)}`).join('L') + `L${ex.toFixed(1)} ${ey.toFixed(1)}` : '');
+      } else d.trail.setAttribute('d', '');
+      // 완주 스탬프 2초
+      const done = f.done && m.t - f.done.t0 < 2.2 && this.st.follow ? f.done : null;
+      const key = (done ? 1 : 0) + ':' + (done?.hits ?? '');
+      if (k === 'main') { const on2 = !!done; if (this.hitCard && this.hitCard.dataset.on !== String(on2)) { this.hitCard.dataset.on = on2; this.hitCard.setAttribute('fill', on2 ? '#fff1c2' : 'var(--surface-0)'); this.hitCard.setAttribute('stroke', on2 ? '#f0b400' : 'var(--line-1)'); } }
+      else if (d.stamp && d.stamp.dataset.k !== key) {
+        d.stamp.dataset.k = key;
+        d.stamp.innerHTML = done ? (() => { const t = `${m.L} cm 지나며 ${done.hits}번 부딪힘`, w = rsEstW(t, 13.5) + 24, x = k === 'ref' ? g.bx + c.w + 40 : Math.max(g.bx + c.w - w, g.bx - 30 + rsEstW(`지금 끼운 도선 · ${rsWireName(m)}`, 14) + 14), y = k === 'ref' ? c.top + 50 : c.top - 32; return `<rect x="${x}" y="${y}" width="${w}" height="26" rx="13" fill="#f0b400"/><text x="${x + w / 2}" y="${y + 18}" text-anchor="middle" style="font-size:13.5px;font-weight:800;fill:#1d1d1d">${t}</text>`; })() : '';
+      }
+    }
+  }
+  syncCounters(force) {
+    const c = this.cnt; if (!c?.hit) return;
+    const m = this.main, sol = this.sol;
+    let hit = '—', hitS = '', rate = '—', rateS = '';
+    if (m && sol.on) {
+      const f = m.follow;
+      if (m.lastHits != null) { hit = m.lastHits + '번'; hitS = `원자 줄 ${m.cols}개 · 줄마다 1번`; }
+      else if (this.st.follow && f.e) { hit = f.hits + '번'; hitS = `세는 중 · 원자 줄 ${m.cols}개`; }
+      else { hit = '…'; hitS = this.st.follow ? '전자 1개를 고르는 중' : '‘따라가기’를 켜요'; }
+      if (this.st.follow && f.e && m.lastHits != null) hitS = `지금 ${f.hits} / ${m.cols}번째 줄`;
+      rate = rsNum(rsRate(sol.mA)) + '개'; rateS = `전류 ${fmtNum(sol.mA)} mA ÷ ${RS.perSec}`;
+    } else if (m) { hitS = this.st.closed ? '전압이 0 V예요' : '스위치를 닫아요'; rate = '0개'; }
+    const v = hit + '|' + hitS + '|' + rate + '|' + rateS;
+    if (!force && this.cntV === v) return; this.cntV = v;
+    c.hit.textContent = hit; c.hitS.textContent = hitS; c.rate.textContent = rate; c.rateS.textContent = rateS;
+  }
+}
+
+/* ── 상태 바꾸기 ── */
+function rsSet(patch) {
+  const st = lab.rs, was = st.closed;
+  Object.assign(st, patch);
+  if ('closed' in patch && patch.closed !== was) rsNote = null;
+  rsScene?.render(); syncResist();
+}
+// 도선 끼우기(null = 빼기). 바꿀 때는 스위치를 먼저 연다(실제 실험의 안전 습관)
+function rsInsert(w) {
+  const st = lab.rs, M = RS_MODES[st.mode].fixed;
+  if (w) { w = { L: M.L ?? w.L, A: M.A ?? w.A }; if (st.wire && st.wire.L === w.L && st.wire.A === w.A) return; }
+  const opened = st.closed && (w || st.wire);
+  if (opened) { st.closed = false; if (!rsTold[st.mode]) { rsTold[st.mode] = true; toast('도선을 바꿀 땐 스위치를 먼저 열어요. 스위치를 다시 닫으면 전류가 흘러요.', 3800); } }
+  st.wire = w; rsNote = null;
+  rsScene?.render(); syncResist();
+  if (!opened && w && !st.closed && !rsTold.first) { rsTold.first = true; toast(`${rsWireName(w)} 도선을 끼웠어요. 스위치를 닫아 보세요.`); }
+}
+function rsSetMode(m) {
+  const st = lab.rs, M = RS_MODES[m].fixed; if (st.mode === m) return;
+  st.mode = m;
+  if (M.V !== undefined) st.V = M.V;
+  if (st.wire && ((M.L !== undefined && st.wire.L !== M.L) || (M.A !== undefined && st.wire.A !== M.A))) { st.wire = null; st.closed = false; }
+  rsNote = null; rsScene?.render(); renderRsPanelParts(); syncResist();
+}
+// 탐구 질문의 ‘실험하러 가기’: 길이 비교 · 10 cm가 끼워진 상태로 연다
+function rsPreset(mode = 'length') { const st = lab.rs; st.mode = mode; st.V = RS.baseV; st.wire = { L: 10, A: 1 }; st.closed = false; rsNote = null; }
+function rsCycle(what) {
+  const st = lab.rs, M = RS_MODES[st.mode].fixed;
+  if (what === 'L' && M.L === undefined) { const L = st.wire ? RS.lens[(RS.lens.indexOf(st.wire.L) + 1) % 3] : 10; rsInsert({ L, A: st.wire?.A ?? 1 }); }
+  else if (what === 'A' && M.A === undefined) { const A = st.wire ? RS.areas[(RS.areas.indexOf(st.wire.A) + 1) % 3] : 1; rsInsert({ L: st.wire?.L ?? 10, A }); }
+  else toast(`${RS_MODES[st.mode].name} 중이라 ${what === 'L' ? '길이' : '굵기'}는 고정이에요.`);
+}
+// 따라가던 전자가 끝까지 갔을 때
+function rsOnRun(m) {
+  let filled = false, first = !m.noted; m.noted = true;
+  for (const r of rsRec) if (r.hits == null && r.L === m.L && r.A === m.A) { r.hits = m.lastHits; filled = true; }
+  if (filled) { save('resist', rsRec); syncRsTable(); }
+  if (!first) return;
+  rsNote = { until: performance.now() + 2600, s: { tag: '관찰', head: `전자 1개가 ${m.L} cm를 지나며 ${m.lastHits}번 부딪혔어요`, ex: `원자 줄마다 한 번씩 부딪혀요. 길이가 2배면 원자 줄도, 부딪히는 횟수도 2배예요.` } };
+  setStatus(rsNote.s); rsLive(`전자 1개가 ${m.L} cm를 지나며 ${m.lastHits}번 부딪혔어요.`);
+  clearTimeout(rsOnRun.tm); rsOnRun.tm = setTimeout(() => { if (current === 'resist') setStatus(rsStatus()); }, 2700);
+}
+function rsLive(msg) { const el = $('#rsLive'); if (el) el.textContent = msg; }
+
+/* ── 완성 판정 · 정리 문장 ── */
+function rsFind(L, A, V) { return rsRec.find(r => r.L === L && r.A === A && Math.abs(r.V - V) < .01); }
+function rsDone() {
+  const Vs = [...new Set(rsRec.map(r => r.V.toFixed(1)))].map(Number).sort((a, b) => Math.abs(a - 3) - Math.abs(b - 3));
+  let len = null, thick = null;
+  for (const V of Vs) {
+    if (!len) for (const A of RS.areas) { const rows = RS.lens.map(L => rsFind(L, A, V)); if (rows.every(Boolean)) { len = { A, V, rows }; break; } }
+    if (!thick) for (const L of RS.lens) { const rows = RS.areas.map(A => rsFind(L, A, V)); if (rows.every(Boolean)) { thick = { L, V, rows }; break; } }
+  }
+  return { len, thick };
+}
+function rsSummary() {
+  const { len, thick } = rsDone(), out = [];
+  const hits = rows => rows.map(r => r.hits ?? r.L / RS.colCm);
+  if (len) out.push(`굵기 ${len.A}배에서 길이가 10 → 20 → 30 cm로 늘면 전류는 ${len.rows.map(r => fmtNum(r.mA)).join(' → ')} mA로 줄었어요. 전자 1개가 부딪히는 횟수는 ${hits(len.rows).join(' → ')}번으로 늘었어요. 길이가 길수록 저항이 커요.`);
+  if (thick) out.push(`길이 ${thick.L} cm에서 굵기가 1 → 2 → 3배로 늘면 전류는 ${thick.rows.map(r => fmtNum(r.mA)).join(' → ')} mA로 늘었어요. 전자 1개가 부딪히는 횟수는 ${hits(thick.rows)[0]}번으로 같았어요. 굵을수록 통로가 넓어 저항이 작아요.`);
+  if (len && thick) out.push('정리: 저항은 길이에 비례하고 단면적에 반비례해요. 같은 전압에서 저항이 크면 전류가 작아요.');
+  return { len, thick, text: out };
+}
+function rsProgress(mode = lab.rs.mode) {
+  if (mode === 'length') return RS.lens.filter(L => rsFind(L, 1, 3)).length;
+  if (mode === 'thick') return RS.areas.filter(A => rsFind(10, A, 3)).length;
+  return rsRec.length;
+}
+function rsStatus() {
+  const st = lab.rs, sol = rsScene?.sol || rsSolve(st);
+  if (rsNote && performance.now() < rsNote.until) return rsNote.s;
+  if (!st.wire) return { tag: '시작', head: '도선이 없어요 · 회로가 끊겼어요', ex: (rsScene?.isPort ? '조작판에서 길이와 굵기를 골라' : '선반에서 도선을 골라') + ' 집게 사이에 끼워요. 전류계는 0 mA예요.' };
+  if (!st.closed) return { tag: '끊김', head: '스위치가 열렸어요 · 전류 0 mA', ex: '전자는 제자리에서 어지럽게 움직일 뿐 한쪽으로 흐르지 않아요. 스위치를 닫아 봐요.' };
+  if (st.V <= 0) return { tag: '전압 0', head: '전압이 0 V예요 · 전류 0 mA', ex: '전자를 한쪽으로 미는 힘이 없어요. 조작판에서 전압을 올려 봐요.' };
+  const w = st.wire, hits = rsHits(w), { len, thick } = rsDone();
+  if (st.mode === 'free' && !(w.L === 10 && w.A === 1) && Math.abs(rsR(w) - 10) < 1e-6) return { tag: '도전', head: `저항이 같아요 · ${fmtA(sol.I)}`, ex: `길이 ${w.L / 10}배는 저항을 ${w.L / 10}배로, 굵기 ${w.A}배는 1/${w.A}로 만들어 비겼어요. 10 cm · 1배 도선과 전류가 같아요.` };
+  const both = { tag: '정리', head: '길이 · 굵기 비교 완료 · 저항은 길이에 비례, 단면적에 반비례', ex: '같은 전압에서 저항이 크면 전류가 작아요. 다음 화면(옴의 법칙)에서는 전압을 바꿔 봐요.' };
+  if ((st.mode === 'length' && len?.A === 1 || st.mode === 'thick' && thick) && len && thick) return both;
+  if (st.mode === 'length' && len?.A === 1) return { tag: '완료', head: '길이 비교 완료 · 길수록 전류가 작아요', ex: `${len.rows.map(r => fmtNum(r.mA)).join(' → ')} mA · 부딪힘 5 → 10 → 15번. 이제 ‘굵기 비교’를 해 봐요.` };
+  if (st.mode === 'thick' && thick) return { tag: '완료', head: '굵기 비교 완료 · 굵을수록 전류가 커요', ex: `${thick.rows.map(r => fmtNum(r.mA)).join(' → ')} mA · 부딪힘은 ${thick.L / RS.colCm}번으로 같아요. 이제 ‘길이 비교’도 해 봐요.` };
+  return { tag: '측정', head: `니크롬 ${rsWireName(w)} · 전류 ${fmtA(sol.I)}`, ex: `전자 1개가 ${hits}번 부딪히며 지나가고, 1초에 ${rsNum(rsRate(sol.mA))}개가 끝면을 지나요. 기록해 봐요.` };
+}
+
+/* ── 화면 ── */
+function renderResist() {
+  const st = lab.rs;
+  rsGraphRO?.disconnect();
+  $('#main').innerHTML = labFrame({
+    tab: 'resist', card: 'cause', rec: true, wide: true, ribbon: false,
+    tools: flowSeg() + `<button class="tool" id="rsSwitch"></button><button class="tool" id="rsRefBtn" aria-pressed="${st.ref}" aria-label="기준 도선(10 cm · 1배) 함께 보기" title="10 cm · 1배 기준 도선을 확대 모형에 함께 보여요">${icon('bulbs')}<span class="t">기준</span></button><button class="tool" id="rsFollowBtn" aria-pressed="${st.follow}" aria-label="전자 1개 따라가기" title="전자 1개를 골라 끝까지 따라가며 부딪힌 횟수를 세요">${icon('target')}<span class="t">따라가기</span></button>`,
+    panel: `<div class="pg-duo"><section class="pg"><h2 class="pg-title"><span class="n">01</span>비교 방법</h2>
+        <div class="seg full" role="radiogroup" aria-label="비교 방법" id="rsMode">${Object.entries(RS_MODES).map(([k, m]) => `<button role="radio" data-rsmode="${k}">${m.name}</button>`).join('')}</div>
+        <p class="rs-fixed" id="rsFixed"></p>
+        <div class="field rs-volt" id="rsVolt"><span class="field-label">전원 전압</span><div class="stepper"><button id="rsVDown" aria-label="전압 0.5 V 낮추기">−</button><output id="rsVOut" class="num" aria-live="polite"></output><button id="rsVUp" aria-label="전압 0.5 V 높이기">+</button></div></div></section>
+      <section class="pg rs-pick"><h2 class="pg-title"><span class="n">02</span>도선 고르기<button class="btn small ghost pg-act" id="rsOut">도선 빼기</button></h2>
+        <div class="field"><span class="field-label"><span>길이</span><span class="lockb" id="rsLockL" hidden>고정</span></span><div class="seg full" role="radiogroup" aria-label="도선 길이" id="rsLen">${RS.lens.map(L => `<button role="radio" data-rsl="${L}">${L} cm</button>`).join('')}</div></div>
+        <div class="field"><span class="field-label"><span>굵기(단면적)</span><span class="lockb" id="rsLockA" hidden>고정</span></span><div class="seg full" role="radiogroup" aria-label="도선 굵기" id="rsArea">${RS.areas.map(A => `<button role="radio" data-rsa="${A}">${A}배</button>`).join('')}</div></div></section></div>
+      <section class="pg rs-pred" id="rsPred" aria-label="예측"></section>
+      <section class="pg rs-data">
+        <div class="data-col"><h2 class="pg-title"><span class="n">04</span>기록표<button class="btn small ghost pg-act" id="rsClear">기록 지우기</button></h2>
+          <div class="rec-wrap" id="rsWrap"><table class="rec" id="rsTable"></table></div></div>
+        <div class="data-col"><h2 class="pg-title"><span class="n">05</span>그래프<span class="pg-act"><span class="seg seg-mini" role="group" aria-label="그래프 가로축" id="rsAxis"><button data-axis="len">길이</button><button data-axis="area">굵기</button></span><label class="check"><input type="checkbox" id="rsShowR">저항</label></span></h2>
+          <div class="graph-box" id="rsGraph"></div></div>
+      </section>
+      <p class="rs-sum" id="rsSum" aria-live="polite"></p><p class="sr-only" id="rsLive" aria-live="polite"></p>`,
+    foot: `<button class="btn primary" id="rsRec">측정값 기록하기</button>`,
+  });
+  if (!rsScene) rsScene = new RsScene(st);
+  rsScene.camera = workspaceCamera('resist');
+  rsScene.mount($('#stage')); stageHeight();
+  bindCommon(rsScene);
+  $('#rsSwitch').onclick = () => rsSet({ closed: !st.closed });
+  $('#rsRefBtn').onclick = () => { st.ref = !st.ref; if (rsScene.isPort) { rsScene.mount($('#stage')); stageHeight(); rsScene.applyView(); } rsSet({}); };
+  $('#rsFollowBtn').onclick = () => { const on = !st.follow; if (rsScene.main) { rsScene.main.follow.armed = on; if (!on) rsScene.main.follow.e = null; } rsSet({ follow: on }); toast(on ? '전자 1개를 골라 끝까지 따라가요. 노란 숫자가 부딪힌 횟수예요.' : '따라가기를 껐어요.'); };
+  $$('[data-rsmode]').forEach(b => b.onclick = () => rsSetMode(b.dataset.rsmode));
+  $$('[data-rsl]').forEach(b => b.onclick = () => { if (b.getAttribute('aria-disabled') === 'true') return toast(`${RS_MODES[st.mode].name} 중이라 길이는 ${RS_MODES[st.mode].fixed.L} cm로 고정이에요.`); rsInsert({ L: +b.dataset.rsl, A: st.wire?.A ?? RS_MODES[st.mode].fixed.A ?? 1 }); });
+  $$('[data-rsa]').forEach(b => b.onclick = () => { if (b.getAttribute('aria-disabled') === 'true') return toast(`${RS_MODES[st.mode].name} 중이라 굵기는 ${RS_MODES[st.mode].fixed.A}배로 고정이에요.`); rsInsert({ L: st.wire?.L ?? RS_MODES[st.mode].fixed.L ?? 10, A: +b.dataset.rsa }); });
+  for (const id of ['rsMode', 'rsLen', 'rsArea']) $('#' + id).onkeydown = e => { // 라디오 그룹: 좌우 화살표로 이동
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+    const bs = [...e.currentTarget.querySelectorAll('button')].filter(b => b.getAttribute('aria-disabled') !== 'true'); if (!bs.length) return;
+    e.preventDefault(); const i = bs.indexOf(document.activeElement), n = bs[(i + (e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 1) + bs.length) % bs.length]; n.click(); n.focus();
+  };
+  $('#rsOut').onclick = () => { if (!st.wire) return toast('끼운 도선이 없어요.'); rsInsert(null); };
+  $('#rsVDown').onclick = () => rsSet({ V: clamp(r1(st.V - MODEL.supplyStep), 0, MODEL.supplyMax) });
+  $('#rsVUp').onclick = () => rsSet({ V: clamp(r1(st.V + MODEL.supplyStep), 0, MODEL.supplyMax) });
+  $('#rsRec').onclick = $('#recTop').onclick = recordResist;
+  $('#rsClear').onclick = () => { if (!rsRec.length) return toast('지울 기록이 없어요.'); const keep = rsRec.slice(); rsRec = []; save('resist', rsRec); syncResist(); toastUndo('기록을 지웠어요.', () => { rsRec = keep; save('resist', rsRec); syncResist(); }); };
+  $$('[data-axis]').forEach(b => b.onclick = () => { save('rsAxis', b.dataset.axis); syncRsGraphTools(); drawRsGraph(); });
+  $('#rsShowR').checked = !!getSaved('rsShowR', false);
+  $('#rsShowR').onchange = e => { save('rsShowR', e.target.checked); drawRsGraph(); };
+  let raf = 0; rsGraphRO = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(drawRsGraph); });
+  rsGraphRO.observe($('#rsGraph'));
+  renderRsPanelParts(); syncResist();
+}
+// 비교 방법에 따라 바뀌는 칸(고정 안내·예측 카드)
+function renderRsPanelParts() {
+  const st = lab.rs, M = RS_MODES[st.mode];
+  if (!$('#rsFixed')) return;
+  $('#rsFixed').innerHTML = st.mode === 'free' ? '' : `바꾸는 것: <b>${M.vary}</b> · 고정: ${st.mode === 'length' ? '굵기 1배' : '길이 10 cm'} · 전압 3.0 V · 니크롬`;
+  $('#rsFixed').hidden = st.mode === 'free'; $('#rsVolt').hidden = st.mode !== 'free';
+  renderRsPred();
+}
+function renderRsPred() {
+  const st = lab.rs, P = RS_PRED[st.mode], my = rsPred[st.mode], host = $('#rsPred'); if (!host) return;
+  const done = st.mode === 'length' ? rsProgress('length') === 3 : st.mode === 'thick' ? rsProgress('thick') === 3 : !!rsRec.find(r => r.L === 20 && r.A === 2) && !!rsRec.find(r => r.L === 10 && r.A === 1);
+  const head = `<h2 class="pg-title"><span class="n">03</span>예측<span class="aside">${my == null ? '먼저 생각해 보고 실험해요' : done ? '실험 결과와 비교했어요' : st.mode === 'free' ? '두 도선을 기록하면 결과와 비교해요' : '세 도선을 기록하면 결과와 비교해요'}</span></h2>`;
+  if (my == null) {
+    host.innerHTML = head + `<p class="rs-q">${P.q}</p><div class="rs-opts" role="radiogroup" aria-label="예측 고르기">${P.opts.map((o, i) => `<button role="radio" aria-checked="false" data-pred="${i}">${'①②③'[i]} ${o}</button>`).join('')}</div>`;
+    $$('[data-pred]').forEach(b => b.onclick = () => { rsPred[st.mode] = +b.dataset.pred; save('rsPred', rsPred); renderRsPred(); toast('예측을 적었어요. 이제 실험으로 확인해 봐요.'); });
+    return;
+  }
+  const ok = my === P.ans;
+  host.innerHTML = head + `<p class="rs-mine">내 예측: ${'①②③'[my]} ${P.opts[my]}${done ? ` <span class="${ok ? 'ok' : 'no'}">${ok ? '· 맞았어요' : '· 결과와 달라요'}</span>` : ''}<button class="btn small ghost" id="rsPredRedo" style="margin-left:auto;min-height:30px">다시 고르기</button></p>${done ? `<p class="rs-fb">${P.fb[my]}</p>` : ''}`;
+  $('#rsPredRedo').onclick = () => { delete rsPred[st.mode]; save('rsPred', rsPred); renderRsPred(); };
+}
+function syncResist() {
+  const st = lab.rs; if (!$('#rsMode')) return;
+  const M = RS_MODES[st.mode].fixed, sol = rsScene?.sol || rsSolve(st);
+  $$('[data-rsmode]').forEach(b => { const on = b.dataset.rsmode === st.mode; b.setAttribute('aria-checked', on); b.setAttribute('aria-pressed', on); b.tabIndex = on ? 0 : -1; });
+  const seg = (sel, attr, val, lock) => $$(sel).forEach(b => { const v = +b.dataset[attr], on = st.wire ? v === val : false, dis = lock !== undefined && v !== lock; b.setAttribute('aria-checked', on); b.setAttribute('aria-pressed', on); b.setAttribute('aria-disabled', dis); b.tabIndex = on && !dis ? 0 : -1; if (dis) b.setAttribute('aria-label', `${b.textContent}, ${RS_MODES[st.mode].name} 중이라 고정`); else b.removeAttribute('aria-label'); });
+  seg('[data-rsl]', 'rsl', st.wire?.L, M.L); seg('[data-rsa]', 'rsa', st.wire?.A, M.A);
+  for (const g of ['#rsLen', '#rsArea']) { const bs = [...$(g).children]; if (!bs.some(b => b.tabIndex === 0)) { const f = bs.find(b => b.getAttribute('aria-disabled') !== 'true'); if (f) f.tabIndex = 0; } }
+  $('#rsLockL').hidden = M.L === undefined; $('#rsLockA').hidden = M.A === undefined;
+  $('#rsOut').disabled = !st.wire;
+  $('#rsVOut').innerHTML = `${st.V.toFixed(1)}<small>V</small>`; $('#rsVDown').disabled = st.V <= 0; $('#rsVUp').disabled = st.V >= MODEL.supplyMax;
+  $('#rsSwitch').textContent = st.closed ? '스위치 열기' : '스위치 닫기';
+  $('#rsRefBtn').setAttribute('aria-pressed', st.ref); $('#rsFollowBtn').setAttribute('aria-pressed', st.follow);
+  setStatus(rsStatus());
+  recState(sol.on, !st.wire ? '먼저 도선을 집게 사이에 끼워요.' : !st.closed ? '스위치를 닫고 기록해요.' : '전압을 올려 전류가 흐를 때 기록해요.', '지금 도선·전류를 기록표에 적어요', 'rsRec');
+  syncRsTable(); syncRsGraphTools(); drawRsGraph(); renderRsPred();
+  const sum = rsSummary().text; $('#rsSum').textContent = sum.length ? sum[sum.length - 1] : '';
+}
+function syncRsTable() {
+  const t = $('#rsTable'); if (!t) return;
+  const rows = rsRec.slice().sort((a, b) => a.A - b.A || a.L - b.L || a.V - b.V);
+  t.innerHTML = `<thead><tr><th scope="col">도선</th><th scope="col">전류(mA)</th><th scope="col" title="전자 1개가 도선을 지나며 부딪힌 횟수">부딪힘</th><th scope="col" title="모형값 = 길이 ÷ 굵기">저항(Ω)</th></tr></thead><tbody>${rows.length ? rows.map(r => `<tr class="${rsFresh === rsKey(r.L, r.A, r.V) ? 'fresh' : ''}"><td><span class="mk" style="background:${RS_SERIES[r.A - 1]};border-radius:${r.A === 1 ? '50%' : r.A === 2 ? '0' : '2px'}"></span>${r.L} cm · ${r.A}배</td><td>${fmtNum(r.mA)}${Math.abs(r.V - 3) > .01 ? `<span class="vtag">${r.V.toFixed(1)} V</span>` : ''}</td><td>${r.hits == null ? '<span class="vtag">세는 중</span>' : r.hits + '번'}</td><td>${fmtR(r.R).replace(' Ω', '')}</td></tr>`).join('') : `<tr><td colspan="4" class="empty rec-empty" style="text-align:left;white-space:normal">도선을 끼우고 스위치를 닫은 뒤 ‘측정값 기록’을 눌러요. 길이 3개 또는 굵기 3개를 모으면 정리 문장이 나와요.</td></tr>`}</tbody>`;
+  const fresh = t.querySelector('tr.fresh'), wrap = $('#rsWrap');
+  if (fresh && wrap.scrollHeight > wrap.clientHeight) { const head = t.tHead.offsetHeight; if (fresh.offsetTop < wrap.scrollTop + head) wrap.scrollTop = fresh.offsetTop - head; else if (fresh.offsetTop + fresh.offsetHeight > wrap.scrollTop + wrap.clientHeight) wrap.scrollTop = fresh.offsetTop + fresh.offsetHeight - wrap.clientHeight; }
+}
+function recordResist() {
+  const st = lab.rs, sol = rsScene?.sol || rsSolve(st);
+  if (!st.wire) return toast('먼저 도선을 집게 사이에 끼워요.');
+  if (!st.closed) return toast('스위치를 닫고 기록해요.');
+  if (!sol.on) return toast('전압을 올려 전류가 흐를 때 기록해요.');
+  const w = st.wire, m = rsScene?.main, hits = m && m.L === w.L && m.A === w.A ? m.lastHits : null;
+  const key = rsKey(w.L, w.A, st.V), i = rsRec.findIndex(r => rsKey(r.L, r.A, r.V) === key);
+  const row = { L: w.L, A: w.A, V: st.V, mA: sol.mA, hits: hits ?? (i >= 0 ? rsRec[i].hits : null), R: sol.R };
+  if (i >= 0) rsRec[i] = row; else rsRec.push(row);
+  save('resist', rsRec); rsFresh = key;
+  const prog = st.mode === 'free' ? '' : ` · ${RS_MODES[st.mode].name} ${rsProgress()}/3`;
+  rsNote = { until: performance.now() + 1700, s: { tag: '기록', head: `기록했어요 · ${rsWireName(w)} · ${fmtNum(sol.mA)} mA`, ex: (rsProgress() < 3 && st.mode !== 'free' ? '다음 도선을 끼워 봐요.' : '기록표와 그래프를 살펴봐요.') + prog.replace(' · ', ' ') } };
+  syncResist(); rsLive(`${rsWireName(w)}, ${fmtNum(sol.mA)} mA를 기록했어요.`);
+  toast(`${rsWireName(w)} · ${fmtNum(sol.mA)} mA${hits == null ? ' (부딪힘은 전자가 끝까지 가면 채워져요)' : ''}를 기록했어요.`);
+  clearTimeout(recordResist.tm); recordResist.tm = setTimeout(() => { if (current === 'resist') setStatus(rsStatus()); }, 1800);
+  const d = rsDone();
+  if ((st.mode === 'length' && d.len && rsProgress('length') === 3 && !rsTold.lenDone) || (st.mode === 'thick' && d.thick && !rsTold.thickDone)) { rsTold[st.mode === 'length' ? 'lenDone' : 'thickDone'] = true; rsLive(st.mode === 'length' ? '길이 비교를 마쳤어요.' : '굵기 비교를 마쳤어요.'); }
+}
+/* ── 그래프: 가로축 길이(범주) 또는 굵기(범주), 세로축 전류(mA) 또는 저항(Ω, 모형값) ── */
+function syncRsGraphTools() { const ax = getSaved('rsAxis', 'len'); $$('[data-axis]').forEach(b => b.setAttribute('aria-pressed', b.dataset.axis === ax)); }
+function rsGraphSVG(rec, { axis = 'len', showR = false, V = 3, live = null, w = 300, h = 214 } = {}) {
+  const L = 44, R = w - 12, T = 36, B = h - 34;
+  const xs = axis === 'len' ? RS.lens : RS.areas, groups = axis === 'len' ? RS.areas : RS.lens;
+  const pts = rec.filter(r => Math.abs(r.V - V) < .01), val = r => showR ? r.R : r.mA;
+  const vmax = showR ? 30 : Math.max(1000, Math.ceil(Math.max(0, ...pts.map(r => r.mA), live && !showR ? live.mA : 0) / 200) * 200), step = showR ? 10 : 200;
+  const X = i => L + (R - L) * (i + .5) / 3, Y = v => B - (B - T) * Math.min(v, vmax) / vmax;
+  let s = `<svg class="graph" viewBox="0 0 ${w} ${h}" role="img" aria-label="${axis === 'len' ? '길이' : '굵기'}에 따른 ${showR ? '저항' : '전류'} 그래프">`;
+  for (let v = 0; v <= vmax + 1e-9; v += step) s += `<line x1="${L}" y1="${Y(v)}" x2="${R}" y2="${Y(v)}" stroke="var(--line-1)"/><text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end" font-size="10.5" fill="var(--text-2)">${v}</text>`;
+  xs.forEach((x, i) => { s += `<text x="${X(i)}" y="${B + 15}" text-anchor="middle" font-size="11" fill="var(--text-2)">${x}${axis === 'len' ? ' cm' : '배'}</text>`; });
+  s += `<path d="M${L} ${T - 6}V${B}H${R}" fill="none" stroke="var(--text-2)" stroke-width="1.4"/>`;
+  s += `<text x="${R}" y="${h - 4}" text-anchor="end" font-size="10.5" font-weight="600" fill="var(--text-2)">${axis === 'len' ? '길이' : '굵기(단면적)'}</text><text x="${L - 38}" y="${T - 10}" font-size="10.5" font-weight="600" fill="var(--text-2)">${showR ? '저항(Ω) · 모형값' : '전류(mA)'}${Math.abs(V - 3) > .01 ? ` · ${V.toFixed(1)} V` : ''}</text>`;
+  groups.forEach((gv, gi) => {
+    const mine = xs.map((x, i) => { const r = pts.find(p => (axis === 'len' ? p.L === x && p.A === gv : p.A === x && p.L === gv)); return r ? [X(i), Y(val(r))] : null; }).filter(Boolean);
+    if (!mine.length) return;
+    const col = RS_SERIES[gi];
+    if (mine.length > 1) s += `<path d="M${mine.map(p => p.join(' ')).join('L')}" fill="none" stroke="${col}" stroke-width="2" stroke-dasharray="${RS_DASH[gi]}"/>`;
+    for (const [x, y] of mine) s += gi === 0 ? `<circle cx="${x}" cy="${y}" r="4.4" fill="${col}" stroke="var(--surface-1)" stroke-width="1.2"/>` : gi === 1 ? `<rect x="${x - 4}" y="${y - 4}" width="8" height="8" fill="${col}" stroke="var(--surface-1)" stroke-width="1.2"/>` : `<path d="M${x} ${y - 5}L${x + 5} ${y + 4}H${x - 5}Z" fill="${col}" stroke="var(--surface-1)" stroke-width="1.2"/>`;
+  });
+  // 범례(시리즈 = 다른 변인)
+  const used = groups.map((gv, gi) => [gv, gi]).filter(([gv]) => pts.some(p => (axis === 'len' ? p.A === gv : p.L === gv)) || (live && (axis === 'len' ? live.A === gv : live.L === gv)));
+  if (used.length) s += `<g font-size="10.5" font-weight="600" fill="var(--text-2)">${used.map(([gv, gi], k) => { const x = R - (used.length - k) * 52 + 6, y = 13; return `<line x1="${x}" y1="${y - 3}" x2="${x + 14}" y2="${y - 3}" stroke="${RS_SERIES[gi]}" stroke-width="2.4" stroke-dasharray="${RS_DASH[gi]}"/><text x="${x + 17}" y="${y + 1}">${gv}${axis === 'len' ? '배' : 'cm'}</text>`; }).join('')}</g>`;
+  if (live) { const i = xs.indexOf(axis === 'len' ? live.L : live.A), gi = groups.indexOf(axis === 'len' ? live.A : live.L); if (i >= 0) { const y = Y(showR ? live.R : live.mA); s += `<circle cx="${X(i)}" cy="${y}" r="7.5" fill="none" stroke="${RS_SERIES[gi]}" stroke-width="2"/><text x="${X(i) + 10}" y="${y - 8}" font-size="10" fill="var(--text-2)">지금</text>`; } }
+  if (!pts.length && !live) s += `<text x="${(L + R) / 2}" y="${(T + B) / 2}" text-anchor="middle" font-size="11" fill="var(--text-3)">기록하면 점이 찍혀요</text>`;
+  return s + '</svg>';
+}
+function drawRsGraph() {
+  const host = $('#rsGraph'); if (!host || !host.clientWidth) return;
+  const st = lab.rs, sol = rsScene?.sol || rsSolve(st), V = sol.on ? st.V : (st.mode === 'free' ? st.V : 3);
+  const live = sol.on ? { L: st.wire.L, A: st.wire.A, mA: sol.mA, R: sol.R } : null;
+  const w = Math.max(200, Math.round(host.clientWidth)), h = Math.max(150, Math.round(host.clientHeight || w * .75));
+  host.innerHTML = rsGraphSVG(rsRec, { axis: getSaved('rsAxis', 'len'), showR: $('#rsShowR')?.checked, V, live, w, h });
+}
+/* ── 이론 카드 그림: 길고 가는 도선 · 짧고 굵은 도선 ── */
+function rsTheoryFig() {
+  const k = 16, p = 32, ra = p * .31, re = p * .17;
+  const cyl = (L, A, top, label, seed) => {
+    const cols = L / 2, rows = 2 * A, w = L * k, h = rows * p, x0 = 70, ex = clamp(h * .12, 6, 18);
+    let s = `<text x="${x0 - 2 * ex}" y="${top - 8}" font-size="12.5" font-weight="700" fill="var(--text-1)">${label}</text><rect x="${x0 - ex}" y="${top}" width="${w + ex}" height="${h}" fill="#d6dbdf" stroke="#7d868d"/><path d="M${x0 + w} ${top}A${ex} ${h / 2} 0 0 1 ${x0 + w} ${top + h}" fill="#c3c9ce" stroke="#7d868d"/><ellipse cx="${x0 - ex}" cy="${top + h / 2}" rx="${ex}" ry="${h / 2}" fill="#9aa2a9" stroke="#6d767d"/>`;
+    for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) s += `<circle cx="${x0 + (2 * i + 1) * k}" cy="${top + (j + .5) * p}" r="${ra}" fill="#d9773f"/><path d="M${x0 + (2 * i + 1) * k - 4} ${top + (j + .5) * p}h8M${x0 + (2 * i + 1) * k} ${top + (j + .5) * p - 4}v8" stroke="#fff" stroke-width="1.6"/>`;
+    let r = seed; const rnd = () => (r = (r * 9301 + 49297) % 233280) / 233280;
+    for (let i = 0; i < cols; i++) for (let j = 0; j <= rows; j++) { if (rnd() < .45) continue; const x = x0 + (2 * i + 1 + (rnd() < .5 ? -1 : 1) * (.55 + rnd() * .3)) * k, y = top + j * p + (rnd() - .5) * 6; s += `<circle cx="${x.toFixed(1)}" cy="${clamp(y, top + re + 1, top + h - re - 1).toFixed(1)}" r="${re}" fill="#1764c4"/><path d="M${(x - 2.6).toFixed(1)} ${clamp(y, top + re + 1, top + h - re - 1).toFixed(1)}h5.2" stroke="#fff" stroke-width="1.3"/>`; }
+    for (let i = 0; i < Math.min(cols, 4); i++) { const c = Math.floor(rnd() * cols); s += `<circle cx="${x0 + (2 * c + 1) * k}" cy="${top + (Math.floor(rnd() * rows) + .5) * p - ra - 2}" r="5" fill="#fffbe6" stroke="#ffd24a" stroke-width="1.5"/>`; }
+    s += `<text x="${x0 - ex}" y="${top + h + 16}" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text-2)">(−)</text><text x="${x0 + w + ex * .6}" y="${top + h + 16}" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text-2)">(+)</text><path d="M${x0 + 16} ${top + h + 12}H${x0 + w - 18}M${x0 + w - 26} ${top + h + 7}L${x0 + w - 18} ${top + h + 12}L${x0 + w - 26} ${top + h + 17}" stroke="var(--electron)" stroke-width="1.8" fill="none"/>`;
+    return s;
+  };
+  return `<svg viewBox="0 0 420 330" role="img" aria-label="길고 가는 도선과 짧고 굵은 도선 속에서 전자가 원자와 부딪히는 확대 모형"><rect width="420" height="330" fill="var(--surface-0)" rx="10"/>${cyl(20, 1, 34, '길고 가는 도선 · 20 cm · 1배 — 원자 줄 10개', 7)}${cyl(10, 2, 150, '짧고 굵은 도선 · 10 cm · 2배 — 원자 줄 5개, 통로 2배', 3)}<text x="210" y="318" text-anchor="middle" font-size="11.5" fill="var(--text-2)">길면 부딪히는 횟수가 늘고, 굵으면 지나갈 길이 넓어요</text></svg>`;
+}
+
 /* v2: Beginners' circuit coach, synchronized instrument readouts and flow controls. */
 const coachState = {active:true,step:0,completed:false};
 const COACH_STEPS = [
@@ -3463,7 +4117,7 @@ function syncFlowLegend(){
 function modelNote(forPng){
  if(current==='meters')return '학교 실험실의 바늘 계기를 본뜬 그림 · 최소 눈금의 1/10까지 어림 · 계기를 연결해 생기는 전류·전압 변화는 생략';
  const base=forPng?'이동 속도·입자 수는 확대 모형':'교육용 모형 · 속도·입자 수는 실제 비율과 다름';
- return base+' · '+(current==='ohm'?'니크롬선 1 cm당 1 Ω · 온도에 따른 저항 변화 무시':current==='material'?'시료 길이 5 cm · 온도·빛 반응은 경향 비교용':'전구 10 Ω 고정 저항 모형');
+ return base+' · '+(current==='resist'?'니크롬 1배 1 cm당 1 Ω · 원자 한 줄 = 2 cm · 1초 전자 수 = 전류(mA) ÷ 25':current==='ohm'?'니크롬선 1 cm당 1 Ω · 온도에 따른 저항 변화 무시':current==='material'?'시료 길이 5 cm · 온도·빛 반응은 경향 비교용':'전구 10 Ω 고정 저항 모형');
 }
 function syncMeterRibbon(){
  const h=$('#meterRibbon');if(!h)return;
@@ -3521,11 +4175,11 @@ const MINI = {
   },
 };
 const QUESTIONS = [
-  { id: 'q-len', tag: '옴의 법칙', title: '니크롬선의 길이와 전류의 세기', mini: 'len', card: 'ohm', lab: 'ohm',
+  { id: 'q-len', tag: '도선과 저항', title: '니크롬선의 길이와 전류의 세기', mini: 'len', card: 'cause', lab: 'resist',
     prompt: '재질·단면적·온도가 같은 두 니크롬선에 같은 전압을 걸었을 때, 짧은 니크롬선에 더 센 전류가 흐른다. 그 까닭을 저항과 관련지어 설명해 보자.',
     note: '같은 전압에서 니크롬선의 길이만 바꿔 전류계를 읽어 보세요.',
-    hint: '간이 실험에서 ‘전압’을 3.0 V로 둔 채 ‘니크롬선 길이’를 10 cm · 20 cm · 30 cm로 바꾸며 전류계의 값을 비교해 보세요. 옴의 법칙 화면 그래프의 ‘추세선·저항’으로 구한 저항도 떠올려 보세요.',
-    model: '짧은 니크롬선이 긴 니크롬선보다 <mark>저항이 작기</mark> 때문이다. 재질·단면적·온도가 같으면 니크롬선의 저항은 <mark>길이가 길수록 커지고</mark>, 같은 전압에서 <mark>전류의 세기는 저항에 반비례</mark>하므로(옴의 법칙) 저항이 작은 짧은 니크롬선에 더 센 전류가 흐른다.' },
+    hint: '간이 실험에서 ‘전압’을 3.0 V로 둔 채 ‘니크롬선 길이’를 10 cm · 20 cm · 30 cm로 바꾸며 전류계의 값을 비교해 보세요. ‘도선과 저항’ 화면의 확대 모형에서 전자 1개가 지나며 부딪히는 횟수도 세어 보세요.',
+    model: '짧은 니크롬선이 긴 니크롬선보다 <mark>저항이 작기</mark> 때문이다. 재질·단면적·온도가 같을 때 니크롬선이 길수록 전자가 이동하면서 <mark>원자와 충돌하는 횟수가 많아져</mark> 저항이 커진다. 같은 전압에서 <mark>전류의 세기는 저항에 반비례</mark>하므로(옴의 법칙) 저항이 작은 짧은 니크롬선에 더 센 전류가 흐른다.' },
   { id: 'q-ceiling', tag: '직렬 · 병렬', title: '교실 천장 등의 연결', mini: 'ceiling', card: 'parallel', lab: 'series',
     prompt: '교실 천장의 등은 스위치 하나로 한꺼번에 켜고 끄지만, 등 하나가 고장 나도 다른 등은 꺼지지 않는다. 천장 등은 어떻게 연결되어 있을지 까닭과 함께 설명해 보자.',
     note: '연결 방법을 바꾸고, 판의 전구를 눌러 하나를 빼 보세요.',
@@ -3639,7 +4293,7 @@ function renderQuestions() {
   $$('[data-model]').forEach(b => b.onclick = () => confirmModel(+b.dataset.model));
   $('#qReport').onclick = reportOptions; $('#qBlank').onclick = () => reportPreview(true, { models: false });
   $$('[data-theory]').forEach(b => b.onclick = () => theory(b.dataset.theory));
-  $$('[data-go]').forEach(b => b.onclick = () => setTab(b.dataset.go));
+  $$('[data-go]').forEach(b => b.onclick = () => { if (b.dataset.go === 'resist') rsPreset('length'); setTab(b.dataset.go); });
   syncProgress();
 }
 function syncProgress() { const n = QUESTIONS.filter((q, i) => (answers[qid(i)] || '').trim().length >= 20).length; const p = $('#qProgress'); if (p) p.textContent = `${n} / ${QUESTIONS.length} 작성`; QUESTIONS.forEach((q, i) => { const t = $(`#qtag${i}`); if (t) t.textContent = qStatus(i); }); }
@@ -3703,16 +4357,21 @@ function theory(card) {
     <tr><td><b>전류</b> I</td><td>전하의 흐름. 전류의 세기는 한 단면을 단위 시간에 통과하는 전하량</td><td>A(암페어)<br>1 A = 1000 mA</td><td>전류계 · <b>직렬</b></td></tr>
     <tr><td><b>저항</b> R</td><td>전류의 흐름을 방해하는 정도</td><td>Ω(옴)</td><td>전압 ÷ 전류로 구함</td></tr></tbody></table>
     <p>니크롬선이나 전구처럼 전류의 흐름을 방해하는 물체를 저항 또는 저항체라고도 해요.</p></article>
-  <article class="th-card" id="card-ohm"><h3><span>02</span>옴의 법칙</h3>
+  <article class="th-card" id="card-cause"><h3><span>02</span>저항이 생기는 까닭 · 도선의 길이와 굵기</h3>
+    <p class="def"><b>저항</b>은 전류의 흐름을 방해하는 정도예요. 도선 속 전자가 이동하다가 <b>원자와 충돌</b>하기 때문에 생겨요. 금속에서는 이동하는 전자가 격자의 진동이나 불순물 등에 의해 산란되는데, 그림은 이를 충돌로 나타낸 확대 모형이에요.</p>
+    <figure class="th-fig">${rsTheoryFig()}</figure>
+    <table class="th-table"><thead><tr><th>도선 · 3.0 V</th><th>전자 1개당 부딪힘</th><th>1초에 지나는 전자(모형)</th><th>저항</th><th>전류</th></tr></thead><tbody>
+    <tr><td>10 cm · 1배</td><td>5번</td><td>12개</td><td>10 Ω</td><td>300 mA</td></tr>
+    <tr><td>20 cm · 1배</td><td>10번</td><td>6개</td><td>20 Ω</td><td>150 mA</td></tr>
+    <tr><td>10 cm · 2배</td><td>5번</td><td>24개</td><td>5 Ω</td><td>600 mA</td></tr></tbody></table>
+    <p>도선이 <b>길수록</b> 전자가 지나야 할 원자 줄이 많아져 부딪히는 횟수가 늘어나요. 그래서 저항이 커요. 도선이 <b>굵을수록</b> 전자 1개가 부딪히는 횟수는 같지만 전자가 지나갈 통로가 넓어 같은 시간에 더 많은 전자가 지나가요. 그래서 저항이 작아요. 굵은 도선은 가는 도선 여러 가닥을 나란히 묶은 것과 같아요.</p>
+    <p>같은 물질·온도라면 저항은 <b>길이에 비례</b>하고 <b>단면적에 반비례</b>해요. 이 실험의 니크롬선은 1배 굵기에서 1 cm에 1 Ω이고, ‘굵기 2배’는 단면적이 2배라는 뜻이에요(지름은 약 1.41배). 같은 전압에서 저항이 크면 전류가 작아요. 전압을 바꾸면 어떻게 되는지는 다음 카드에서 봐요.</p>
+    <p class="link">실험 연결 · 02 도선과 저항 화면에서 ‘길이 비교’와 ‘굵기 비교’를 해 보세요. 실험판에서도 니크롬선을 누르고 길이와 ‘단면적 2배’를 바꿀 수 있어요.</p></article>
+  <article class="th-card" id="card-ohm"><h3><span>03</span>옴의 법칙</h3>
     <div class="formula">전류의 세기 = <span class="frac"><span>전압</span><span>저항</span></span><span style="font-size:14px;color:var(--text-2);margin-left:6px">I = V / R</span></div>
     <p class="def">니크롬선처럼 옴의 법칙을 따르는 저항체에서 온도 등 조건이 일정하면 전류의 세기는 <b>전압에 비례</b>하고 <b>저항에 반비례</b>합니다. 이를 옴의 법칙이라고 해요.</p>
     <figure class="th-fig">${ohmGraphSVG({ long: { 1: 50, 2: 100, 3: 150, 4: 200, 5: 250, 6: 300 }, short: { 1: 100, 2: 200, 3: 300, 4: 400, 5: 500, 6: 600 } }, { trend: true })}</figure>
     <p>저항이 일정할 때 전압이 2배, 3배가 되면 전류도 2배, 3배가 됩니다. 같은 전압에서 저항이 큰 긴 니크롬선은 그래프의 기울기가 작아요. 이 그래프는 가로축 V, 세로축 mA이므로 기울기를 k(mA/V)라 하면 R = 1000/k Ω이에요. <b>1 Ω</b>은 1 V의 전압을 걸었을 때 1 A의 전류가 흐르는 도선의 저항입니다.</p>${mine}</article>
-  <article class="th-card" id="card-cause"><h3><span>03</span>저항이 생기는 까닭 · 길이와 굵기</h3>
-    <figure class="th-fig"><svg viewBox="0 0 400 130" role="img" aria-label="도선 속 전자가 원자와 부딪히는 모형"><rect x="10" y="20" width="380" height="90" rx="45" fill="var(--surface-0)" stroke="var(--line-2)" stroke-width="2"/>${[...Array(12)].map((_, i) => `<circle cx="${45 + (i % 6) * 62}" cy="${i < 6 ? 50 : 82}" r="13" fill="#e8955a"/><text x="${45 + (i % 6) * 62}" y="${(i < 6 ? 50 : 82) + 5}" text-anchor="middle" fill="#fff" font-size="15" font-weight="800">+</text>`).join('')}${[[70, 66], [140, 40], [205, 96], [262, 60], [330, 38], [118, 92]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="6" fill="var(--electron)"/><path d="M${x-3} ${y}h6" stroke="white" stroke-width="1.8"/>`).join('')}<path d="M40 122H360" stroke="var(--electron)" stroke-width="2" /><path d="M352 118L360 122L352 126" fill="none" stroke="var(--electron)" stroke-width="2"/><text x="200" y="14" text-anchor="middle" font-size="12" fill="var(--text-2)">전자는 원자와 부딪히며 움직임을 방해받아요</text></svg></figure>
-    <p class="def">금속에서는 이동하는 전자가 격자의 진동이나 불순물 등에 의해 산란되어 저항이 생겨요. 그림은 이를 충돌로 나타낸 확대 모형이에요. 저항은 물질의 종류와 온도, 길이, 단면적에 따라 달라져요.</p>
-    <p>같은 물질·온도에서 <b>길이가 길수록 저항이 커지고</b>, <b>굵기가 굵을수록 저항이 작아집니다</b>. 이 실험의 니크롬선은 10 cm에 10 Ω, 20 cm에 20 Ω이고, 굵은 선(단면적 2배·지름 약 1.41배)은 저항이 절반이에요.</p>
-    <p class="link">실험 연결 · 실험판에서 니크롬선을 누르고 길이 10·20·30 cm와 ‘단면적 2배’를 바꿔 보세요.</p></article>
   <article class="th-card" id="card-material"><h3><span>04</span>도체 · 부도체 · 반도체</h3>
     <table class="th-table"><thead><tr><th>분류</th><th>성질</th><th>예</th></tr></thead><tbody>
     <tr><td><b>도체</b></td><td>저항이 작아 전류가 잘 흐름. 자유 전자가 많음</td><td>은, 구리, 철, 알루미늄, 흑연</td></tr>
@@ -3742,11 +4401,11 @@ function theory(card) {
   <article class="th-card" id="card-direction"><h3><span>10</span>전류와 전자, 반대 방향</h3><p><b>전원이 전기 에너지를 공급하는 외부 금속 도선</b>에서 전류 방향은 (+)극 → (−)극, 전자의 평균 이동 방향은 (−)극 → (+)극이에요. 파란 원 안의 −는 전자의 음전하, 원 옆 화살표는 이동 방향이에요. 전자는 전구에서 소모되지 않아요.</p><p>전원 내부의 운반 과정을 같은 전자가 한 바퀴 도는 그림으로 표현하지 않도록, 전원 내부에는 흐름 표시를 넣지 않았어요. 미세 모형의 전자는 무작위 열운동과 평균적인 표류를 함께 보여 줍니다.</p></article>
   <article class="th-card" id="card-model-v2"><h3><span>11</span>이 실험의 조건과 한계</h3><p>전구는 <b>저항 10 Ω이 일정한 교육용 모형</b>이에요. 실제 백열전구는 온도가 올라가면 저항이 커져요. 화면의 상대 밝기 %는 실제 광도 측정값이 아니라 <b>소비전력 ÷ 기준전력 0.9 W</b>를 나타냅니다.</p><p>니크롬선 1 cm당 1 Ω과 시료 저항·온도 계수는 경향 비교용 설정값이에요. 시료의 치수는 서로 다르므로 이 실험으로 재료의 비저항 순위를 정하지는 않아요. 순수 규소의 온도식과 빛 효과도 경향을 나타낸 교육용 모형이며 실제 센서의 정량 측정값이 아니에요. 규소 확대 그림은 결합과 전자를 단순화한 2차원 모형이며 실제 결정 구조가 아니에요. 점선 원은 전자가 빠져나온 자리(정공)를 나타내고, 다른 결합 전자 하나는 남아요. 반도체에서는 전자와 정공이 모두 전도에 기여하지만 정공의 이동은 이 그림에서 생략했어요. 빛 100 %는 물리적 조도나 광출력 단위가 아니라 모형의 상대 설정이에요. 시료의 녹음·탄화 등 고온 변화는 계산하지 않아요. 전원 내부 저항 0.002 Ω, 전지 내부 저항 0.05 Ω, 전압계 10 MΩ을 사용해요. 전류계는 이상적인 계기로 계산해요. 저항 0인 도선만 병렬로 여러 개 연결하면 전류 분배는 이상 회로만으로 정해지지 않으므로, 전선 한 칸을 동일 저항·전류계는 그 10배로 둔 보조 모형으로 표시해요.</p><p>흐름 속도·입자 간격은 관찰을 위해 확대·완화했어요. 실제 전자 수나 실제 속도 비율을 나타내지 않으며, 1 nA 미만의 흐름은 생략해요. 흐름 멈춤은 회로 전원을 끄는 기능이 아니에요.</p><p>검증 참고: <a href="https://openstax.org/books/university-physics-volume-2/pages/9-2-model-of-conduction-in-metals" target="_blank" rel="noopener noreferrer">OpenStax · 금속의 전도 ↗</a> · <a href="https://openstax.org/books/university-physics-volume-2/pages/9-4-ohms-law" target="_blank" rel="noopener noreferrer">옴의 법칙 ↗</a> · <a href="https://openstax.org/books/university-physics-volume-2/pages/9-3-resistivity-and-resistance" target="_blank" rel="noopener noreferrer">저항·비저항 ↗</a> · <a href="https://openstax.org/books/university-physics-volume-2/pages/10-4-electrical-measuring-instruments" target="_blank" rel="noopener noreferrer">전기 계기 ↗</a> · <a href="https://www.feynmanlectures.caltech.edu/III_14.html" target="_blank" rel="noopener noreferrer">Caltech · 반도체 ↗</a> · <a href="https://openstax.org/books/university-physics-volume-2/pages/10-2-resistors-in-series-and-parallel" target="_blank" rel="noopener noreferrer">직렬·병렬 ↗</a></p><p>기구 그림: 기존 PNG를 바탕으로 내장 ImageGen으로 제작한 3D 스타일 이미지.</p></article>
   <details class="th-more"><summary>조작 방법과 단축키</summary><p>교차점을 누른 채 옆 교차점으로 끌면 전선이 반 칸씩 이어져요. 작은 점(반 칸 자리)에서도 이을 수 있어 전선 가운데에서 갈라 이을 수 있어요. 기구를 누르면 뜨는 칩에서 <b>이동</b>(누른 뒤 놓을 칸 누르기)·<b>회전</b>(90°)을 할 수 있어요. 실험판 오른쪽 아래 <b>＋·−·맞춤</b>, <kbd>Ctrl</kbd>+휠, 두 손가락으로 확대하고 빈 곳을 끌어 옮겨요. <b>실험판 크게</b>(<kbd>G</kbd>)는 창 전체에 펼치고 <kbd>Esc</kbd>로 돌아와요. 조작판 머리의 <b>조작판 접기</b>로 실험대를 더 넓힐 수 있어요. 기구는 다른 칸으로 끌어 옮기고, 누르면 옆에 설정 칩이 떠요. 머리 막대의 <b>보기</b>에서 그림·회로도·비교(나란히)를 고르고(<kbd>S</kbd>), 비교에서는 한쪽 기구를 가리키거나 누르면 다른 쪽에서도 밝혀져요. 회로도 캡션의 <b>기호표</b>에서 실물과 기호를 짝지어 봐요. 지우개를 켜면 누르거나 끌어 지울 수 있고, 되돌리기(<kbd>Ctrl</kbd>+<kbd>Z</kbd>)로 방금 한 일을 취소해요. 판을 키보드로 다룰 때는 판을 누른 뒤 방향키로 칸을 옮기고 <kbd>Enter</kbd> 고르기·놓기, <kbd>W</kbd> 전선, <kbd>Delete</kbd> 지우기, <kbd>Esc</kbd> 취소예요.</p>
-    <p class="keys"><kbd>F</kbd> 전체화면 (나가기: <kbd>Esc</kbd>) <kbd>G</kbd> 실험판 크게 <kbd>S</kbd> 보기(그림·회로도·비교) <kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> 확대·축소·맞춤 <kbd>D</kbd> 테마 <kbd>H</kbd> 이론·도움말 <kbd>R</kbd> 학습 리포트 <kbd>C</kbd> 결과 저장</p></details>
+    <p class="keys"><kbd>F</kbd> 전체화면 (나가기: <kbd>Esc</kbd>) <kbd>G</kbd> 실험판 크게 <kbd>S</kbd> 보기(그림·회로도·비교) <kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> 확대·축소·맞춤 <kbd>D</kbd> 테마 <kbd>H</kbd> 이론·도움말 <kbd>R</kbd> 학습 리포트 <kbd>C</kbd> 결과 저장 · 도선과 저항 화면: <kbd>L</kbd> 길이 바꾸기 <kbd>T</kbd> 굵기 바꾸기</p></details>
   <details class="th-more"><summary>모형의 범위</summary><p>이 실험실은 <b>교육용으로 단순화한 모형</b>이에요. 전선과 전류계의 저항은 0으로 보고, 전원 장치는 2 A를 넘으면 스스로 출력을 끄는 거의 이상적인 직류 전원(내부 저항 0.002 Ω), 전지는 1.5 V(내부 저항 0.05 Ω)예요. 전구는 3.0 V에서 0.30 A가 흐르는 10 Ω 저항으로 보고(실제 필라멘트는 뜨거워질수록 저항이 커져요), 밝기는 전구가 쓰는 전력을 3.0 V일 때와 비교한 값이에요. 니크롬선은 1 cm에 1 Ω이고 온도에 따른 저항 변화는 무시했어요. 시료는 길이 5 cm이며, 시료 저항과 온도·빛 반응식은 경향 비교용 설정이며 실제 시료의 정량 측정값은 아니에요. 흐름 점과 확대 모형의 입자 수·크기·속도는 실제와 달라요.</p></details>
   <details class="th-more"><summary>결과 저장과 학습 기록</summary><p>실험 화면 오른쪽 위 ‘결과 저장’(카메라)이나 <kbd>C</kbd>를 누르면 지금 장면과 조건·결과가 담긴 PNG 한 장이 기기의 다운로드 폴더(iPad는 저장 확인 창)로 저장돼요. 모범 답안을 열면 처음 답안 잠금 · 아래에 다시 쓰기. 학생 기록은 서버로 보내지 않고 현재 브라우저 세션에서만 쓰며, 테마만 이 기기에 남아요.</p>
     <div class="row"><button class="btn small" id="switchStudent">${icon('person')}학생 바꾸기</button><button class="btn small ghost" id="clearData">모든 학습 데이터 초기화</button></div></details>
-  <details class="th-more"><summary>출처와 제작</summary><p>계기 읽기: 첨부된 전류계·전압계 그림과 <a href="https://www.youtube.com/watch?v=rqKlxc7Kb1g" target="_blank" rel="noopener noreferrer">송쌤과학 · 전류계 전압계 사용법 ↗</a> 영상을 참고해 계기 그림을 새로 그렸어요.<br>탐구 활동: 제공된 중학교 과학 교과서 ‘VII. 전기와 자기’의 옴의 법칙, 도체·부도체·반도체, 저항의 직렬연결과 병렬연결 쪽을 재구성했어요. 교과서 이미지는 재배포하지 않았어요. 기구 그림은 기존 파일에 포함된 PNG 자산을 유지했어요.<br>참고한 가상 실험: <a href="https://javalab.org/ko/electric_circuits_ac/" target="_blank" rel="noopener noreferrer">자바실험실 · 전기 회로 시뮬레이터 ↗</a> · <a href="https://phet.colorado.edu/ko/simulations/circuit-construction-kit-dc-virtual-lab" target="_blank" rel="noopener noreferrer">PhET · 회로제작 키트 DC 가상실험 ↗</a> · <a href="https://sciencej1.cafe24.com/sci2/ohm-law1.html" target="_blank" rel="noopener noreferrer">과학J · 전압과 전류 ↗</a></p>
+  <details class="th-more"><summary>출처와 제작</summary><p>계기 읽기: 첨부된 전류계·전압계 그림과 <a href="https://www.youtube.com/watch?v=rqKlxc7Kb1g" target="_blank" rel="noopener noreferrer">송쌤과학 · 전류계 전압계 사용법 ↗</a> 영상을 참고해 계기 그림을 새로 그렸어요.<br>도선과 저항: 제공된 참고 영상(도선 속 원자·전자 모형, 길이·굵기가 다른 도선 바꿔 끼우기)과 그림의 흐름을 참고해 장면과 입자 모형을 새로 만들었어요.<br>탐구 활동: 제공된 중학교 과학 교과서 ‘VII. 전기와 자기’의 옴의 법칙, 도체·부도체·반도체, 저항의 직렬연결과 병렬연결 쪽을 재구성했어요. 교과서 이미지는 재배포하지 않았어요. 기구 그림은 기존 파일에 포함된 PNG 자산을 유지했어요.<br>참고한 가상 실험: <a href="https://javalab.org/ko/electric_circuits_ac/" target="_blank" rel="noopener noreferrer">자바실험실 · 전기 회로 시뮬레이터 ↗</a> · <a href="https://phet.colorado.edu/ko/simulations/circuit-construction-kit-dc-virtual-lab" target="_blank" rel="noopener noreferrer">PhET · 회로제작 키트 DC 가상실험 ↗</a> · <a href="https://sciencej1.cafe24.com/sci2/ohm-law1.html" target="_blank" rel="noopener noreferrer">과학J · 전압과 전류 ↗</a></p>
     <p>🧪 송쌤과학 (Song Ssaem Science)<br>ⓒ 2026 송세호 | 아주중학교<br>📺 YouTube: @songsamscience &nbsp;📷 Instagram: @songsamscience<br>⚠ 무단 복제·상업적 이용 금지</p><p><b>v${APP_VERSION}</b> · ${APP_DATE}</p></details>
   </div>`;
   openModal('옴의 법칙 · 직렬 · 병렬 연결', html, { drawer: true });
@@ -3755,11 +4414,11 @@ function theory(card) {
   $('#switchStudent').onclick = () => confirmClear(true);
 }
 function confirmClear(student) {
-  const list = '학번·이름 · 처음 쓴 답안 · 다시 쓴 답안 · 모범 답안 잠금 · 힌트 기록 · 옴의 법칙 기록표 · 직렬·병렬 관찰 기록 · 물질 기록표 · 계기 읽기 점수';
+  const list = '학번·이름 · 처음 쓴 답안 · 다시 쓴 답안 · 모범 답안 잠금 · 힌트 기록 · 도선과 저항 기록표·예측 · 옴의 법칙 기록표 · 직렬·병렬 관찰 기록 · 물질 기록표 · 계기 읽기 점수';
   openModal(student ? '다음 학생으로 바꿀까요?' : '학습 데이터를 모두 지울까요?', `<p>지우는 것: ${list}. 실험판의 회로와 테마는 그대로 남아요.</p><div class="dialog-actions"><button class="btn" id="cc">취소</button><button class="btn primary" id="okc">${student ? '기록을 지우고 다음 학생으로' : '학습 데이터 모두 지우기'}</button></div>`);
   $('#cc').onclick = closeModal;
   $('#okc').onclick = () => {
-    answers = {}; revisions = {}; locks = {}; hints = {}; identity = null; ohmRec = { long: {}, short: {} }; serRec = {}; matRec = [];
+    answers = {}; revisions = {}; locks = {}; hints = {}; identity = null; ohmRec = { long: {}, short: {} }; serRec = {}; matRec = []; rsRec = []; rsPred = {}; save('resist', rsRec); save('rsPred', rsPred);
     for (const [k, v] of Object.entries({ answers, revisions, locks, hints, identity, 'ohm-v3': ohmRec, series: serRec, mat: matRec, meterScore: { correct: 0, total: 0, streak: 0, best: 0 } })) save(k, v);
     mLab.n = 0; mLab.prob = null;
     closeModal(); if (student) { setTab('bench'); toast('다음 학생이 시작할 수 있어요.'); } else { const c = current; current = ''; setTab(c); toast('학습 기록과 학번·이름을 지웠어요.'); }
@@ -3820,6 +4479,14 @@ function captureLines() {
     const K = METERS[mLab.kind], T = K.terms[mLab.term], sc = meterScore(), p = mLab.prob;
     return { title: `${t.title} · ${K.name}`, cond: `(−)단자 ${T.label} → ${ROW_NAME[T.row]}(0~${T.label}) · 작은 눈금 한 칸 ${mDivText(T)}${mLab.rev ? ' · (+)(−) 반대 연결' : ''}`,
       state: mOver(T, mLab.v) ? '바늘이 눈금 끝을 넘음 — 더 큰 (−)단자 필요' : mLab.mode === 'free' || mLab.reveal ? `읽은 값 ${mReading(T, mLab.v)} (= ${mAltReading(K, T, mLab.v)})${mLab.mode === 'quiz' ? ` · 문제 ${mLab.n} · 정답 ${sc.correct}/${sc.total}` : ''}` : `문제 ${mLab.n} · 정답 ${sc.correct}/${sc.total}` };
+  }
+  if (current === 'resist') {
+    const st = lab.rs, sol = rsScene.sol, m = rsScene.main, p = rsPred[st.mode];
+    if (!st.wire) return { title: `${t.title} · ${RS_MODES[st.mode].name}`, cond: '집게 사이에 도선 없음 · 전류 0 mA', state: '도선을 끼우고 스위치를 닫아 측정해요' };
+    const prog = st.mode === 'free' ? '' : ` · ${RS_MODES[st.mode].name} 기록 ${rsProgress()}/3`;
+    const sum = rsSummary(), last = sum.len && sum.thick ? '정리: 길수록 저항이 크고 굵을수록 저항이 작아요' : sum.len ? '정리: 길이가 길수록 저항이 커요' : sum.thick ? '정리: 굵을수록 저항이 작아요' : '';
+    return { title: `${t.title} · ${RS_MODES[st.mode].name}`, cond: `니크롬 ${rsWireName(st.wire)}(단면적) · 전원 ${st.V.toFixed(1)} V · 스위치 ${st.closed ? '닫힘' : '열림'} → 전류계 ${fmtA(sol.I)}${prog}`,
+      state: [sol.on ? `전자 1개당 부딪힘 ${m?.lastHits ?? rsHits(st.wire)}번 · 1초에 끝면을 지난 전자 ${rsNum(rsRate(sol.mA))}개(모형)` : '', `저항 ${fmtR(sol.R)}(모형값)`, p != null ? `예측: ${'①②③'[p]} ${RS_PRED[st.mode].opts[p]}` : '', last].filter(Boolean).join(' · ') };
   }
   if (current === 'material') {
     const st = lab.matState, sol = matScene.sol;
@@ -3902,7 +4569,7 @@ async function capture() {
 }
 
 /* ── 학습 리포트 · 빈 학습지 ── */
-const hasRecords = () => Object.keys(ohmRec.long).length + Object.keys(ohmRec.short).length + Object.keys(serRec).length + matRec.length + meterScore().total > 0;
+const hasRecords = () => rsRec.length + Object.keys(ohmRec.long).length + Object.keys(ohmRec.short).length + Object.keys(serRec).length + matRec.length + meterScore().total > 0;
 function reportOptions() {
   openModal('학습 리포트', `<p>처음 생각과 다시 정리한 생각을 함께 남겨요. 인쇄 창에서 ‘PDF로 저장’을 고를 수 있어요.</p>
     <label class="check"><input type="checkbox" id="optModels">모범 답안 함께 인쇄</label>
@@ -3925,6 +4592,7 @@ function reportHTML(blank, o = {}) {
   const who = `<div class="who"><span>학번: ${blank ? '______________' : esc(identity?.sid || '')}</span><span>이름: ${blank ? '______________' : esc(identity?.name || '')}</span><span>날짜: ${blank ? '______________' : date}</span></div>`;
   let recs = '';
   if (!blank && o.recs && hasRecords()) {
+    if (rsRec.length) { const sm = rsSummary().text; recs += `<article><h3>도선의 길이·굵기와 저항</h3><table><thead><tr><th>도선(니크롬)</th><th>전압(V)</th><th>전류(mA)</th><th>전자 1개당 부딪힘</th><th>저항(Ω·모형값)</th></tr></thead><tbody>${rsRec.slice().sort((a, b) => a.A - b.A || a.L - b.L || a.V - b.V).map(r => `<tr><td>${r.L} cm · 굵기 ${r.A}배</td><td>${r.V.toFixed(1)}</td><td>${fmtNum(r.mA)}</td><td>${r.hits == null ? '' : r.hits + '번'}</td><td>${fmtR(r.R)}</td></tr>`).join('')}</tbody></table>${sm.map(t => `<p class="meta">${t}</p>`).join('')}</article>`; }
     const volts = [...new Set([...Object.keys(ohmRec.long), ...Object.keys(ohmRec.short)])].sort((a, b) => a - b);
     if (volts.length) recs += `<article><h3>옴의 법칙 · 전압에 따른 전류</h3><table><thead><tr><th>측정 전압(V)</th><th>긴 · 20 cm(mA)</th><th>짧은 · 10 cm(mA)</th></tr></thead><tbody>${volts.map(v => `<tr><td>${v}${Object.values(ohmRec).some(rec => rec[v]?.legacy) ? '*' : ''}</td><td>${ohmRec.long[v] === undefined ? '—' : fmtNum(recordMA(ohmRec.long[v]))}</td><td>${ohmRec.short[v] === undefined ? '—' : fmtNum(recordMA(ohmRec.short[v]))}</td></tr>`).join('')}</tbody></table><div class="fig">${ohmGraphSVG(ohmRec, { trend: true, w: 420, h: 260 })}</div></article>`;
     if (Object.keys(serRec).length) recs += `<article><h3>저항의 직렬연결과 병렬연결</h3><table><tr><th></th>${Object.values(SER_NAME).map(n => `<th>${n}</th>`).join('')}</tr><tr><th>전구 하나의 밝기</th>${Object.keys(SER_NAME).map(c => `<td>${serRec[c]?.b === undefined ? '' : Math.round(serRec[c].b * 100) + ' %'}</td>`).join('')}</tr><tr><th>전체 전류</th>${Object.keys(SER_NAME).map(c => `<td>${serRec[c]?.I === undefined ? '' : fmtA(serRec[c].I)}</td>`).join('')}</tr><tr><th>하나를 빼면 나머지는</th>${Object.keys(SER_NAME).map(c => `<td>${{ on: '켜져 있음', off: '모두 꺼짐', alone: '회로가 끊김' }[serRec[c]?.off] || ''}</td>`).join('')}</tr></table></article>`;
@@ -3966,6 +4634,7 @@ document.addEventListener('keydown', e => {
   else if (k === 'r') reportOptions();
   else if (k === 'c' && current !== 'questions') withIdentity(capture, true);
   else if (k === 'g' && current !== 'questions') setFocus(!wsFocus());
+  else if ((k === 'l' || k === 't') && current === 'resist') rsCycle(k === 'l' ? 'L' : 'A');
   else if (k === 's' && boards[current] && current !== 'questions') setViewMode({ pic: 'schem', schem: 'both', both: 'pic' }[view.mode]);
   else if ((k === '+' || k === '=' || k === '-' || k === '_' || k === '0') && WS.scene?.svg?.isConnected && current !== 'questions') { e.preventDefault(); if (k === '0') wsFit(); else wsStep(WS.scene, k === '+' || k === '=' ? 1 : -1); }
   else if (k === 'escape') { const b = boards[current]; if (b?.pendingMove) b.cancelMove(); else if (b?.armed) b.arm(null); else if (wsFocus()) setFocus(false); }
@@ -3980,6 +4649,7 @@ function frame(t) {
     const d = reduced.matches || view.paused ? 0 : dt * (Number(view.speed)||1);
     if (current === 'meters' && meterScene?.svg?.isConnected) meterScene.step(dt);
     else if (current === 'material' && matScene?.svg?.isConnected) matScene.step(d);
+    else if (current === 'resist' && rsScene?.svg?.isConnected) rsScene.step(d);
     else if (boards[current]?.svg?.isConnected) boards[current].step(d);
     if (current === 'questions') for (const m of Object.values(minis)) { const host = m.obj.svg; if (host?.isConnected && host.closest('details')?.open) m.obj.step(d); }
   }
@@ -3987,7 +4657,7 @@ function frame(t) {
 }
 
 /* ── 시작 ── */
-addEventListener('resize', () => { stageHeight(); if (current === 'material') matScene?.refit(); if (current === 'meters') meterScene?.refit(); for (const m of Object.values(minis)) m.obj.fit?.(); });
+addEventListener('resize', () => { stageHeight(); if (current === 'material') matScene?.refit(); if (current === 'resist') { rsScene?.refit(); if (rsScene?.isPort !== undefined) syncResist(); } if (current === 'meters') meterScene?.refit(); for (const m of Object.values(minis)) m.obj.fit?.(); });
 $('#yt').innerHTML = `<svg class="brand-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS.yt}</svg>`;
 $('#ig').innerHTML = `<svg class="brand-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS.ig}</svg>`;
 $('#bookBtn').innerHTML = `<svg viewBox="0 0 24 24">${ICONS.book}</svg>`;
