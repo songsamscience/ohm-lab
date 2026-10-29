@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
-<meta name="version" content="5.0">
+<meta name="version" content="5.1">
 <meta name="description" content="전원 장치·스위치·전구·니크롬선·전류계·전압계를 격자 실험판에 연결해 옴의 법칙, 저항의 직렬·병렬 연결, 도체·부도체·반도체를 탐구하는 가상실험실">
 <meta property="og:title" content="송쌤과학 가상실험실 | 옴의 법칙 · 직렬 · 병렬 연결">
 <meta property="og:description" content="회로를 직접 연결하고 전압·전류·저항의 관계를 측정해 보는 중학교 과학 가상실험실">
@@ -573,9 +573,17 @@ body.lab-focus .stage{flex:1!important;height:auto!important;min-height:0}}
 .m-table tr.now td{background:var(--accent-bg);color:var(--accent-strong);font-weight:700}
 .meterscene .lbl,.meterscene .m-cap{paint-order:stroke;stroke:var(--board);stroke-width:5px;stroke-linejoin:round}
 .meterscene .lbl{fill:var(--text-2);font-weight:600}.meterscene .lbl.strong{fill:var(--text-1);font-weight:700}
-.meterscene [data-term]{outline:none}
-.meterscene [data-term]:focus-visible>rect:first-child{stroke:var(--focus);stroke-width:4;rx:12}
-@media (hover:hover) and (pointer:fine){.meterscene [data-term]:hover>rect:first-child{fill:#ffffff18}}
+.meterscene [data-term],.meterscene [data-swap]{outline:none}
+.meterscene [data-term]:focus-visible>rect:first-child,.meterscene [data-swap]:focus-visible>rect:first-child{stroke:var(--focus);stroke-width:4;rx:12}
+@media (hover:hover) and (pointer:fine){.meterscene [data-term]:hover>rect:first-child,.meterscene [data-swap]:hover>rect:first-child{fill:#ffffff18}}
+.m-swap{width:100%;margin-top:8px}
+.m-swap[aria-pressed="true"]{border-color:var(--danger);background:color-mix(in oklab,var(--danger) 12%,transparent);color:var(--danger)}
+.m-warn{margin:8px 0 0;padding:8px 10px;border-radius:var(--r-2);background:var(--hint-bg);font-size:12.5px;line-height:1.6;color:var(--text-2)}
+.m-warn b{color:var(--warn)}
+.m-warn.on{background:color-mix(in oklab,var(--danger) 14%,transparent);color:var(--text-1)}.m-warn.on b{color:var(--danger)}
+.meterscene .m-swapin{animation:mSwapIn .45s cubic-bezier(.2,.8,.3,1.2)}
+@keyframes mSwapIn{from{opacity:0;transform:translateY(-22px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.meterscene .m-swapin{animation:none}}
 @media (max-width:600px){.m-answer{grid-template-columns:minmax(0,1fr) 84px auto}.m-answer .btn{padding:0 14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 /* v4.0 보기 메뉴(그림·회로도·비교) · 짝 판 · 기호표 · 조작판 한 화면 */
@@ -742,7 +750,7 @@ const IMAGES={"supply": {"w": 460, "h": 340, "src": "data:image/png;base64,iVBOR
    · 묶인 마디 안의 갈래 전류는 전선 한 칸 = 같은 작은 저항으로 보고 다시 나눈다(흐름 표시·전류계 값).
    · 전원 장치는 내부 저항 0.002 Ω(거의 이상적인 직류 전원), 2 A를 넘으면 보호 회로가 출력을 끈다.
    ═══════════════════════════════════════════════════════════════════ */
-const APP_VERSION = '5.0', APP_DATE = '2026-10-26';
+const APP_VERSION = '5.1', APP_DATE = '2026-10-29';
 
 const MODEL = {
   bulbR: 10,            // 전구 저항(Ω) — 3.0 V에서 0.30 A. 필라멘트 온도에 따른 저항 변화는 무시
@@ -3098,6 +3106,9 @@ function recordSeries() {
    · 눈금판에는 줄이 세 개(맨 위 = 가장 큰 단자). 작은 눈금은 큰 눈금 한 칸의 1/10, 그 1/10까지 어림해 읽는다.
    · 단자를 바꾸면 흐르는 전류(걸린 전압)는 그대로이고 바늘이 움직인다 — 끝을 넘으면 바늘이 멈춤쇠에 걸린다.
    · 눈금 왼쪽의 작은 음(−) 구간은 극을 반대로 연결했을 때 바늘이 거꾸로 가는 것을 보여 준다(교과서 그림의 계기와 같음).
+   · ‘선 바꿔 연결’(조작판 단추 또는 계기의 (+)단자): 두 플러그가 단자를 바꿔 꽂히고 전선이 엇갈린다. 바늘은 왼쪽으로 돌아
+     멈춤쇠에 부딪혀 튕기고 떨린다 — 실제 계기라면 바늘이 휘거나 고장 날 수 있다는 경고를 함께 보여 준다.
+   · 문제 값은 바늘이 작은 눈금 위나 두 눈금의 한가운데에 오는 값만 낸다(눈금으로 읽을 수 있는 값).
    ═══════════════════════════════════════════════════════════════════ */
 const METERS = {
   A: { name: '전류계', q: '전류', qq: '전류의 세기', letter: 'A', umin: -1, umax: 5, units: ['mA', 'A'], vmin: 0.002, vmax: 6,
@@ -3120,6 +3131,8 @@ function needleAngle(K, T, v) {
   return mAngle(K, clamp(u, K.umin - lim, K.umax + lim));
 }
 const mOver = (T, v) => Math.abs(v) > T.fs * 1.0001;
+// 부호 있는 값 v에서 바늘이 오른쪽 끝이나 왼쪽(음의 구간) 끝을 넘어 멈춤쇠에 걸리는지
+function mPinned(K, T, v) { const u = v / T.fs * K.umax; return u > K.umax * 1.0001 || u < K.umin * 1.0001; }
 function bestTerm(K, v) { const i = K.terms.findIndex(t => Math.abs(v) <= t.fs * 1.0001); return i < 0 ? K.terms.length - 1 : i; }
 // 읽기 자릿수: 최소 눈금(div)의 1/10까지
 function mDecimals(T, unit = T.unit) { const step = T.div / UNIT_F[unit] / 10; return Math.max(0, Math.ceil(-Math.log10(step) - 1e-9)); }
@@ -3166,7 +3179,7 @@ function meterMarkup(o) {
   s += `<text x="230" y="238" text-anchor="middle" fill="#15191d" font-size="42" font-weight="800" font-family="var(--font-ui)">${K.letter}</text><path d="M210 246H250" stroke="#15191d" stroke-width="3"/>
     <text x="92" y="262" text-anchor="middle" fill="#15191d" font-size="24" font-family="var(--font-ui)">(−)</text><text x="368" y="262" text-anchor="middle" fill="#15191d" font-size="24" font-family="var(--font-ui)">(+)</text>`;
   // 정답 표시: 바늘이 가리키는 곳을 읽을 줄 위에 빨간 점선 상자로
-  if (o.reveal && !mOver(T, o.v)) {
+  if (o.reveal && !o.rev && !mOver(T, o.v)) {
     const a = needleAngle(K, T, o.v), [x, y] = mPt(MG.rRow[row], a), w = row ? 52 : 60, h = row ? 26 : 32;
     s += `<rect x="${r1(x - w / 2)}" y="${r1(y - h / 2)}" width="${w}" height="${h}" rx="6" transform="rotate(${r1(a)} ${r1(x)} ${r1(y)})" fill="none" stroke="#e03131" stroke-width="3" stroke-dasharray="7 4"/>`;
   }
@@ -3178,21 +3191,30 @@ function meterMarkup(o) {
   s += `<rect x="30" y="344" width="400" height="176" rx="16" fill="url(#${u}-panel)" stroke="#1d2f6a" stroke-width="3"/>`;
   const labels = [...K.terms.map(t => t.label.replace(' ', '')), '(+)'];
   // 연결선: 전선 끝의 플러그가 단자 받침 옆에 비스듬히 꽂히고, 전선은 이름표 바깥쪽(50 mA는 왼쪽, 나머지는 오른쪽 틈)으로 곧게 내려간다.
-  // 검은 플러그(회로의 (−)쪽)는 고른 (−)단자에, 빨간 플러그는 (+)단자에. 반대로 연결하면 서로 바뀐다.
+  // 검은 플러그(회로의 (−)쪽)는 고른 (−)단자에, 빨간 플러그는 (+)단자에. 반대로 연결하면 두 플러그가 단자를 바꿔 꽂히고,
+  // 전선은 원래 내려가던 자리(회로 쪽)에서 올라와 서로 엇갈린다 — 선을 바꿔 꽂은 모습 그대로.
   const cols = o.rev ? ['#c92a2a', '#1d2024'] : ['#1d2024', '#c92a2a'];
-  const plugAt = (i, col) => {
+  const drop = j => MG.termX[j] + (j === 0 ? -52 : j === 3 ? 50 : 60);   // 단자 j의 전선이 계기 아래로 내려가는 x
+  const plugAt = (i, col, to = i) => {
     const x = MG.termX[i], y = MG.termY, dir = i === 0 ? -1 : 1, off = dir * (i === 0 ? 52 : i === 3 ? 50 : 60);
     const px = x + dir * 19, py = y + 50, ex = px + dir * 17.2, ey = py + 22.1;   // 플러그 위치와 전선이 나오는 끝(38° 기울기)
+    if (to !== i) {
+      const bx = drop(to), cy = y + (bx > ex ? 62 : 88);   // 두 전선이 겹치지 않게 높이를 달리해 엇갈린다
+      const cable = `<path d="M${r1(ex)} ${r1(ey)}C${r1(ex + dir * 12)} ${r1(ey + 16)} ${bx} ${cy} ${bx} ${cy + 50}V${y + 200}" fill="none" stroke="${col}" stroke-width="8" stroke-linecap="round"/>`;
+      return { plug: plugSvg(px, py, dir, col), cable };
+    }
     const plug = `<g transform="translate(${px} ${py}) rotate(${-dir * 38})"><rect x="-6.5" y="-2" width="13" height="30" rx="4.5" fill="${col}"/><rect x="-6.5" y="4" width="13" height="5" rx="2" fill="#fff" opacity=".18"/><rect x="-7.5" y="-6" width="15" height="8" rx="2.5" fill="#b9c0c7" stroke="#7c8791" stroke-width="1"/></g>`;
     const cable = `<path d="M${r1(ex)} ${r1(ey)}C${r1(x + off * .92)} ${r1(y + 86)} ${r1(x + off)} ${r1(y + 104)} ${r1(x + off)} ${r1(y + 130)}V${y + 200}" fill="none" stroke="${col}" stroke-width="8" stroke-linecap="round"/>`;
     return { plug, cable };
   };
-  const pN = plugAt(o.term, cols[0]), pP = plugAt(3, cols[1]);
-  s += pN.cable + pP.cable;
+  const plugSvg = (px, py, dir, col) => `<g transform="translate(${px} ${py}) rotate(${-dir * 38})"><rect x="-6.5" y="-2" width="13" height="30" rx="4.5" fill="${col}"/><rect x="-6.5" y="4" width="13" height="5" rx="2" fill="#fff" opacity=".18"/><rect x="-7.5" y="-6" width="15" height="8" rx="2.5" fill="#b9c0c7" stroke="#7c8791" stroke-width="1"/></g>`;
+  const pN = plugAt(o.term, cols[0], o.rev ? 3 : o.term), pP = plugAt(3, cols[1], o.rev ? o.term : 3);
+  const anim = o.swapAnim ? ' class="m-swapin"' : '';   // 막 바꿔 꽂았을 때만 플러그가 내려와 꽂히는 움직임
+  s += `<g${anim}>${o.rev ? pP.cable + pN.cable : pN.cable + pP.cable}</g>`;
   MG.termX.forEach((x, i) => {
     const plus = i === 3, on = !plus && i === o.term, y = MG.termY;
     const body = plus ? ['#f0b3ae', '#c95b55'] : ['#6c737b', '#2b3035'];
-    const attrs = plus ? '' : ` data-term="${i}" role="button" tabindex="0" aria-label="(−)단자 ${K.terms[i].label}에 연결${on ? ' — 지금 연결됨' : ''}" style="cursor:pointer"`;
+    const attrs = plus ? ` data-swap="1" role="button" tabindex="0" aria-label="(+)·(−)단자의 선 바꿔 연결하기${o.rev ? ' — 지금 거꾸로 연결됨' : ''}" style="cursor:pointer"` : ` data-term="${i}" role="button" tabindex="0" aria-label="(−)단자 ${K.terms[i].label}에 연결${on ? ' — 지금 연결됨' : ''}" style="cursor:pointer"`;
     s += `<g class="m-term${on ? ' on' : ''}"${attrs}>
       <rect x="${x - 40}" y="${y - 20}" width="80" height="150" fill="transparent"/>
       <ellipse cx="${x}" cy="${y + 60}" rx="31" ry="10" fill="#c7cbd0" stroke="#7d848b" stroke-width="1.5"/>
@@ -3201,7 +3223,7 @@ function meterMarkup(o) {
       <ellipse cx="${x}" cy="${y}" rx="23" ry="8.5" fill="${body[0]}"/><ellipse cx="${x}" cy="${y}" rx="10.5" ry="4.2" fill="#caa64b" stroke="#8a6e22" stroke-width="1"/>
       <text x="${x}" y="${y + 116}" text-anchor="middle" fill="#fff" stroke="#2e4590" stroke-width="6" stroke-linejoin="round" paint-order="stroke" font-size="${labels[i].length > 4 ? 23 : 26}" font-weight="800" font-family="var(--font-ui)">${labels[i]}</text></g>`;
   });
-  s += pN.plug + pP.plug;
+  s += `<g${anim}>${pN.plug + pP.plug}</g>`;
   return s + '</g>';
 }
 function meterDefs(u) {
@@ -3236,8 +3258,12 @@ class MeterScene {
     const svg = document.createElementNS(SVGNS, 'svg');
     svg.setAttribute('class', 'scene meterscene'); svg.setAttribute('role', 'group'); svg.setAttribute('aria-label', '계기 눈금판과 단자');
     this.svg = svg; host.append(svg);
-    svg.addEventListener('click', e => { const t = e.target.closest('[data-term]'); if (t && this.onTerm) this.onTerm(+t.dataset.term); });
-    svg.addEventListener('keydown', e => { const t = e.target.closest('[data-term]'); if (t && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); this.onTerm?.(+t.dataset.term); } });
+    svg.addEventListener('click', e => { const t = e.target.closest('[data-term]'); if (t && this.onTerm) this.onTerm(+t.dataset.term); else if (e.target.closest('[data-swap]')) this.onSwap?.(); });
+    svg.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const t = e.target.closest('[data-term]'), w = e.target.closest('[data-swap]');
+      if (t) { e.preventDefault(); this.onTerm?.(+t.dataset.term); } else if (w) { e.preventDefault(); this.onSwap?.(); }
+    });
     this.render(); this.applyView();
   }
   refit() { if (this.host && this.port !== this.isPort) this.mount(this.host); else this.applyView(); }
@@ -3246,25 +3272,26 @@ class MeterScene {
   render() {
     const st = this.st, K = METERS[st.kind], T = K.terms[st.term], L = this.L, u = this.uid, [W, H] = this.vb;
     if (this.ang === null) this.ang = this.target();
-    const focused = document.activeElement?.closest?.('[data-term]')?.dataset.term;
-    const over = mOver(T, st.v), sv = st.rev ? -st.v : st.v;
+    const fe = document.activeElement?.closest?.('[data-term],[data-swap]'), focusSel = fe ? (fe.dataset.term !== undefined ? `[data-term="${fe.dataset.term}"]` : '[data-swap]') : null;
+    const over = mOver(T, st.v), sv = st.rev ? -st.v : st.v, anim = st.swapAnim; st.swapAnim = false;
     let s = `<defs>${meterDefs(u)}<clipPath id="${u}-all"><rect width="${W}" height="${H}"/></clipPath><clipPath id="${u}-lens"><circle cx="${L.lx}" cy="${L.ly}" r="${L.lr}"/></clipPath></defs>
       <g clip-path="url(#${u}-all)"><rect width="${W}" height="${H}" fill="var(--board)"/>
-      <g id="${u}-meter" transform="translate(${L.mx} ${L.my})">${meterMarkup({ ...st, v: sv, uid: u, ang: this.ang })}</g>`;
+      <g id="${u}-meter" transform="translate(${L.mx} ${L.my})">${meterMarkup({ ...st, v: sv, uid: u, ang: this.ang, swapAnim: anim })}</g>`;
     // 바늘 끝 확대: 바늘이 늘 곧게 서도록 돌려 보여 준다(숫자도 바로 선다)
     s += `<circle cx="${L.lx}" cy="${L.ly}" r="${L.lr + 7}" fill="var(--surface-1)" stroke="var(--line-2)" stroke-width="2"/>
       <g clip-path="url(#${u}-lens)"><rect x="${L.lx - L.lr}" y="${L.ly - L.lr}" width="${L.lr * 2}" height="${L.lr * 2}" fill="#eae3ce"/><use class="m-lens" href="#${u}-meter"/></g>
       <circle cx="${L.lx}" cy="${L.ly}" r="${L.lr}" fill="none" stroke="#2b3036" stroke-width="5"/>
       <text class="lbl" x="${L.lx}" y="${L.cap}" text-anchor="middle" style="font-size:${15 * L.fs}px">바늘 끝 확대 ×3</text>`;
-    const info = over ? `<tspan fill="#e03131">눈금 끝을 넘었어요 — 더 큰 (−)단자로!</tspan>` : st.guide ? `(−)단자 ${T.label} → ${ROW_NAME[T.row]}(끝 값 ${T.label})` : `(−)단자 ${T.label}에 연결`;
+    const info = st.rev ? `<tspan fill="#e03131">⚠ (+)·(−) 선을 거꾸로 연결했어요</tspan>` : over ? `<tspan fill="#e03131">눈금 끝을 넘었어요 — 더 큰 (−)단자로!</tspan>` : st.guide ? `(−)단자 ${T.label} → ${ROW_NAME[T.row]}(끝 값 ${T.label})` : `(−)단자 ${T.label}에 연결`;
     s += `<text class="lbl strong" x="${L.lx}" y="${L.cap + L.gap}" text-anchor="middle" style="font-size:${18 * L.fs}px">${info}</text>`;
-    if (st.reveal && !over) s += `<text x="${L.lx}" y="${L.cap + L.gap * 2.1}" text-anchor="middle" fill="#e03131" class="m-cap" style="font-size:${21 * L.fs}px;font-weight:800">읽은 값 ${st.rev ? '−' : ''}${mReading(T, st.v)}${st.rev ? ' (반대 연결)' : ''}</text>`;
+    if (st.rev) s += `<text x="${L.lx}" y="${L.cap + L.gap * 2.1}" text-anchor="middle" fill="#e03131" class="m-cap" style="font-size:${19 * L.fs}px;font-weight:800">바늘이 거꾸로 돌아 고장 날 수 있어요!</text>`;
+    else if (st.reveal && !over) s += `<text x="${L.lx}" y="${L.cap + L.gap * 2.1}" text-anchor="middle" fill="#e03131" class="m-cap" style="font-size:${21 * L.fs}px;font-weight:800">읽은 값 ${mReading(T, st.v)}</text>`;
     else if (st.quizTag) s += `<text class="lbl" x="${L.lx}" y="${L.cap + L.gap * 2}" text-anchor="middle" style="font-size:${15 * L.fs}px">${esc(st.quizTag)} · 바늘이 가리키는 값은?</text>`;
     s += '</g>';
     this.svg.innerHTML = s;
     this.needle = this.svg.querySelector('.m-needle'); this.lens = this.svg.querySelector('.m-lens');
     this.place();
-    if (focused !== undefined) this.svg.querySelector(`[data-term="${focused}"]`)?.focus({ preventScroll: true });
+    if (focusSel) this.svg.querySelector(focusSel)?.focus({ preventScroll: true });
   }
   // 바늘과 렌즈를 지금 각도로
   place() {
@@ -3274,7 +3301,7 @@ class MeterScene {
     const f = mPt(162, a), Z = 3; // 세 줄의 숫자와 눈금이 모두 들어오는 곳을 가운데로
     this.lens.setAttribute('transform', `translate(${L.lx} ${L.ly}) scale(${Z}) rotate(${(-a).toFixed(2)}) translate(${-(L.mx + f[0]).toFixed(2)} ${-(L.my + f[1]).toFixed(2)})`);
   }
-  // 바늘은 살짝 넘쳤다가 멈추는 감쇠 진동. 끝을 넘으면 멈춤쇠에 부딪혀 떤다. 동작 줄이기면 바로 멈춘다.
+  // 바늘은 살짝 넘쳤다가 멈추는 감쇠 진동. 끝을 넘거나 거꾸로 돌면 멈춤쇠에 부딪혀 튕기고 떤다. 동작 줄이기면 바로 멈춘다.
   step(dt) {
     if (!this.needle) return;
     const tgt = this.target(), K = METERS[this.st.kind], T = K.terms[this.st.term];
@@ -3282,8 +3309,10 @@ class MeterScene {
     if (reduced.matches || !dt) { if (this.ang !== tgt || this.jit) { this.ang = tgt; this.w = 0; this.jit = 0; this.place(); } return; }
     const k = 170, c = 17;
     this.w += (k * (tgt - this.ang) - c * this.w) * dt; this.ang += this.w * dt;
+    const lim = 0.06 * (K.umax - K.umin), lo = mAngle(K, K.umin - lim), hi = mAngle(K, K.umax + lim);
+    if (this.ang < lo) { this.ang = lo; this.w = Math.abs(this.w) * 0.35; } else if (this.ang > hi) { this.ang = hi; this.w = -Math.abs(this.w) * 0.35; }
     if (Math.abs(tgt - this.ang) < 0.01 && Math.abs(this.w) < 0.05) { this.ang = tgt; this.w = 0; }
-    this.jit = mOver(T, this.st.v) ? Math.sin(this.t * 55) * 0.6 : 0;
+    this.jit = mPinned(K, T, this.st.rev ? -this.st.v : this.st.v) ? Math.sin(this.t * 55) * 0.6 : 0;
     this.place();
   }
 }
@@ -3300,7 +3329,8 @@ function newMeterProblem() {
   else { t0 = Math.floor(Math.random() * 3); best = t0; lo = t0 ? Math.max(0.12, T[t0 - 1].fs / T[t0].fs * 1.15) : 0.12; hi = 0.97; }
   const div = T[best].div, r = Math.random();
   let n = (lo + Math.random() * (hi - lo)) * T[best].fs / div; // 작은 눈금 몇 칸인지
-  n = r < 0.5 ? Math.round(n) : r < 0.78 ? Math.round(n * 2) / 2 : Math.round(n * 10) / 10;
+  // 눈금으로 읽을 수 있는 값만: 바늘이 작은 눈금 위(정수 칸)나 두 눈금의 한가운데(반 칸)에 온다
+  n = r < 0.6 ? Math.round(n) : Math.round(n * 2) / 2;
   mLab.prob = { v: +(n * div).toPrecision(6), t0, best, choose, tries: 0, graded: false, solved: false, shown: false };
   mLab.n++; mLab.term = t0; mLab.v = mLab.prob.v; mLab.rev = false; mLab.guide = false; mLab.reveal = false;
 }
@@ -3316,9 +3346,11 @@ function renderMeters() {
     tab: 'meters', card: 'reading', ribbon: false, flow: false, wide: true,
     tools: `<div class="seg" role="group" aria-label="계기 고르기">${Object.entries(METERS).map(([k, m]) => `<button data-mkind="${k}" aria-pressed="${mLab.kind === k}">${m.name}</button>`).join('')}</div>
       <div class="seg" role="group" aria-label="활동 고르기"><button data-mmode="quiz" aria-pressed="${mLab.mode === 'quiz'}">문제 풀기</button><button data-mmode="free" aria-pressed="${mLab.mode === 'free'}">자유 연습</button></div>`,
-    panel: `<section class="pg"><h2 class="pg-title"><span class="n">01</span>(−)단자 바꾸기<span class="aside">계기의 단자를 눌러도 돼요</span></h2>
+    panel: `<section class="pg"><h2 class="pg-title"><span class="n">01</span>단자 연결<span class="aside">계기의 단자를 눌러도 돼요</span></h2>
         <div class="seg full" role="group" aria-label="(−)단자" id="mTerm">${K.terms.map((t, i) => `<button data-mterm="${i}" aria-pressed="${mLab.term === i}">${t.label}</button>`).join('')}</div>
-        <p class="help" id="mTermHelp"></p></section>
+        <p class="help" id="mTermHelp"></p>
+        <button class="btn m-swap" id="mSwap" type="button" aria-pressed="false"></button>
+        <p class="m-warn" id="mWarn">⚠ <b>단자를 거꾸로 연결하면</b> 바늘이 거꾸로(0보다 왼쪽으로) 움직여 멈춤쇠에 부딪혀요. 바늘이 휘거나 계기가 <b>고장 날 수 있어요.</b></p></section>
       <section class="pg m-quiz" id="mQuiz" ${mLab.mode === 'quiz' ? '' : 'hidden'}><h2 class="pg-title"><span class="n">02</span>문제 <span class="num" id="mNum"></span><span class="aside num" id="mScore"></span></h2>
         <p class="m-q" id="mQ"></p>
         <form class="m-answer" id="mForm" autocomplete="off" novalidate><input id="mAns" type="text" inputmode="decimal" placeholder="읽은 값" aria-label="읽은 값(숫자)" aria-describedby="mQ" spellcheck="false">
@@ -3327,11 +3359,10 @@ function renderMeters() {
         <div class="m-acts"><button class="btn small" id="mGuide" aria-pressed="false">💡 읽을 눈금 표시</button><button class="btn small ghost" id="mReveal">풀이 보기</button><button class="btn small" id="mNext">다음 문제 →</button></div></section>
       <section class="pg m-free" id="mFree" ${mLab.mode === 'free' ? '' : 'hidden'}><h2 class="pg-title"><span class="n">02</span>자유 연습<span class="aside">값이 바로 보여요</span></h2>
         <div class="field"><span class="field-label"><label for="mSlide" id="mSlideLbl"></label><button class="btn small ghost" id="mRand" type="button">무작위 값</button></span><input type="range" id="mSlide" min="0" max="1000" step="1"></div>
-        <table class="rec m-table"><thead><tr><th scope="col">(−)단자</th><th scope="col">읽을 줄</th><th scope="col">읽은 값</th></tr></thead><tbody id="mRows"></tbody></table>
-        <label class="check"><input type="checkbox" id="mRev">(+)·(−)단자를 반대로 연결해 보기</label></section>
+        <table class="rec m-table"><thead><tr><th scope="col">(−)단자</th><th scope="col">읽을 줄</th><th scope="col">읽은 값</th></tr></thead><tbody id="mRows"></tbody></table></section>
       <details class="pg m-how" open><summary class="pg-title"><span class="n">03</span>눈금 읽는 순서</summary>
         <ol class="m-steps">
-          <li><b>연결</b>전류계는 회로에 <b>직렬</b>, 전압계는 재려는 부분에 <b>병렬</b>로 이어요. (+)단자는 전원의 (+)극 쪽이에요.</li>
+          <li><b>연결</b>전류계는 회로에 <b>직렬</b>, 전압계는 재려는 부분에 <b>병렬</b>로 이어요. (+)단자는 전원의 (+)극 쪽, (−)단자는 (−)극 쪽 선에 연결해요. <b>거꾸로 연결하면 바늘이 거꾸로 돌아 고장 날 수 있어요.</b></li>
           <li><b>(−)단자</b>값을 모를 때는 <b>가장 큰 단자</b>(5 A · 30 V)에 먼저 연결해요.</li>
           <li><b>눈금 줄</b>연결한 (−)단자의 값이 <b>끝 값인 줄</b>을 읽어요. 500 mA 단자라면 끝이 500인 줄이에요.</li>
           <li><b>어림</b>바늘이 가리키는 곳을 <b>최소 눈금의 1/10</b>까지 어림해 읽고 단위를 붙여요.</li>
@@ -3341,6 +3372,7 @@ function renderMeters() {
   });
   meterScene = new MeterScene(mLab); meterScene.camera = workspaceCamera('meters');
   meterScene.onTerm = i => setMeterTerm(i);
+  meterScene.onSwap = () => setMeterRev(!mLab.rev);
   meterScene.mount($('#stage')); stageHeight();
   bindCommon(meterScene);
   $$('[data-mkind]').forEach(b => b.onclick = () => { if (mLab.kind === b.dataset.mkind) return; mLab.kind = b.dataset.mkind; save('meterKind', mLab.kind); mLab.prob = null; if (mLab.mode === 'free') mLab.v = mLab.pv[mLab.kind]; const c = current; current = ''; setTab(c); });
@@ -3352,7 +3384,7 @@ function renderMeters() {
   $('#mNext').onclick = () => { newMeterProblem(); mLab.prob.kind = mLab.kind; $('#mAns').value = ''; $('#mUnit').value = ''; $('#mFb').hidden = true; syncMeters(); $('#mAns').focus({ preventScroll: true }); };
   $('#mSlide').oninput = e => { mLab.v = mLab.pv[mLab.kind] = sliderToValue(+e.target.value); syncMeters(); };
   $('#mRand').onclick = () => { const K = METERS[mLab.kind], t = K.terms[Math.floor(Math.random() * 3)]; mLab.v = mLab.pv[mLab.kind] = snapValue(K, (0.1 + Math.random() * 0.88) * t.fs); syncMeters(); };
-  $('#mRev').onchange = e => { mLab.rev = e.target.checked; syncMeters(); };
+  $('#mSwap').onclick = () => setMeterRev(!mLab.rev);
   if (mLab.mode === 'free') { mLab.v = mLab.pv[mLab.kind]; mLab.guide = mLab.reveal = true; }
   syncMeters();
 }
@@ -3376,6 +3408,13 @@ function setMeterTerm(i) {
   $('#live').textContent = `(−)단자를 ${T.label}에 연결했어요.${mOver(T, mLab.v) ? ' 바늘이 눈금 끝을 넘었어요.' : ''}`;
   if (mOver(T, mLab.v) && !mOver(was, mLab.v)) toast('바늘이 눈금 끝을 넘었어요! 실제 계기라면 고장 날 수 있어요. 더 큰 (−)단자로 바꿔요.', 3600);
 }
+// (+)·(−)단자에 꽂힌 두 선을 서로 바꿔 꽂는다(거꾸로 연결 ↔ 바르게 연결)
+function setMeterRev(on) {
+  if (mLab.rev === on) return;
+  mLab.rev = on; mLab.swapAnim = true; syncMeters();
+  $('#live').textContent = on ? '(+)단자와 (−)단자의 선을 바꿔 연결했어요. 바늘이 거꾸로 움직여요.' : '선을 바르게 다시 연결했어요.';
+  if (on) toast('선을 거꾸로 연결했어요! 바늘이 거꾸로 움직여 계기가 고장 날 수 있어요.', 3600);
+}
 function meterFeedback(kind, head, ex) {
   const fb = $('#mFb'); fb.hidden = false; fb.dataset.kind = kind;
   fb.innerHTML = `<b>${head}</b>${ex ? `<span>${ex}</span>` : ''}`;
@@ -3394,6 +3433,7 @@ function checkMeter() {
   const raw = $('#mAns').value.trim().replace(/\s/g, '').replace(',', '.'), unit = $('#mUnit').value;
   if (!raw || !Number.isFinite(+raw)) { meterFeedback('warn', '읽은 값을 숫자로 써 주세요.', '예: 300 또는 0.3'); $('#mAns').focus(); return; }
   if (!unit) { meterFeedback('warn', '단위를 골라 주세요.', `${K.q}의 단위는 ${K.units.join('나 ')}예요.`); $('#mUnit').focus(); return; }
+  if (mLab.rev) { meterFeedback('warn', '선이 거꾸로 연결되어 바늘을 읽을 수 없어요.', '‘선 바르게 다시 연결하기’를 누른 뒤 읽어 보세요. 거꾸로 연결하면 계기가 고장 날 수 있어요.'); return; }
   if (mOver(T, p.v)) { meterFeedback('warn', '바늘이 눈금 끝을 넘어 읽을 수 없어요.', '더 큰 (−)단자로 바꾼 뒤 다시 읽어 보세요.'); return; }
   p.tries++;
   if (!K.units.includes(unit)) { scoreMeter(false); meterFeedback('bad', `${unit}는 ${K.q}의 단위가 아니에요.`, `${K.name}는 ${K.qq}를 재요. 단위는 ${K.units.join(' 또는 ')}예요.`); syncMeters(); return; }
@@ -3427,7 +3467,10 @@ function syncMeters() {
   mLab.quizTag = free ? '' : `문제 ${mLab.n}`;
   meterScene.render();
   $$('[data-mterm]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.mterm === mLab.term));
-  $('#mTermHelp').innerHTML = mOver(T, mLab.v) ? `<b style="color:var(--danger)">바늘이 끝을 넘었어요.</b> 더 큰 (−)단자로 바꿔요.`
+  const sw = $('#mSwap'); sw.setAttribute('aria-pressed', mLab.rev); sw.textContent = mLab.rev ? '↩ 선 바르게 다시 연결하기' : '⇄ (+)·(−) 선 바꿔 연결하기';
+  $('#mWarn').classList.toggle('on', mLab.rev);
+  const revSt = { cls: 'danger', tag: '거꾸로 연결', head: '(+)·(−)단자의 선을 바꿔 연결해 바늘이 거꾸로(0보다 왼쪽으로) 움직였어요.', ex: '실제 계기라면 바늘이 멈춤쇠에 부딪혀 휘거나 계기가 고장 날 수 있어요. (+)단자는 전원의 (+)극 쪽, (−)단자는 (−)극 쪽 선에 연결해요.' };
+  $('#mTermHelp').innerHTML = mLab.rev ? `<b style="color:var(--danger)">선이 거꾸로 연결되어 있어요.</b> 바르게 연결해야 눈금을 읽을 수 있어요.` : mOver(T, mLab.v) ? `<b style="color:var(--danger)">바늘이 끝을 넘었어요.</b> 더 큰 (−)단자로 바꿔요.`
     : mLab.guide ? `연결한 단자 ${T.label} = 눈금 끝 값 → <b>${ROW_NAME[T.row]}</b>을 읽어요. 작은 눈금 한 칸 ${mDivText(T)}.` : '연결한 (−)단자의 값이 눈금의 끝 값이에요. 어느 줄을 읽을지 찾아보세요.';
   if (!free) {
     const sc = meterScore();
@@ -3435,17 +3478,15 @@ function syncMeters() {
     $('#mQ').innerHTML = meterQuestionText();
     $('#mGuide').setAttribute('aria-pressed', mLab.guide); $('#mGuide').disabled = mLab.reveal;
     $('#mNext').classList.toggle('primary', p.solved || p.shown);
-    setStatus(p.solved ? { tag: '정답', head: `${K.name} · (−)단자 ${T.label} → ${mReading(T, p.v)}`, ex: `같은 ${K.q}라도 (−)단자를 바꾸면 바늘 위치와 읽는 줄이 달라져요. 단자를 바꿔 확인해 보세요.` }
+    setStatus(mLab.rev ? revSt : p.solved ? { tag: '정답', head: `${K.name} · (−)단자 ${T.label} → ${mReading(T, p.v)}`, ex: `같은 ${K.q}라도 (−)단자를 바꾸면 바늘 위치와 읽는 줄이 달라져요. 단자를 바꿔 확인해 보세요.` }
       : mOver(T, p.v) ? { cls: 'danger', tag: '눈금 초과', head: '바늘이 눈금 끝을 넘었어요.', ex: '실제 계기라면 바늘이 휘거나 고장 날 수 있어요. 더 큰 (−)단자로 바꿔요.' }
       : { tag: `문제 ${mLab.n}`, head: `${K.name}의 (−)단자는 ${T.label}에 연결되어 있어요.`, ex: p.choose ? '바늘이 조금만 움직이면 더 작은 (−)단자로 바꿔 정확하게 읽어요.' : '(−)단자에 맞는 눈금 줄을 찾아 최소 눈금의 1/10까지 어림해 읽어요.' });
   } else {
     $('#mSlideLbl').textContent = `${K.q} 크기 바꾸기`;
     const sl = $('#mSlide'); if (+sl.value !== valueToSlider(mLab.v)) sl.value = valueToSlider(mLab.v);
-    $('#mRev').checked = mLab.rev;
     $('#mRows').innerHTML = K.terms.map((t, i) => `<tr class="${i === mLab.term ? 'now' : ''}"><td>${t.label}</td><td>${ROW_NAME[t.row]}</td><td>${mOver(t, mLab.v) ? '<b style="color:var(--danger)">눈금 초과</b>' : mReading(t, mLab.v)}</td></tr>`).join('');
     const b = K.terms[bestTerm(K, mLab.v)];
-    setStatus(mOver(T, mLab.v) ? { cls: 'danger', tag: '눈금 초과', head: `${T.label} 단자로는 잴 수 없어요.`, ex: `${b.label} 단자로 바꾸면 ${mReading(b, mLab.v)}로 읽혀요.` }
-      : mLab.rev ? { cls: 'warn', tag: '반대 연결', head: '(+)·(−)를 반대로 연결해 바늘이 0보다 왼쪽으로 돌아갔어요.', ex: '(+)단자는 전원의 (+)극 쪽, (−)단자는 (−)극 쪽에 연결해요.' }
+    setStatus(mLab.rev ? revSt : mOver(T, mLab.v) ? { cls: 'danger', tag: '눈금 초과', head: `${T.label} 단자로는 잴 수 없어요.`, ex: `${b.label} 단자로 바꾸면 ${mReading(b, mLab.v)}로 읽혀요.` }
       : { tag: '연습', head: `${K.name} · (−)단자 ${T.label} → ${ROW_NAME[T.row]} → ${mReading(T, mLab.v)}`, ex: mLab.term !== bestTerm(K, mLab.v) ? `${b.label} 단자로 바꾸면 바늘이 더 크게 움직여 ${mReading(b, mLab.v)}까지 정확하게 읽을 수 있어요.` : '이 값에는 지금 단자가 가장 알맞아요. 다른 단자로 바꿔 바늘과 읽는 값을 비교해 보세요.' });
   }
 }
@@ -4381,7 +4422,7 @@ function theory(card) {
     <p class="link">실험 연결 · ‘물질과 저항’ 화면에서 규소를 끼우고 온도와 빛을 올려 보세요. 구리 같은 금속은 온도가 오르면 격자의 진동이 커져 저항이 증가하지만, 이 회로에서는 전구의 저항에 비해 아주 작아 전류가 거의 그대로예요.</p></article>
   <article class="th-card" id="card-meter"><h3><span>05</span>전류계와 전압계 연결하기</h3>
     <figure class="th-fig th-pair" aria-label="같은 회로의 실물 그림과 회로도">${staticBoard(meters, { cols: 6, rows: 4, schem: false, k: 1.35 })}${staticBoard(meters, { cols: 6, rows: 4, schem: true, k: 1.35 })}</figure>
-    <ul class="help" style="margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.8"><li><b>전류계</b>는 전류를 재려는 곳에 <b>직렬</b>로, <b>전압계</b>는 전압을 재려는 기구의 양 끝에 <b>병렬</b>로 연결해요.</li><li>두 계기의 <b>(+)단자는 전원의 (+)극 쪽</b>, (−)단자는 (−)극 쪽에 연결해요. 반대로 연결하면 디지털 계기에 −가 표시돼요.</li><li>전류계를 전원에 바로(병렬로) 연결하면 아주 센 전류가 흘러 위험해요.</li><li>실험하기 전이나 후에는 전원 장치의 전압을 0 V로 맞춰요.</li></ul></article>
+    <ul class="help" style="margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.8"><li><b>전류계</b>는 전류를 재려는 곳에 <b>직렬</b>로, <b>전압계</b>는 전압을 재려는 기구의 양 끝에 <b>병렬</b>로 연결해요.</li><li>두 계기의 <b>(+)단자는 전원의 (+)극 쪽</b>, (−)단자는 (−)극 쪽에 연결해요. 반대로 연결하면 디지털 계기에 −가 표시되고, <b>바늘 계기는 바늘이 거꾸로 움직여 고장 날 수 있어요.</b></li><li>전류계를 전원에 바로(병렬로) 연결하면 아주 센 전류가 흘러 위험해요.</li><li>실험하기 전이나 후에는 전원 장치의 전압을 0 V로 맞춰요.</li></ul></article>
   <article class="th-card" id="card-symbols"><h3><span>06</span>회로도 기호</h3>
     <p class="def">회로도는 기구를 약속된 <b>기호</b>로, 전선을 <b>곧은 선</b>으로 그린 그림이에요. 기호의 방향이나 크기는 실물과 달라도 <b>어디와 어디가 이어졌는지</b>는 똑같아요.</p>
     ${symbolTable()}
@@ -4477,8 +4518,8 @@ function captureLines() {
   const t = TABS.find(x => x.id === current);
   if (current === 'meters') {
     const K = METERS[mLab.kind], T = K.terms[mLab.term], sc = meterScore(), p = mLab.prob;
-    return { title: `${t.title} · ${K.name}`, cond: `(−)단자 ${T.label} → ${ROW_NAME[T.row]}(0~${T.label}) · 작은 눈금 한 칸 ${mDivText(T)}${mLab.rev ? ' · (+)(−) 반대 연결' : ''}`,
-      state: mOver(T, mLab.v) ? '바늘이 눈금 끝을 넘음 — 더 큰 (−)단자 필요' : mLab.mode === 'free' || mLab.reveal ? `읽은 값 ${mReading(T, mLab.v)} (= ${mAltReading(K, T, mLab.v)})${mLab.mode === 'quiz' ? ` · 문제 ${mLab.n} · 정답 ${sc.correct}/${sc.total}` : ''}` : `문제 ${mLab.n} · 정답 ${sc.correct}/${sc.total}` };
+    return { title: `${t.title} · ${K.name}`, cond: `(−)단자 ${T.label} → ${ROW_NAME[T.row]}(0~${T.label}) · 작은 눈금 한 칸 ${mDivText(T)}${mLab.rev ? ' · (+)(−) 선 거꾸로 연결' : ''}`,
+      state: mLab.rev ? '선을 거꾸로 연결 — 바늘이 거꾸로 움직여 고장 날 수 있음' : mOver(T, mLab.v) ? '바늘이 눈금 끝을 넘음 — 더 큰 (−)단자 필요' : mLab.mode === 'free' || mLab.reveal ? `읽은 값 ${mReading(T, mLab.v)} (= ${mAltReading(K, T, mLab.v)})${mLab.mode === 'quiz' ? ` · 문제 ${mLab.n} · 정답 ${sc.correct}/${sc.total}` : ''}` : `문제 ${mLab.n} · 정답 ${sc.correct}/${sc.total}` };
   }
   if (current === 'resist') {
     const st = lab.rs, sol = rsScene.sol, m = rsScene.main, p = rsPred[st.mode];
