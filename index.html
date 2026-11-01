@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
-<meta name="version" content="6.0">
+<meta name="version" content="6.1">
 <meta name="description" content="전원 장치·스위치·전구·니크롬선·전류계·전압계를 격자 실험판에 연결해 옴의 법칙, 저항의 직렬·병렬 연결, 도체·부도체·반도체를 탐구하는 가상실험실">
 <meta property="og:title" content="송쌤과학 가상실험실 | 옴의 법칙 · 직렬 · 병렬 연결">
 <meta property="og:description" content="회로를 직접 연결하고 전압·전류·저항의 관계를 측정해 보는 중학교 과학 가상실험실">
@@ -1245,6 +1245,103 @@ textarea{font-size:16px}
 .panel-heading.has-mode{gap:8px}
 .panel-heading.has-mode .mode-seg{flex:1;width:auto;margin:0}
 .panel-heading.has-mode .panel-toggle .t{display:none}
+/* ═══ V6.1 04 반도체 탐구 — 에너지 띠 · 생활 속 실험(설계 V6.1 §5) ═══ */
+:root[data-theme="light"]{--band-cond:#d8e9ff;--band-val:#ffe8c4;--sky-day:#a6d8ff;--sky-night:#182542;--room-wall:#eef1ef;--room-ceil:#c9d3cf}
+:root[data-theme="dark"]{--band-cond:#22436a;--band-val:#5a3f16;--sky-day:#2f6ca8;--sky-night:#0a1022;--room-wall:#1a2624;--room-ceil:#2c3c38}
+.semi-scene{width:100%;height:100%;display:block;touch-action:manipulation}
+.mode-seg .ms{display:none}
+@media (max-width:360px){.mode-seg .ml{display:none}.mode-seg .ms{display:inline}}
+/* 에너지 띠 */
+.band-chip rect{fill:var(--surface-2)}.band-chip text{fill:var(--text-1);font:700 14px var(--font-ui)}
+.band-cb,.band-cb-fill{fill:var(--band-cond)}.band-vb,.band-vb-fill{fill:var(--band-val)}
+.band-cb,.band-vb{stroke:var(--line-2);stroke-width:1.2}
+.band-ov{opacity:.9}
+.band-t{font-weight:700;font-family:var(--font-ui);fill:var(--text-1)}
+.band-t.ov{font-weight:800;paint-order:stroke;stroke:var(--surface-1);stroke-width:3px}
+.band-axis{stroke:var(--text-2);stroke-width:1.6;fill:none}.band-axis-tip{fill:var(--text-2)}
+.band-gap{stroke:var(--text-1);stroke-width:1.6;fill:none}.band-gap-tip{fill:var(--text-1)}.band-gap-t{font-weight:600}
+.band-pole{font-weight:700;font-family:var(--font-ui);fill:var(--text-2)}
+.band-hit{fill:transparent;stroke:transparent;stroke-width:2}
+.band-col:hover .band-hit{fill:color-mix(in oklab,var(--accent) 5%,transparent)}
+.band-col.look .band-hit{stroke:var(--accent);stroke-width:2}
+.band-el circle{fill:var(--electron)}.band-el path{stroke:#fff;stroke-width:1.5}
+.band-hole{fill:none;stroke:var(--electron);stroke-width:2;stroke-dasharray:3 3;transition:opacity .3s}
+.band-energy path{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.band-energy.heat path{stroke:var(--heat)}.band-energy.light path{stroke:var(--glow);stroke-width:3}
+.band-card rect:first-child{fill:var(--surface-1);stroke:var(--line-2)}
+.band-glow{fill:var(--glow)}.band-bulb{fill:var(--surface-1);stroke:var(--text-1);stroke-width:1.8}.band-bulb-x{stroke:var(--text-1);stroke-width:1.6}
+.band-track{fill:var(--line-1)}.band-fill{fill:var(--current)}
+.bf-name{font:800 11px var(--font-ui);fill:var(--text-1)}.bf-gap{font:600 9.5px var(--font-ui);fill:var(--text-2)}.bf-axis{font:600 10px var(--font-ui);fill:var(--text-3)}.bf-e{fill:var(--electron)}
+/* 생활 속 실험 */
+.life-chip rect{fill:var(--surface-1);stroke:var(--line-2);stroke-width:1.2;opacity:.95}.life-chip text{fill:var(--text-1);font-weight:700;font-family:var(--font-ui);stroke:none}
+.life-chip.strong rect{fill:var(--accent-bg);stroke:var(--accent)}.life-chip.strong text{fill:var(--accent-strong);font-weight:800}
+.life-chip.on rect{fill:var(--ok-bg);stroke:var(--ok)}.life-chip.on text{fill:var(--ok)}
+.life-chip.alarm rect{fill:var(--bad-bg);stroke:var(--led)}.life-chip.alarm text{fill:var(--danger);font-weight:800}
+.life-chip.val text{font-variant-numeric:tabular-nums;fill:var(--current)}
+.li-card{fill:var(--surface-1);stroke:var(--line-2);stroke-width:1.2}
+.life-node rect{fill:var(--surface-0);stroke:var(--line-2);stroke-width:1.2}.life-node .ln-t{font:600 13.5px var(--font-ui);fill:var(--text-2)}.life-node .ln-v{font:800 16px var(--font-ui);fill:var(--text-1);font-variant-numeric:tabular-nums}
+.life-node.on rect{fill:var(--ok-bg);stroke:var(--ok)}.life-node.on .ln-v{fill:var(--ok)}
+.life-node.alarm.on rect{fill:var(--bad-bg);stroke:var(--led)}.life-node.alarm.on .ln-v{fill:var(--danger)}
+.life-node.val .ln-v{fill:var(--current)}
+.ln-arrow{fill:none;stroke:var(--text-3);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lg-track{fill:var(--line-1)}.lg-fill{fill:var(--current)}.lg-th{stroke:var(--warn);stroke-width:2.4;stroke-dasharray:4 3}.lg-th-t{fill:var(--warn)!important;font-weight:700}
+.lg-plot{fill:var(--surface-0);stroke:var(--line-2)}.lg-grid{stroke:var(--line-1);stroke-width:1}
+.lg-bulb{fill:none;stroke:var(--series-b);stroke-width:3}.lg-led{fill:none;stroke:var(--series-a);stroke-width:3}
+.lg-pt{stroke:var(--surface-1);stroke-width:2}.lg-pt.bulb{fill:var(--series-b)}.lg-pt.led{fill:var(--series-a)}
+.lg-key{font:800 13px var(--font-ui)}.lg-key.bulb{fill:var(--series-b)}.lg-key.led{fill:var(--series-a)}
+.life-say rect{fill:var(--surface-0);stroke:var(--line-1)}.life-say text{fill:var(--text-1);font-weight:600;font-family:var(--font-ui)}
+.life-say.ok rect{fill:var(--ok-bg);stroke:color-mix(in oklab,var(--ok) 40%,transparent)}
+.life-note{fill:var(--text-3)!important}
+.room-wall{fill:var(--room-wall)}.room-ceil{fill:var(--room-ceil)}.room-table{fill:var(--surface-1);stroke:var(--line-2);stroke-width:2}
+.thermo-tube{fill:var(--surface-1);stroke:var(--line-2);stroke-width:2}.thermo-tick{stroke:var(--text-2);stroke-width:1.6}
+.cam-plate{fill:var(--text-2);stroke:var(--text-1);stroke-width:1.5}.cam-plate-t{font:700 14px var(--font-ui);fill:var(--surface-1)}
+.life-wire{fill:none;stroke:var(--wire-core);stroke-width:5;stroke-linejoin:round}
+.life-lead{fill:none;stroke:var(--text-1);stroke-width:3.2;stroke-linecap:round}
+.life-supply{fill:#2b3238;stroke:#11161a;stroke-width:2}.life-led-num{font:700 30px ui-monospace,Menlo,monospace;fill:#7dffb0}
+.life-glass{fill:#fff8e0;stroke:#b8a26a;stroke-width:2;opacity:.9}
+.life-meter{fill:var(--surface-1);stroke:var(--text-1);stroke-width:2.4}.life-meter-t{font:800 22px var(--font-ui);fill:var(--text-1)}
+.wire-hit .wh{fill:transparent;stroke:transparent;stroke-width:2;stroke-dasharray:6 5}
+.wire-hit:hover .wh,.wire-hit:focus .wh{stroke:var(--accent)}.wire-hit.on .wh{stroke:var(--accent);fill:color-mix(in oklab,var(--accent) 8%,transparent)}
+.alarm-led,.alarm-ring{animation:semiBlink 1s steps(2,jump-none) infinite}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:semiFlame .5s ease-in-out infinite alternate}
+@keyframes semiBlink{50%{opacity:.15}}
+@keyframes semiFlame{to{transform:scaleY(.82)}}
+@media (prefers-reduced-motion:reduce){.alarm-led,.alarm-ring,.flame{animation:none}}
+/* 조작판 */
+.semi-defs{margin:0 0 8px;padding:0;list-style:none;display:grid;gap:6px;counter-reset:d}
+.semi-defs li{position:relative;padding:8px 10px 8px 30px;border:1px solid var(--line-1);border-left:3px solid transparent;border-radius:var(--r-2);background:var(--surface-0);font-size:var(--fs-3);line-height:var(--lh-body);transition:border-color .2s,background .2s}
+.semi-defs li::before{counter-increment:d;content:counter(d);position:absolute;left:9px;top:8px;font:800 var(--fs-2)/1.6 var(--font-ui);color:var(--text-3)}
+.semi-defs li[role="button"]{cursor:pointer}
+.semi-defs li b{color:var(--accent-strong)}
+.semi-defs li.look{border-left-color:var(--accent);background:var(--accent-bg)}
+.semi-defs li[data-def="use"]{background:var(--model-bg)}
+.semi-link{display:block;width:100%;margin:0;padding:6px 2px;border:0;background:none;color:var(--accent-strong);font:700 var(--fs-2)/1.4 var(--font-ui);text-align:left;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.semi-score{margin:0 0 8px;font-size:var(--fs-2);font-weight:700;color:var(--text-2);font-variant-numeric:tabular-nums}
+.semi-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:0 0 8px}
+.semi-card{display:grid;place-items:center;align-content:center;gap:1px;min-height:44px;padding:3px 2px;border:1px solid var(--line-2);border-radius:var(--r-2);background:var(--surface-1);color:var(--text-1);font:600 var(--fs-3)/1.15 var(--font-ui);cursor:pointer}
+.semi-card small{font-size:var(--fs-1);font-weight:700;color:var(--ok)}
+.semi-card.pick{border-color:var(--accent);background:var(--accent-bg);color:var(--accent-strong);box-shadow:inset 0 0 0 1px var(--accent)}
+.semi-card.done{background:var(--ok-bg);border-color:transparent;cursor:default}
+.semi-card.shake{animation:semiShake .6s}
+@keyframes semiShake{20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+@media (prefers-reduced-motion:reduce){.semi-card.shake{animation:none;border-color:var(--danger)}}
+.semi-bins button:disabled{opacity:.5;cursor:not-allowed}
+.semi-quick{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.semi-quick .btn{min-height:32px}
+.semi-model{margin:6px 0 0;font-size:var(--fs-1);color:var(--text-3)}
+.semi-life-tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.lab-material .semi-life-tile{display:grid!important;grid-template-columns:1fr!important;place-items:center;align-content:center;text-align:center;gap:1px;height:auto;min-height:62px;padding:5px 2px!important;cursor:pointer}
+.semi-life-tile b{font:800 var(--fs-1)/1 var(--font-ui);color:var(--text-3)}
+.semi-life-tile span{font-size:var(--fs-2);font-weight:800;line-height:1.2;word-break:keep-all}
+.semi-life-tile small{font-size:10.5px;color:var(--text-3);font-weight:600}
+.semi-life-tile[aria-pressed="true"] b,.semi-life-tile[aria-pressed="true"] small{color:var(--accent-strong)}
+.semi-say{margin:0 0 8px;font-size:var(--fs-3);line-height:var(--lh-body)}
+.semi-say b{display:inline-block;margin-right:4px;color:var(--accent-strong)}
+.semi-think{margin:0 0 8px;padding:8px 10px;border-radius:var(--r-2);background:var(--hint-bg);font-size:var(--fs-3);line-height:var(--lh-body)}
+.semi-uses{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:0;font-size:var(--fs-2)}
+.semi-uses b{margin-right:2px}
+.semi-uses span{padding:2px 8px;border-radius:999px;background:var(--surface-2);font-weight:600}
+.th-list{margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.8}
+@media (max-width:420px){.semi-life-tiles{display:flex!important;overflow-x:auto;gap:5px;padding-bottom:2px}.semi-life-tile{flex:0 0 auto;min-width:76px}}
 </style>
 </head>
 <body>
@@ -1285,7 +1382,7 @@ const IMAGES={"supply": {"w": 460, "h": 340, "src": "data:image/png;base64,iVBOR
    · 묶인 마디 안의 갈래 전류는 전선 한 칸 = 같은 작은 저항으로 보고 다시 나눈다(흐름 표시·전류계 값).
    · 전원 장치는 내부 저항 0.002 Ω(거의 이상적인 직류 전원), 2 A를 넘으면 보호 회로가 출력을 끈다.
    ═══════════════════════════════════════════════════════════════════ */
-const APP_VERSION = '6.0', APP_DATE = '2026-11-01';
+const APP_VERSION = '6.1', APP_DATE = '2026-11-01';
 
 const MODEL = {
   bulbR: 10,            // 전구 저항(Ω) — 3.0 V에서 0.30 A. 필라멘트 온도에 따른 저항 변화는 무시
@@ -2797,8 +2894,8 @@ class MaterialScene {
     const hpW = 250, hpX = L.smp[0] - hpW / 2;
     const heat = clamp((st.T - 20) / 180, 0, 1);
     s += `<g filter="url(#fx-shadow)">${useImg('hotplate', hpX, L.hp - 20, hpW)}</g>`;
-    s += `<rect x="${hpX + 37}" y="${L.hp - 1.5}" width="${hpW * 0.71}" height="18" rx="6" fill="#ff5a2a" opacity="${(heat * 0.85).toFixed(2)}" style="filter:blur(${heat > 0 ? 3 : 0}px)"/>`;
-    if (heat > 0.02) for (let i = 0; i < 3; i++) s += `<path d="M${L.smp[0] - 50 + i * 50} ${L.hp - 16}q-8 -12 0 -22t0 -22" fill="none" stroke="#ff8a5a" stroke-width="2.4" stroke-linecap="round" opacity="${(heat * 0.55).toFixed(2)}"/>`;
+    s += `<rect x="${hpX + 37}" y="${L.hp - 1.5}" width="${hpW * 0.71}" height="18" rx="6" fill="var(--heat)" opacity="${(heat * 0.85).toFixed(2)}" style="filter:blur(${heat > 0 ? 3 : 0}px)"/>`;
+    if (heat > 0.02) for (let i = 0; i < 3; i++) s += `<path d="M${L.smp[0] - 50 + i * 50} ${L.hp - 16}q-8 -12 0 -22t0 -22" fill="none" stroke="var(--heat)" stroke-width="2.4" stroke-linecap="round" opacity="${(heat * 0.55).toFixed(2)}"/>`;
     s += `<text class="lbl strong" x="${hpX + hpW + 12}" y="${L.hp + 16}" style="font-size:15px">${Math.round(st.T)} ℃</text>`;
     const lamp = clamp(st.light, 0, 1);
     // 조명: 폭 140, 빛이 나오는 입구가 (smp.x, lamp+45)
@@ -3312,7 +3409,7 @@ function stageHeight() { // 좁은 화면에서 판 높이(보이는 범위의 �
   if (document.body.classList.contains('lab-focus') || innerWidth > 860) { panes.forEach(p => p.style.height = ''); return; }
   const b = boards[current]; if (b?.svg) b.fit(); // 가로↔세로 배치가 바뀌었으면 먼저 맞춘다
   const bb = b?.svg && b.baseBox();
-  const ratio = current === 'material' ? (innerWidth <= 600 ? 960 / 700 : 560 / 1000) : current === 'resist' ? (rsScene?.isPort ? rsScene.vb[1] / rsScene.vb[0] : 560 / 1040) : current === 'meters' ? (innerWidth <= 600 ? 1010 / 520 : 560 / 1000) : bb ? bb[3] / bb[2] : innerWidth <= 600 ? 820 / 520 : 520 / 820;
+  const ratio = current === 'material' ? (matMode !== 'exp' && semiScene ? semiScene.vb[1] / semiScene.vb[0] : innerWidth <= 600 ? 960 / 700 : 560 / 1000) : current === 'resist' ? (rsScene?.isPort ? rsScene.vb[1] / rsScene.vb[0] : 560 / 1040) : current === 'meters' ? (innerWidth <= 600 ? 1010 / 520 : 560 / 1000) : bb ? bb[3] / bb[2] : innerWidth <= 600 ? 820 / 520 : 520 / 820;
   const cap = panes.length > 1 && innerWidth <= 600 ? 0.62 : 0.74; // 휴대폰 비교 보기: 두 판이 위아래로 쌓이므로 조금 낮게
   for (const p of panes) { const w = p.getBoundingClientRect().width || innerWidth - 24; p.style.height = Math.round(Math.min(w * ratio, innerHeight * cap)) + 'px'; }
 }
@@ -3732,9 +3829,10 @@ function drawOhmGraph() {
 /* ══════════ 04 도체 · 부도체 · 반도체 ══════════ */
 let matScene = null;
 function renderMaterial() {
+  if (matMode !== 'exp') return renderSemi();
   const st = lab.matState;
   $('#main').innerHTML = labFrame({
-    tab: 'material', card: 'material', rec: true, wide: true, tools: flowSeg() + `<button class="tool" id="matSwitch">${st.closed ? '스위치 열기' : '스위치 닫기'}</button>`,
+    tab: 'material', card: 'material', rec: true, wide: true, head: matModeSeg(), tools: flowSeg() + `<button class="tool" id="matSwitch">${st.closed ? '스위치 열기' : '스위치 닫기'}</button>`,
     panel: `<div class="pg-duo"><section class="pg"><h2 class="pg-title"><span class="n">01</span>시료 · 길이 5 cm<button class="btn small ghost" id="matOut" style="margin-left:auto;min-height:30px">시료 빼기</button></h2>
         <div class="tray" id="matTray" style="grid-template-columns:repeat(3,1fr)">${MAT_ORDER.map(m => `<button class="tile" data-mat="${m}" aria-pressed="${st.mat === m}" style="grid-template-columns:1fr;text-align:center;justify-items:center;cursor:pointer;touch-action:manipulation"><img src="${IMAGES[MAT_IMG[m]].src}" alt="" style="width:74px;height:22px"><span>${MATERIALS[m].name.replace('(연필심)', '')}</span></button>`).join('')}</div></section>
       <section class="pg"><h2 class="pg-title"><span class="n">02</span>조건</h2>
@@ -3749,7 +3847,7 @@ function renderMaterial() {
   matScene = new MaterialScene(st, { onSwitch: () => setMat({ closed: !st.closed }) });
   matScene.flowMode = view.flow; matScene.camera = workspaceCamera('material');
   matScene.mount($('#stage')); stageHeight();
-  bindCommon(matScene);
+  bindCommon(matScene); bindMatModeSeg();
   $('#matSwitch').onclick = () => setMat({ closed: !st.closed });
   $$('[data-mat]').forEach(x => x.onclick = () => setMat({ mat: x.dataset.mat }, true));
   $('#matOut').onclick = () => setMat({ mat: null }, true);
@@ -5346,6 +5444,571 @@ function svVerify() {
   toast(`전원 ${fmtV1(V)} V · 니크롬선 ${R} cm(${R} Ω)로 회로를 맞췄어요. 전류계를 확인해 보세요. 이전 회로는 되돌리기로 되살릴 수 있어요.`, 4200);
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   04 도체 · 부도체 · 반도체 — 모드 「시료 실험 · 에너지 띠 · 생활 속 실험」(V6.1, 설계 V6.1_반도체_설계.md)
+   · 시료 실험(exp)은 기존 renderMaterial 그대로.
+   · 에너지 띠(band): 세 물질의 띠 그림에 열·빛 에너지를 주어 전자가 띠 간격을 넘는지 본다 + 핵심 정리 + 분류 확인.
+     덩어리 반도체에서 전자를 띠 간격 너머로 올리는 것은 열·빛이다. 전압은 올라간 전자를 떠밀 뿐(전압 조건은 LED 소자로).
+   · 생활 속 실험(life): 가로등(빛) · 화재 감지기(온도) · LED(전압) · 카메라 센서(빛) · 전선(도체·부도체).
+   모든 값은 경향을 보여 주는 교육용 모형이다.
+   ═══════════════════════════════════════════════════════════════════ */
+let matMode = getSaved('matMode', 'exp');
+const MAT_MODES = [['exp', '시료 실험', '시료'], ['band', '에너지 띠', '띠'], ['life', '생활 속 실험', '생활']];
+function matModeSeg() { return `<div class="seg mode-seg" role="group" aria-label="물질과 저항 활동">${MAT_MODES.map(([v, l, s]) => `<button data-mmode="${v}" aria-pressed="${matMode === v}" aria-label="${l}"><span class="ml">${l}</span><span class="ms">${s}</span></button>`).join('')}</div>`; }
+function bindMatModeSeg() { $$('[data-mmode]').forEach(x => x.onclick = () => { if (x.dataset.mmode === matMode) return; setMatMode(x.dataset.mmode); }); }
+function setMatMode(m) { matMode = m; save('matMode', matMode); renderMaterial(); }
+
+const SEMI = Object.assign({ src: 'heat', T: 20, light: 0, look: 'semi', life: 'lamp', lux: 100, fireT: 20, ledV: 0, cam: 70, shape: 'heart', probe: null }, getSaved('semi', {}));
+let semiRec = Object.assign({ lamp: [], fire: [], led: [], cam: [], wire: [] }, getSaved('semiRec', {}));
+let semiQuiz = getSaved('semiQuiz', {});
+let semiScene = null;
+const semiSave = () => save('semi', SEMI);
+// 작은 전류는 µA로 읽는다(센서 회로용)
+function fmtI(i) {
+  const a = Math.abs(i);
+  if (a < 1e-9) return '0 mA';
+  if (a < 1e-3) { const u = a * 1e6; return (u < 10 ? u.toFixed(1) : Math.round(u)) + ' µA'; }
+  const m = a * 1000; return (m < 10 ? m.toFixed(2) : m < 100 ? m.toFixed(1) : Math.round(m)) + ' mA';
+}
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* 장면 공통: 가로(1000×560) · 휴대폰 세로(≤600px) 배치, 확대·이동(작업 공간) */
+class SemiBase {
+  constructor(name) { this.name = name; this.t = 0; }
+  get port() { return innerWidth <= 600; }
+  get vb() { return this.isPort ? this.portVB : [1000, 560]; }
+  get portVB() { return [700, 960]; }
+  baseBox() { return [0, 0, ...this.vb]; }
+  mount(host) {
+    this.host = host; host.innerHTML = '';
+    const svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('class', 'scene board semi-scene'); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', this.name + ' 장면');
+    if (this.isPort !== undefined && this.isPort !== this.port && this.camera) this.camera.z = 1;
+    this.isPort = this.port; svg.setAttribute('viewBox', this.baseBox().join(' '));
+    this.svg = svg; host.append(svg);
+    svg.addEventListener('click', e => { const a = e.target.closest('[data-act]'); if (a) this.act?.(a.dataset.act, a); });
+    this.render();
+  }
+  refit() { if (this.host && this.port !== this.isPort) { this.mount(this.host); stageHeight(); } else this.applyView(); }
+  applyView() { if (!this.svg || !this.host) return; const r = this.host.getBoundingClientRect(); this.svg.setAttribute('viewBox', cameraBox(this.baseBox(), this.camera, r.width, r.height).join(' ')); }
+  step(dt) { this.t += dt; this.tick?.(dt); return true; }
+}
+
+/* ══════════ 에너지 띠(더 알아보기) ══════════
+   전도대는 세 그림 모두 같은 높이, 가전자대 윗변만 다르다 — 부도체(넓은 간격) · 반도체(좁은 간격) · 도체(겹침). */
+const BAND_KINDS = [
+  { k: 'ins', name: '부도체', ex: '고무', v: 330, vp: 205 },
+  { k: 'semi', name: '반도체', ex: '규소', v: 230, vp: 145 },
+  { k: 'cond', name: '도체', ex: '구리', v: 150, vp: 90 },
+];
+const BAND_NV = 10, BAND_NC = 8, BAND_UP = [4, 5, 3, 6, 2, 7, 1, 8, 0, 9]; // 가전자대 전자 10개, 올라가는 차례
+function bandEnergy() { return SEMI.src === 'heat' ? clamp((SEMI.T - 20) / 180, 0, 1) : clamp(SEMI.light / 100, 0, 1); }
+function semiUp(e = bandEnergy()) { return Math.round(BAND_NC * Math.pow(e, 1.5)); }   // E 0·.25·.5·.75·1 → 0·1·3·5·8
+function bandLevel(k, e = bandEnergy()) { return k === 'ins' ? 0.03 : k === 'cond' ? (SEMI.src === 'heat' ? 1 - 0.1 * e : 1) : semiUp(e) / BAND_NC; }
+function bandWords(k, e = bandEnergy()) {
+  if (k === 'ins') return ['거의 안 흐름', '에너지를 받아도 간격을 못 넘어요'];
+  if (k === 'cond') return ['잘 흐름', SEMI.src === 'heat' && e >= 0.3 ? '뜨거우면 저항이 조금 커져요' : '자유 전자가 아주 많아요'];
+  const n = semiUp(e);
+  return n === 0 ? ['거의 안 흐름 · 지금은 부도체처럼', '에너지가 더 필요해요'] : n <= 3 ? ['조금 흐름', `전자 ${n}개가 전도대로 올라갔어요`] : ['잘 흐름 · 도체처럼', `전자 ${n}개가 전도대에서 움직여요`];
+}
+
+class BandScene extends SemiBase {
+  constructor() {
+    super('에너지 띠');
+    const rnd = () => Math.random();
+    this.S = { semi: Array.from({ length: BAND_NV }, () => ({ p: 0, x0: rnd() })), cond: Array.from({ length: BAND_NC }, () => ({ x0: rnd(), y0: rnd() })) };
+  }
+  // 그림 한 칸의 좌표: 가로는 세 칸을 나란히, 세로(휴대폰)는 위에서 아래로 쌓는다
+  geo(i) {
+    const b = BAND_KINDS[i];
+    if (!this.isPort) { const cx = [182, 486, 790][i]; return { cx, x0: cx - 95, w: 200, c0: 80, c1: 180, v: b.v, bot: 400, ax: cx - 118, ty: 60, card: [cx - 134, 426, 268, 90], fs: 1.12 }; }
+    const ry = 40 + i * 300; return { cx: 200, x0: 70, w: 260, c0: ry + 40, c1: ry + 110, v: ry + b.vp, bot: ry + 260, ax: 46, ty: ry + 26, card: [372, ry + 50, 312, 196], fs: 1.5, ry };
+  }
+  // 가전자대 전자 줄의 높이 — 도체는 겹친 부분 아래, 휴대폰은 이름표 위
+  vy(i) { const g = this.geo(i); return i === 2 ? (g.c1 + g.bot) / 2 + (this.isPort ? 6 : 0) : this.isPort ? g.v + 16 + (i === 1 ? 6 : 0) : (g.v + g.bot) / 2 - 4; }
+  act(a) { const [k, v] = a.split(':'); if (k === 'look') { SEMI.look = v; semiSave(); this.render(); semiSync(); } }
+  render() {
+    const P = this.isPort, [W, H] = this.vb, e = bandEnergy(), heat = SEMI.src === 'heat', er = P ? 7.8 : 6;
+    let s = `<defs><pattern id="band-hatch-s" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" class="band-cb-fill"/><rect width="4" height="8" class="band-vb-fill"/></pattern></defs><rect width="${W}" height="${H}" fill="var(--board)"/>`;
+    s += `<g class="band-chip"><rect x="16" y="10" width="${P ? 300 : 236}" height="${P ? 36 : 28}" rx="${P ? 18 : 14}"/><text x="${P ? 166 : 134}" y="${P ? 34 : 29}" text-anchor="middle" style="font-size:${P ? 19 : 14}px">에너지 띠 그림 · 더 알아보기</text></g>`;
+    if (!P) s += `<text class="lbl" x="986" y="29" text-anchor="end" style="font-size:14.5px">전원을 이으면 전도대의 전자는 (+)쪽으로 떠밀려요</text>`;
+    BAND_KINDS.forEach((b, i) => {
+      const g = this.geo(i), f = g.fs, look = SEMI.look === b.k, x0 = g.x0, x1 = x0 + g.w, [kx, ky, kw, kh] = g.card;
+      s += `<g class="band-col${look ? ' look' : ''}" data-act="look:${b.k}" role="button" aria-label="${b.name} 띠 자세히 보기" style="cursor:pointer">`;
+      s += `<rect class="band-hit" x="${P ? 12 : x0 - 40}" y="${P ? g.ry - 2 : 38}" width="${P ? 676 : 272}" height="${P ? 292 : 378}" rx="16"/>`;
+      s += `<text class="lbl strong" x="${P ? 20 : g.cx}" y="${g.ty}" text-anchor="${P ? 'start' : 'middle'}" style="font-size:${17 * f}px">${b.name} · ${b.ex}</text>`;
+      s += `<path class="band-axis" d="M${g.ax} ${g.bot}V${g.c0 + 4}"/><path class="band-axis-tip" d="M${g.ax - 6} ${g.c0 + 8}L${g.ax} ${g.c0 - 6}L${g.ax + 6} ${g.c0 + 8}Z"/>`;
+      s += `<text class="lbl" transform="translate(${g.ax - 8} ${(g.c0 + g.bot) / 2}) rotate(-90)" text-anchor="middle" style="font-size:${12.5 * f}px">전자의 에너지</text>`;
+      s += `<rect class="band-cb" x="${x0}" y="${g.c0}" width="${g.w}" height="${g.c1 - g.c0}" rx="6"/><rect class="band-vb" x="${x0}" y="${g.v}" width="${g.w}" height="${g.bot - g.v}" rx="6"/>`;
+      if (b.k === 'cond') s += `<rect x="${x0}" y="${g.v}" width="${g.w}" height="${g.c1 - g.v}" fill="url(#band-hatch-s)" class="band-ov"/><text class="band-t ov" x="${g.cx}" y="${g.c1 + 20 * f}" text-anchor="middle" style="font-size:${12.5 * f}px">↑ 겹침 · 간격 없음</text>`;
+      s += `<text class="band-t cb" x="${x0 + 8}" y="${g.c0 + 18 * f}" style="font-size:${13.5 * f}px">전도대</text><text class="band-t vb" x="${x0 + 8}" y="${g.bot - 8}" style="font-size:${13.5 * f}px">가전자대</text>`;
+      if (b.k !== 'cond') {
+        const gx = P ? 300 : g.cx + 75, my = (g.c1 + g.v) / 2;
+        s += `<path class="band-gap" d="M${gx} ${g.c1 + 6}V${g.v - 6}"/><path class="band-gap-tip" d="M${gx - 5} ${g.c1 + 14}L${gx} ${g.c1 + 4}L${gx + 5} ${g.c1 + 14}ZM${gx - 5} ${g.v - 14}L${gx} ${g.v - 4}L${gx + 5} ${g.v - 14}Z"/>`;
+        s += `<text class="lbl band-gap-t" x="${gx - 9}" y="${my + (b.k === 'ins' ? 0 : 5 * f)}" text-anchor="end" style="font-size:${13 * f}px">띠 간격${b.k === 'ins' ? '' : ' · 좁음'}</text>${b.k === 'ins' ? `<text class="lbl" x="${gx - 9}" y="${my + 17 * f}" text-anchor="end" style="font-size:${11.5 * f}px">넓음</text>` : ''}`;
+      }
+      const pm = (g.c0 + g.c1) / 2 + 5 * f;
+      s += `<text class="band-pole" x="${x0 - 10}" y="${pm}" text-anchor="middle" style="font-size:${15 * f}px">−</text><text class="band-pole" x="${x1 + 10}" y="${pm}" text-anchor="middle" style="font-size:${15 * f}px">+</text>`;
+      // 에너지 받기: 열이면 가전자대 아래 물결, 빛이면 가전자대로 내리꽂는 번개꼴
+      if (heat) s += `<g class="band-energy heat" opacity="${(0.15 + 0.7 * e).toFixed(2)}">${[0, 1, 2].map(j => `<path d="M${x0 + 40 + j * (g.w - 80) / 2} ${g.bot + 4}q-5 6 0 12"/>`).join('')}</g>`;
+      else s += `<g class="band-energy light" opacity="${e.toFixed(2)}">${[0, 1, 2].map(j => { const lx = x0 + 40 + j * (g.w - 80) / 2, top = b.k === 'cond' ? g.c1 + 2 : Math.max(g.c1 + 4, g.v - 50), hh = (g.v - 4 - top) / 2; return hh > 3 ? `<path d="M${lx + 6} ${top}l-8 ${hh}h8l-8 ${hh}"/>` : ''; }).join('')}</g>`;
+      const vy = this.vy(i), dx = (g.w - 40) / (BAND_NV - 1);
+      s += `<g class="band-holes" data-k="${b.k}"></g><g class="band-e" data-k="${b.k}">${Array.from({ length: b.k === 'cond' ? BAND_NV + BAND_NC : BAND_NV }, (_, j) => `<g class="band-el"${j < BAND_NV ? ` transform="translate(${(x0 + 20 + j * dx).toFixed(1)} ${vy})"` : ''}><circle r="${er}"/><path d="M${-er / 2} 0H${er / 2}"/></g>`).join('')}</g>`;
+      s += `</g>`;
+      // 결과 카드: 꼬마전구 · 전류 눈금 · 두 줄 글
+      const lv = bandLevel(b.k, e), [w1, w2] = bandWords(b.k, e);
+      const bx = kx + (P ? 44 : 26), byy = ky + (P ? 54 : 32), br = P ? 20 : 14, gx0 = kx + (P ? 84 : 50), gw = kw - (gx0 - kx) - 14, gh = P ? 14 : 10;
+      s += `<g class="band-card"><rect x="${kx}" y="${ky}" width="${kw}" height="${kh}" rx="12"/>
+        <circle class="band-glow" cx="${bx}" cy="${byy}" r="${br + (P ? 24 : 18) * lv}" opacity="${(0.55 * lv).toFixed(2)}"/><circle class="band-bulb" cx="${bx}" cy="${byy}" r="${br}"/><path class="band-bulb-x" d="M${bx - br * .7} ${byy - br * .7}L${bx + br * .7} ${byy + br * .7}M${bx + br * .7} ${byy - br * .7}L${bx - br * .7} ${byy + br * .7}"/>
+        <rect class="band-track" x="${gx0}" y="${byy - (P ? 28 : 17)}" width="${gw}" height="${gh}" rx="${gh / 2}"/><rect class="band-fill" x="${gx0}" y="${byy - (P ? 28 : 17)}" width="${Math.max(gh, gw * lv).toFixed(1)}" height="${gh}" rx="${gh / 2}"/>
+        <text class="lbl strong" x="${gx0}" y="${byy + (P ? 14 : 11)}" style="font-size:${P ? 20 : 15.5}px">${w1}</text>`;
+      if (P) { const cut = w2.lastIndexOf(' ', Math.ceil(w2.length / 2) + 2); s += `<text class="lbl" x="${kx + 18}" y="${ky + 124}" style="font-size:19px">${cut > 0 ? w2.slice(0, cut) : w2}</text><text class="lbl" x="${kx + 18}" y="${ky + 152}" style="font-size:19px">${cut > 0 ? w2.slice(cut + 1) : ''}</text>`; }
+      else s += `<text class="lbl" x="${kx + 14}" y="${ky + kh - 14}" style="font-size:14px">${w2}</text>`;
+      s += `</g>`;
+    });
+    s += `<text class="lbl" x="${W / 2}" y="${H - (P ? 12 : 10)}" text-anchor="middle" style="font-size:${P ? 17 : 13.5}px">${P ? '전도대 전자는 (+)쪽으로 떠밀려요 · 고등학교에서 자세히 배워요 · 교육용 모형' : '고등학교에서 자세히 배워요 · 전자의 수·크기·빠르기는 실제 비율이 아니에요(교육용 모형)'}</text>`;
+    this.svg.innerHTML = s;
+    this.eG = Object.fromEntries([...this.svg.querySelectorAll('.band-e')].map(g => [g.dataset.k, g]));
+    this.hG = this.svg.querySelector('.band-holes[data-k="semi"]');
+    this.hG.innerHTML = Array.from({ length: BAND_NV }, () => `<circle class="band-hole" r="${er}"/>`).join('');
+    this.tick(0);
+  }
+  tick(dt) {
+    if (!this.eG) return;
+    const e = bandEnergy(), up = semiUp(e), t = this.t, still = reduced.matches;
+    // 반도체: 차례대로 전도대로 올라가 (+)쪽(오른쪽)으로 떠밀린다. 올라간 자리는 빈자리(점선 원)
+    { const g = this.geo(1), dx = (g.w - 40) / (BAND_NV - 1), vy = this.vy(1), cy = (g.c0 + g.c1) / 2 + (this.isPort ? 10 : 8), span = g.w - 24;
+      [...this.eG.semi.children].forEach((el, j) => {
+        const st = this.S.semi[j], target = BAND_UP.indexOf(j) < up ? 1 : 0;
+        st.p = still ? target : clamp(st.p + Math.sign(target - st.p) * dt * (target ? 2 : 2.5), 0, 1);
+        const hx = g.x0 + 20 + j * dx, cxp = g.x0 + 12 + (((st.x0 * span + t * 50) % span) + span) % span, k = 1 - Math.pow(1 - st.p, 3);
+        el.setAttribute('transform', `translate(${(hx + (cxp - hx) * k).toFixed(1)} ${(vy + (cy - vy) * k).toFixed(1)})`);
+        const hole = this.hG.children[j]; hole.setAttribute('transform', `translate(${hx.toFixed(1)} ${vy})`); hole.style.opacity = st.p > 0.3 ? 1 : 0;
+      }); }
+    // 부도체: 3번·6번 전자가 뛰어올랐다 되돌아온다(0.35 s 오르고 0.35 s 내리고 0.5 s 쉼) — 간격을 못 넘음
+    { const g = this.geo(0), dx = (g.w - 40) / (BAND_NV - 1), vy = this.vy(0), hmax = (14 + 44 * e) * (this.isPort ? 0.55 : 1);
+      [3, 6].forEach((j, n) => { const ph = (t + n * 0.6) % 1.2, h = e <= 0 || still ? 0 : ph < 0.35 ? hmax * ph / 0.35 : ph < 0.7 ? hmax * (0.7 - ph) / 0.35 : 0; this.eG.ins.children[j].setAttribute('transform', `translate(${(g.x0 + 20 + j * dx).toFixed(1)} ${(vy - h).toFixed(1)})`); }); }
+    // 도체: 겹친 부분과 전도대 아래쪽에서 늘 (+)쪽으로 흐른다(뜨거우면 조금 느려지고 떨림)
+    { const g = this.geo(2), y0 = this.isPort ? g.c0 + 36 : 128, y1 = this.isPort ? g.c1 - 6 : 174, span = g.w - 24, v = 60 * (1 - (SEMI.src === 'heat' ? 0.15 * e : 0)), jig = SEMI.src === 'heat' ? 2 * e : 0;
+      [...this.eG.cond.children].slice(BAND_NV).forEach((el, j) => { const st = this.S.cond[j], x = g.x0 + 12 + (((st.x0 * span + t * v) % span) + span) % span, y = y0 + (y1 - y0) * st.y0 + Math.sin(t * 9 + j) * jig; el.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`); }); }
+  }
+}
+/* 이론 카드용 정지 그림(설계 §4-3) */
+function bandFig() {
+  const col = (x0, name, v, cbN) => {
+    let s = `<text x="${x0 + 50}" y="14" text-anchor="middle" class="bf-name">${name}</text><rect class="band-cb" x="${x0}" y="22" width="100" height="28" rx="4"/><rect class="band-vb" x="${x0}" y="${v}" width="100" height="${126 - v}" rx="4"/>`;
+    if (v < 50) s += `<rect x="${x0}" y="${v}" width="100" height="${50 - v}" fill="url(#band-hatch-f)" class="band-ov"/>`;
+    else s += `<path class="band-gap" d="M${x0 + 88} 53V${v - 3}"/><text class="bf-gap" x="${x0 + 82}" y="${(50 + v) / 2 + 4}" text-anchor="end">${v > 90 ? '띠 간격 넓음' : '좁음'}</text>`;
+    s += `<text class="band-t cb" x="${x0 + 5}" y="34" style="font-size:9.5px">전도대</text><text class="band-t vb" x="${x0 + 5}" y="122" style="font-size:9.5px">가전자대</text>`;
+    for (let j = 0; j < 6; j++) s += `<circle class="bf-e" cx="${x0 + 30 + j * 11}" cy="${(v + 126) / 2 + 2}" r="3"/>`;
+    for (let j = 0; j < cbN; j++) s += `<circle class="bf-e" cx="${x0 + 40 + j * 12}" cy="${cbN > 2 ? 44 : 38}" r="3"/>`;
+    return s;
+  };
+  return `<svg viewBox="0 0 420 150" role="img" aria-label="부도체는 띠 간격이 넓고, 반도체는 좁고, 도체는 두 띠가 겹쳐 있다"><defs><pattern id="band-hatch-f" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" class="band-cb-fill"/><rect width="3" height="6" class="band-vb-fill"/></pattern></defs>
+    ${col(20, '부도체', 104, 0)}${col(160, '반도체', 70, 2)}${col(300, '도체', 42, 5)}<text x="210" y="146" text-anchor="middle" class="bf-axis">더 알아보기 · 고등학교에서 자세히 배워요</text></svg>`;
+}
+
+/* ══════════ 생활 속 실험 — 모형(경향 비교용, 설계 §3.2) ══════════ */
+const LIFE = {
+  lamp: { name: '자동 가로등', cond: '빛' },
+  fire: { name: '화재 감지기', cond: '온도' },
+  led: { name: 'LED 손전등', cond: '전압' },
+  cam: { name: '카메라 센서', cond: '빛' },
+  wire: { name: '전선', cond: '도체 · 부도체' },
+};
+const LIFE_ORDER = ['lamp', 'fire', 'led', 'cam', 'wire'];
+const LIFE_DEF = { lamp: { lux: 100 }, fire: { fireT: 20 }, led: { ledV: 0 }, cam: { cam: 70 }, wire: { probe: null } };
+// ① 빛 센서(반도체): 밝을수록 저항이 작아진다. 한밤 20만 Ω → 한낮 2000 Ω, 전원 5.0 V. 센서 전류 < 100 µA(밝기 30 % 미만) → 가로등 켜짐
+const lampR = L => 2e5 * Math.pow(10, -2 * clamp(L, 0, 100) / 100);
+const lampI = L => 5 / lampR(L);
+const LAMP_TH = 1e-4, lampOn = L => lampI(L) < LAMP_TH * 0.99;
+// ② 온도 센서(반도체): 뜨거워지면 저항이 작아진다. 20 ℃ 10만 Ω → 90 ℃ 1000 Ω, 전원 5.0 V. 센서 전류 ≥ 1 mA(약 66 ℃) → 경보
+const fireR = T => 1e5 * Math.pow(10, -(T - 20) / 35);
+const fireI = T => 5 / fireR(T);
+const FIRE_TH = 1e-3, fireOn = T => fireI(T) >= FIRE_TH;
+// ③ LED(반도체 소자): 1.8 V까지는 거의 흐르지 않다가 그 뒤 가파르게 는다. 꼬마전구는 100 Ω 저항(옴의 법칙)
+const ledI = V => V < 1.8 ? 0 : 0.04 * Math.pow((V - 1.8) / 1.7, 2.2);
+const bulbI = V => Math.max(0, V) / 100;
+const LED_SEEN = 1e-3;
+// ④ 카메라 센서: 8×6 = 48칸의 작은 빛 센서. 구멍판에 뚫린 칸만 빛을 받는다
+const CAM_SHAPES = {
+  heart: { name: '하트', rows: ['.XX..XX.', 'XXXXXXXX', 'XXXXXXXX', '.XXXXXX.', '..XXXX..', '...XX...'] },
+  star: { name: '별', rows: ['...XX...', '...XX...', 'XXXXXXXX', '.XXXXXX.', '..X..X..', '.X....X.'] },
+  arrow: { name: '화살표', rows: ['....X...', '.....X..', 'XXXXXXXX', 'XXXXXXXX', '.....X..', '....X...'] },
+};
+const camLit = (sh = SEMI.shape) => CAM_SHAPES[sh].rows.join('').split('').filter(c => c === 'X').length;
+const camI = P => 20e-6 * clamp(P / 100, 0, 1), CAM_DARK = 0.5e-6;
+const camQuality = P => P >= 50 ? '선명' : P >= 20 ? '흐림' : '어둡고 거침';
+// ⑤ 전선: 시험기 = 전지 3.0 V + 전구 10 Ω. 구리선 0.01 Ω, 플라스틱 피복 5×10¹⁶ Ω
+const wireI = p => p === 'core' ? 3 / (10 + 0.01) : p === 'cover' ? 3 / 5e16 : 0;
+
+function lifeNow(k = SEMI.life) {
+  if (k === 'lamp') { const L = SEMI.lux, I = lampI(L), on = lampOn(L); return { k, cond: `밝기 ${L} %`, R: lampR(L), I, on, state: on ? '가로등 켜짐' : '가로등 꺼짐' }; }
+  if (k === 'fire') { const T = SEMI.fireT, I = fireI(T), on = fireOn(T); return { k, cond: `${T} ℃`, R: fireR(T), I, on, state: on ? '경보 울림' : '경보 대기' }; }
+  if (k === 'led') { const V = SEMI.ledV, Ib = bulbI(V), I = ledI(V); return { k, cond: `${V.toFixed(1)} V`, I, Ib, on: I >= LED_SEEN, state: I >= LED_SEEN ? 'LED 켜짐' : 'LED 꺼짐' }; }
+  if (k === 'cam') { const P = SEMI.cam, n = camLit(); return { k, cond: `빛 ${P} %`, I: camI(P), n, on: P >= 20, q: camQuality(P), state: `사진 ${camQuality(P)}` }; }
+  const p = SEMI.probe, I = wireI(p); return { k: 'wire', cond: p === 'core' ? '구리선' : p === 'cover' ? '피복' : '—', I, on: p === 'core', state: p === 'core' ? '전구 켜짐' : '전구 꺼짐' };
+}
+// 관찰 · 설명(관찰 칸과 조작판 03)
+function lifeWords(m) {
+  const I = fmtI(m.I);
+  switch (m.k) {
+    case 'lamp': return m.on ? [`어두워요. 센서 전류가 거의 안 흘러요(${I}). 가로등 켜짐.`, '빛이 약하면 센서의 저항이 커져 전류가 줄어요. 기준값(100 µA)보다 작아지면 등이 켜져요.'] : [`밝아요. 센서에 전류가 잘 흘러요(${I}). 가로등 꺼짐.`, '빛을 많이 받은 반도체 센서는 저항이 작아져 전류가 잘 흘러요. 제어 회로는 이 전류를 보고 등을 꺼요.'];
+    case 'fire': return m.on ? [`${SEMI.fireT} ℃. 센서 전류 ${I}, 경보가 울려요!`, '뜨거워진 센서에 전류가 기준값(1 mA)보다 많이 흘러 경보 회로가 켜졌어요.'] : [`${SEMI.fireT} ℃. 센서 전류 ${I}, 경보 대기.`, '반도체 온도 센서는 온도가 오르면 저항이 크게 작아져요. 아직 기준값보다 전류가 작아요.'];
+    case 'led': { const V = SEMI.ledV, Ib = fmtI(m.Ib); return V < 1.8 ? [`${V.toFixed(1)} V. 전구 ${Ib}, LED 0 mA(꺼짐).`, '전구의 전류는 전압에 비례해요(옴의 법칙). LED는 약 2 V가 될 때까지 거의 흐르지 않아요.'] : !m.on ? [`LED에 전류가 막 흐르기 시작해요(${I}).`, '반도체 소자는 어느 전압을 넘으면 전류가 갑자기 늘어요. 옴의 법칙을 따르지 않아요.'] : [`${V.toFixed(1)} V. 전구 ${Ib}, LED ${I}(켜짐).`, '그래프를 비교해요. 전구는 곧은 선, LED는 2 V 근처에서 꺾여 가파르게 올라가요.']; }
+    case 'cam': return SEMI.cam < 20 ? [`빛이 약해 픽셀 전류가 ${I}뿐이에요. 사진이 어둡고 거칠어요.`, '빛이 약하면 전류가 작아 신호를 구분하기 어려워요. 그래서 밤 사진이 거칠어요.'] : [`빛 ${SEMI.cam} %. 빛을 받은 픽셀 ${m.n}개에 ${I}가 흘러 ${CAM_SHAPES[SEMI.shape].name} 모양이 보여요.`, '카메라 이미지 센서는 반도체 빛 센서 수백만 개예요. 빛을 받은 칸만 전류가 흘러 사진이 돼요.'];
+    default: return SEMI.probe === 'core' ? ['구리선에 댔어요. 전류 300 mA, 전구 켜짐.', '구리는 저항이 작아 전류가 잘 흘러요 — 도체. 전선 속심은 이래서 구리예요.'] : SEMI.probe === 'cover' ? ['피복에 댔어요. 전류 0, 전구 꺼짐.', '플라스틱은 저항이 매우 커서 전류를 막아요 — 부도체. 그래서 전선을 잡아도 안전해요.'] : ['집게를 아직 대지 않았어요.', '전선은 전류가 흐르는 길(구리)과 그 길을 감싸는 것(플라스틱)으로 되어 있어요.'];
+  }
+}
+
+/* ══════════ 생활 속 실험 — 장면 ══════════
+   상황 그림(640×560 기준 좌표)과 읽기 카드(세로로 쌓는 줄)를 가로 화면은 좌우, 휴대폰 세로는 위아래로 놓는다. */
+const chip = (x, y, txt, o = {}) => { const fs = o.fs || 15, w = o.w || (txt.length * fs * 0.9 + 22), h = o.h || fs + 14, ax = o.anchor === 'middle' ? x - w / 2 : o.anchor === 'end' ? x - w : x; return `<g class="life-chip${o.cls ? ' ' + o.cls : ''}"><rect x="${ax.toFixed(1)}" y="${(y - h / 2).toFixed(1)}" width="${w.toFixed(1)}" height="${h}" rx="${h / 2}"/><text x="${(ax + w / 2).toFixed(1)}" y="${(y + fs * 0.36).toFixed(1)}" text-anchor="middle" style="font-size:${fs}px">${txt}</text></g>`; };
+// 로그 눈금 막대: 센서 전류와 기준값
+function logGauge(x, y, w, I, lo, hi, th, thTxt, label) {
+  const f = v => clamp((Math.log10(Math.max(v, lo)) - Math.log10(lo)) / (Math.log10(hi) - Math.log10(lo)), 0, 1);
+  const fx = x + w * f(I), tx = x + w * f(th);
+  return `<g class="life-gauge"><text class="lbl" x="${x}" y="${y - 10}" style="font-size:14px">${label}</text>
+    <rect class="lg-track" x="${x}" y="${y}" width="${w}" height="14" rx="7"/><rect class="lg-fill" x="${x}" y="${y}" width="${Math.max(7, fx - x).toFixed(1)}" height="14" rx="7"/>
+    <path class="lg-th" d="M${tx.toFixed(1)} ${y - 6}V${y + 20}"/><text class="lbl lg-th-t" x="${tx.toFixed(1)}" y="${y + 36}" text-anchor="middle" style="font-size:13px">${thTxt}</text>
+    <text class="lbl" x="${x}" y="${y + 36}" style="font-size:12px">작음</text><text class="lbl" x="${x + w}" y="${y + 36}" text-anchor="end" style="font-size:12px">큼</text></g>`;
+}
+// 센서 → 전류 → 결과 사슬(읽기 카드 맨 위)
+function chain(x, y, w, items) {
+  const n = items.length, gap = 16, bw = (w - gap * (n - 1)) / n;
+  return items.map((it, i) => { const bx = x + i * (bw + gap); return `<g class="life-node${it.on ? ' on' : ''}${it.cls ? ' ' + it.cls : ''}"><rect x="${bx.toFixed(1)}" y="${y}" width="${bw.toFixed(1)}" height="60" rx="10"/><text class="ln-t" x="${(bx + bw / 2).toFixed(1)}" y="${y + 23}" text-anchor="middle">${it.t}</text><text class="ln-v" x="${(bx + bw / 2).toFixed(1)}" y="${y + 47}" text-anchor="middle">${it.v}</text></g>${i < n - 1 ? `<path class="ln-arrow" d="M${(bx + bw + 3).toFixed(1)} ${y + 30}h${gap - 6}m-5 -5l5 5l-5 5"/>` : ''}`; }).join('');
+}
+const camNoise = (i, j) => { const v = Math.sin(i * 12.9898 + j * 78.233 + SEMI.cam) * 43758.5453; return v - Math.floor(v); };
+
+class LifeScene extends SemiBase {
+  constructor() { super('생활 속 실험'); }
+  get portVB() { return [520, 860]; }
+  get box() { return this.isPort ? { pic: [0, 0, 520, 455], info: [16, 470, 488, 380] } : { pic: [0, 0, 640, 560], info: [656, 22, 326, 516] }; }
+  act(a) { const [k, v] = a.split(':'); if (k === 'probe') { SEMI.probe = SEMI.probe === v ? null : v; semiSave(); semiSync(true); } }
+  render() {
+    const [W, H] = this.vb, B = this.box, k = SEMI.life, m = lifeNow(k), [px, py, pw] = B.pic, sc = pw / 640;
+    let s = `<defs><linearGradient id="life-cone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2b8" stop-opacity=".95"/><stop offset="1" stop-color="#ffe08a" stop-opacity=".12"/></linearGradient><linearGradient id="life-dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a5a" stop-opacity="0"/><stop offset="1" stop-color="#ff9a5a" stop-opacity=".75"/></linearGradient></defs><rect width="${W}" height="${H}" fill="var(--board)"/>`;
+    s += `<g transform="translate(${px} ${py}) scale(${sc.toFixed(4)})"><svg x="0" y="0" width="640" height="560" viewBox="0 0 640 560" overflow="hidden">${this['pic_' + k](m)}</svg></g>`;
+    const [ix, iy, iw, ih] = B.info;
+    s += `<g class="life-info"><rect class="li-card" x="${ix - 8}" y="${iy - 8}" width="${iw + 16}" height="${ih + 8}" rx="16"/>${this['info_' + k](m, ix, iy, iw, ih)}<text class="lbl life-note" x="${ix}" y="${iy + ih - 8}" style="font-size:12.5px">교육용 모형 — 실제 측정값이 아니에요</text></g>`;
+    this.svg.innerHTML = s;
+  }
+  say(x, y, w, lines, ok) { return `<g class="life-say${ok ? ' ok' : ''}"><rect x="${x}" y="${y}" width="${w}" height="${lines.length * 24 + 16}" rx="12"/>${lines.map((l, i) => `<text x="${x + 14}" y="${y + 28 + i * 24}" style="font-size:15.5px">${l}</text>`).join('')}</g>`; }
+  /* ① 자동 가로등 */
+  pic_lamp(m) {
+    const b = SEMI.lux / 100, on = m.on, sky = mixHex(cssVar('--sky-night') || '#182542', cssVar('--sky-day') || '#a6d8ff', b);
+    let s = `<rect width="640" height="440" fill="${sky}"/><rect y="250" width="640" height="190" fill="url(#life-dusk)" opacity="${clamp(1 - Math.abs(b - 0.35) / 0.25, 0, 1).toFixed(2)}"/>`;
+    for (const [x, y] of [[60, 50], [180, 90], [260, 40], [480, 70], [560, 130], [400, 30], [120, 150], [330, 110], [600, 40], [40, 200], [220, 180], [520, 200]]) s += `<circle cx="${x}" cy="${y}" r="1.8" fill="#fff" opacity="${clamp((0.3 - b) / 0.3, 0, 1).toFixed(2)}"/>`;
+    s += `<g opacity="${clamp((0.4 - b) / 0.2, 0, 1).toFixed(2)}"><circle cx="540" cy="80" r="26" fill="#f4eccd"/><circle cx="552" cy="72" r="24" fill="${sky}"/></g>`;
+    s += `<circle cx="110" cy="${(430 - 330 * b).toFixed(0)}" r="32" fill="#ffd25a" opacity="${clamp(b / 0.12, 0, 1).toFixed(2)}"/>`;
+    s += `<rect y="430" width="640" height="130" fill="#5f7a5c"/><rect y="470" width="640" height="90" fill="#3d434b"/>`;
+    for (let x = 10; x < 640; x += 70) s += `<rect x="${x}" y="512" width="40" height="6" rx="3" fill="#e9e2c4" opacity=".8"/>`;
+    s += `<path d="M30 430V330l60-46 60 46v100Z" fill="#c9b49a"/><path d="M20 334l70-56 70 56" fill="none" stroke="#8a5a44" stroke-width="12" stroke-linejoin="round"/><path d="M170 430V350h96v80Z" fill="#b9c3cc"/><path d="M162 352h112l-14-28h-84Z" fill="#6f7f8e"/>`;
+    s += `<rect width="640" height="560" fill="#050a18" opacity="${((1 - b) * 0.45).toFixed(2)}"/>`;
+    const win = b < 0.35 ? '#ffd77a' : '#7d8a96';
+    for (const [x, y] of [[54, 352], [100, 352], [184, 366], [228, 366]]) s += `<rect x="${x}" y="${y}" width="26" height="26" rx="3" fill="${win}"/>`;
+    if (on) s += `<path d="M340 170L250 470H480L390 170Z" fill="url(#life-cone)"/><ellipse cx="365" cy="474" rx="118" ry="16" fill="#ffe9a8" opacity=".45"/>`;
+    s += `<rect x="425" y="150" width="12" height="320" rx="4" fill="#5d666f"/><path d="M431 156C431 132 400 140 380 150" fill="none" stroke="#5d666f" stroke-width="10" stroke-linecap="round"/>`;
+    s += `<rect x="330" y="146" width="68" height="22" rx="9" fill="#4a535c"/><rect x="338" y="166" width="52" height="8" rx="4" fill="${on ? '#fff6c8' : '#9aa3aa'}"/>`;
+    s += `<circle cx="384" cy="141" r="8" fill="#eef3f6" stroke="#2b3238" stroke-width="2"/><path d="M386 133L420 104" fill="none" stroke="#fff" stroke-width="1.8"/>`;
+    s += chip(420, 104, '빛 센서(반도체)', { fs: 15 });
+    s += chip(20, 30, `주변 밝기 ${SEMI.lux} %`, { fs: 16, cls: 'strong' });
+    s += chip(365, 222, on ? '가로등 켜짐' : '가로등 꺼짐', { fs: 15, anchor: 'middle', cls: on ? 'on' : '' });
+    return s;
+  }
+  info_lamp(m, x, y, w) {
+    let s = `<text class="lbl strong" x="${x}" y="${y + 18}" style="font-size:18px">가로등 속 회로 · 전원 5.0 V</text>`;
+    s += chain(x, y + 34, w, [{ t: '센서 저항', v: fmtR(m.R) }, { t: '센서 전류', v: fmtI(m.I), cls: 'val' }, { t: '가로등', v: m.on ? '켜짐' : '꺼짐', on: m.on }]);
+    s += logGauge(x + 4, y + 140, w - 8, m.I, 1e-5, 1e-2, LAMP_TH, '기준값 100 µA', '센서에 흐르는 전류');
+    s += this.say(x, y + 214, w, m.on ? ['어두워서 센서의 저항이 커요.', '센서 전류가 기준값보다 작아', '가로등이 켜져요.'] : ['밝아서 센서의 저항이 작아요.', '센서 전류가 기준값보다 커서', '가로등이 꺼져 있어요.'], m.on);
+    return s + `<text class="lbl" x="${x}" y="${y + 326}" style="font-size:14px">제어 장치: 전류가 100 µA보다 작으면 등을 켬</text>`;
+  }
+  /* ② 화재 감지기(열 감지기) */
+  pic_fire(m) {
+    const T = SEMI.fireT, h = clamp((T - 20) / 70, 0, 1), on = m.on;
+    let s = `<rect width="640" height="560" class="room-wall"/><rect width="640" height="44" class="room-ceil"/>`;
+    s += `<path d="M262 44a58 34 0 0 0 116 0Z" fill="#f2f3f1" stroke="#8e979c" stroke-width="2"/><rect x="300" y="40" width="40" height="8" fill="#d9dcdc"/><circle cx="320" cy="64" r="6" fill="${on ? 'var(--led)' : '#59636a'}" class="${on ? 'alarm-led' : ''}"/>`;
+    if (on) s += `<g class="alarm-ring"><circle cx="320" cy="60" r="72" fill="none" stroke="var(--led)" stroke-width="4"/><circle cx="320" cy="60" r="98" fill="none" stroke="var(--led)" stroke-width="3" opacity=".6"/><circle cx="320" cy="60" r="124" fill="none" stroke="var(--led)" stroke-width="2" opacity=".35"/></g>`;
+    s += `<path d="M378 54L420 98" fill="none" stroke="var(--text-2)" stroke-width="1.6"/>` + chip(410, 112, '온도 센서(반도체)', { fs: 15 });
+    for (let i = 0; i < 3; i++) s += `<path d="M${280 + i * 40} 320q-12 -26 0 -52t0 -52q-12 -26 0 -52" fill="none" stroke="var(--heat)" stroke-width="3" stroke-linecap="round" opacity="${(0.2 + 0.6 * h).toFixed(2)}"/>`;
+    s += `<rect x="170" y="430" width="300" height="130" rx="10" class="room-table"/><rect x="230" y="418" width="180" height="14" rx="5" fill="#3c4247"/>`;
+    const fl = 0.25 + 0.75 * h;
+    for (let i = 0; i < 5; i++) { const fx = 262 + i * 29, fh = 30 * fl + (i % 2) * 10 * fl; s += `<path class="flame" d="M${fx - 10} 418q10 ${-fh} 10 ${-fh - 8}q0 ${fh * 0.6} 10 ${fh + 8}Z" fill="var(--heat)" opacity="${(0.4 + 0.5 * h).toFixed(2)}"/><path class="flame" d="M${fx - 5} 418q5 ${-fh * 0.6} 5 ${-fh * 0.6 - 4}q0 ${fh * 0.4} 5 ${fh * 0.6 + 4}Z" fill="var(--glow)" opacity="${(0.4 + 0.5 * h).toFixed(2)}"/>`; }
+    s += `<path d="M236 336h168l-12 66h-144Z" fill="#7d8890" stroke="#4d565c" stroke-width="2"/><rect x="226" y="326" width="188" height="14" rx="6" fill="#5d676e"/><path d="M414 332h44" stroke="#3a4146" stroke-width="10" stroke-linecap="round"/>`;
+    const ty0 = 130, ty1 = 420, ty = ty1 - (ty1 - ty0) * clamp((T - 10) / 90, 0, 1);
+    s += `<rect x="58" y="${ty0 - 14}" width="28" height="${ty1 - ty0 + 30}" rx="14" class="thermo-tube"/><rect x="66" y="${ty.toFixed(0)}" width="12" height="${(ty1 - ty + 6).toFixed(0)}" rx="6" fill="#e5483a"/><circle cx="72" cy="${ty1 + 22}" r="18" fill="#e5483a"/>`;
+    for (let t = 20; t <= 90; t += 10) { const yy = ty1 - (ty1 - ty0) * (t - 10) / 90; s += `<path d="M90 ${yy}h10" class="thermo-tick"/><text class="lbl" x="104" y="${yy + 5}" style="font-size:13px">${t}</text>`; }
+    s += chip(20, 30, `주변 온도 ${T} ℃`, { fs: 16, cls: 'strong' });
+    if (on) s += chip(480, 168, '삐— 삐—', { fs: 17, cls: 'alarm' });
+    return s;
+  }
+  info_fire(m, x, y, w) {
+    let s = `<text class="lbl strong" x="${x}" y="${y + 18}" style="font-size:18px">감지기 속 회로 · 전원 5.0 V</text>`;
+    s += chain(x, y + 34, w, [{ t: '센서 저항', v: fmtR(m.R) }, { t: '센서 전류', v: fmtI(m.I), cls: 'val' }, { t: '경보', v: m.on ? '울림' : '대기', on: m.on, cls: m.on ? 'alarm' : '' }]);
+    s += logGauge(x + 4, y + 140, w - 8, m.I, 1e-5, 1e-2, FIRE_TH, '기준값 1 mA', '센서에 흐르는 전류');
+    s += this.say(x, y + 214, w, m.on ? ['뜨거워서 센서의 저항이 작아졌어요.', '센서 전류가 기준값을 넘어', '경보가 울려요.'] : ['온도가 낮아 센서의 저항이 커요.', '센서 전류가 기준값보다 작아', '경보가 대기 중이에요.'], m.on);
+    return s + `<text class="lbl" x="${x}" y="${y + 326}" style="font-size:14px">전자 체온계 · 전기밥솥에도 온도 센서가 있어요</text>`;
+  }
+  /* ③ LED 손전등 — 같은 전압에서 꼬마전구(저항)와 LED(반도체 소자) 비교 */
+  pic_led(m) {
+    const V = SEMI.ledV;
+    const row = (y, name, I, kind) => {
+      const glow = kind === 'bulb' ? clamp(I / 0.035, 0, 1) : clamp(I / 0.04, 0, 1), seen = kind === 'bulb' ? glow > 0.04 : I >= LED_SEEN;
+      let r = `<path class="life-wire" d="M120 ${y}H560V${y + 120}H120Z"/>`;
+      r += `<rect x="60" y="${y + 20}" width="120" height="80" rx="10" class="life-supply"/><text class="life-led-num" x="160" y="${y + 70}" text-anchor="end">${V.toFixed(1)}</text><text class="lbl" x="120" y="${y + 116}" text-anchor="middle" style="font-size:13px">전원</text>`;
+      if (kind === 'bulb') r += `<circle cx="320" cy="${y - 4}" r="${28 + 34 * glow}" fill="url(#g-glow)" opacity="${seen ? (0.35 + 0.65 * glow).toFixed(2) : 0}"/><circle cx="320" cy="${y - 4}" r="22" class="life-glass"/><path d="M308 ${y + 2}q6 -14 12 0t12 0" fill="none" stroke="#8a6a3a" stroke-width="2"/><rect x="308" y="${y + 16}" width="24" height="14" rx="3" fill="#9aa3aa"/>`;
+      else r += `<circle cx="320" cy="${y - 4}" r="${26 + 34 * glow}" fill="var(--led)" opacity="${seen ? (0.25 + 0.55 * glow).toFixed(2) : 0}" style="filter:blur(6px)"/><path d="M304 ${y + 14}V${y - 8}a16 16 0 0 1 32 0V${y + 14}Z" fill="${seen ? 'var(--led)' : 'var(--led-dim)'}" stroke="#7a2a22" stroke-width="2"/><rect x="300" y="${y + 12}" width="40" height="7" rx="2" fill="#7a2a22"/>`;
+      r += `<circle cx="480" cy="${y + 120}" r="30" class="life-meter"/><text class="life-meter-t" x="480" y="${y + 128}" text-anchor="middle">A</text>`;
+      r += chip(480, y + 72, fmtI(I), { fs: 15, anchor: 'middle', cls: 'val' });
+      r += `<text class="lbl strong" x="320" y="${y - 44}" text-anchor="middle" style="font-size:16px">${name}</text>`;
+      return r;
+    };
+    return row(110, '꼬마전구(저항)', m.Ib, 'bulb') + row(350, 'LED(반도체 소자)', m.I, 'led') + chip(20, 30, `전압 ${V.toFixed(1)} V`, { fs: 16, cls: 'strong' });
+  }
+  info_led(m, x, y, w) {
+    let s = `<text class="lbl strong" x="${x}" y="${y + 18}" style="font-size:17px">전압에 따른 전류</text>`;
+    const gx = x + 34, gy = y + 44, gw = w - 44, gh = 190, Vmax = 3.5, Imax = 0.04;
+    const X = v => gx + gw * v / Vmax, Y = i => gy + gh - gh * Math.min(i, Imax) / Imax;
+    s += `<rect class="lg-plot" x="${gx}" y="${gy}" width="${gw}" height="${gh}"/>`;
+    for (let v = 0; v <= 3.5; v += 0.5) s += `<path class="lg-grid" d="M${X(v)} ${gy}V${gy + gh}"/>` + (v % 1 === 0 ? `<text class="lbl" x="${X(v)}" y="${gy + gh + 16}" text-anchor="middle" style="font-size:12px">${v}</text>` : '');
+    for (let i = 0; i <= 4; i++) s += `<path class="lg-grid" d="M${gx} ${Y(i / 100)}H${gx + gw}"/><text class="lbl" x="${gx - 6}" y="${Y(i / 100) + 4}" text-anchor="end" style="font-size:12px">${i * 10}</text>`;
+    s += `<text class="lbl" x="${gx + gw}" y="${gy + gh + 32}" text-anchor="end" style="font-size:12px">전압(V)</text><text class="lbl" x="${x}" y="${gy - 8}" style="font-size:12px">전류(mA)</text>`;
+    const path = f => Array.from({ length: 71 }, (_, i) => { const v = i * 0.05; return (i ? 'L' : 'M') + X(v).toFixed(1) + ' ' + Y(f(v)).toFixed(1); }).join('');
+    s += `<path class="lg-bulb" d="${path(bulbI)}"/><path class="lg-led" d="${path(ledI)}"/>`;
+    s += `<circle class="lg-pt bulb" cx="${X(SEMI.ledV)}" cy="${Y(m.Ib)}" r="6"/><circle class="lg-pt led" cx="${X(SEMI.ledV)}" cy="${Y(m.I)}" r="6"/>`;
+    s += `<text class="lg-key bulb" x="${gx + 8}" y="${gy + 18}">— 꼬마전구(100 Ω)</text><text class="lg-key led" x="${gx + 8}" y="${gy + 36}">— LED</text>`;
+    s += `<text class="lbl" x="${x}" y="${y + 286}" style="font-size:14.5px">전구 <tspan class="lbl strong">${fmtI(m.Ib)}</tspan>　LED <tspan class="lbl strong">${fmtI(m.I)}</tspan></text>`;
+    s += this.say(x, y + 300, w, SEMI.ledV < 1.8 ? ['LED는 아직 전류가 거의 흐르지 않아요.'] : m.on ? ['LED는 2 V 근처에서 가파르게 늘어요.'] : ['LED에 전류가 막 흐르기 시작해요.'], m.on);
+    return s;
+  }
+  /* ④ 카메라 센서 */
+  pic_cam(m) {
+    const c = SEMI.cam / 100, rows = CAM_SHAPES[SEMI.shape].rows;
+    let s = `<rect width="640" height="560" class="room-wall"/>`;
+    s += `<g transform="translate(18 200)"><circle cx="50" cy="80" r="40" fill="var(--glow)" opacity="${(0.3 + 0.7 * c).toFixed(2)}"/><circle cx="50" cy="80" r="26" fill="var(--glow-core)" stroke="#b9a35a" stroke-width="2"/>${[0, 45, 90, 135, 180, 225, 270, 315].map(a => `<path d="M${(50 + Math.cos(a * Math.PI / 180) * 34).toFixed(1)} ${(80 + Math.sin(a * Math.PI / 180) * 34).toFixed(1)}l${(Math.cos(a * Math.PI / 180) * 12).toFixed(1)} ${(Math.sin(a * Math.PI / 180) * 12).toFixed(1)}" stroke="#e8b730" stroke-width="3" stroke-linecap="round" opacity="${c.toFixed(2)}"/>`).join('')}</g>`;
+    s += `<text class="lbl strong" x="68" y="350" text-anchor="middle" style="font-size:14px">조명</text>`;
+    s += `<path d="M110 250L150 160V420L110 330Z" fill="var(--glow)" opacity="${(0.5 * c).toFixed(2)}"/>`;
+    const pc = 22, px0 = 160, py0 = 224;
+    s += `<rect x="${px0 - 10}" y="${py0 - 40}" width="${8 * pc + 20}" height="${6 * pc + 60}" rx="10" class="cam-plate"/>`;
+    rows.forEach((r, j) => [...r].forEach((ch, i) => { if (ch === 'X') s += `<rect x="${px0 + i * pc + 2}" y="${py0 + j * pc + 2}" width="${pc - 4}" height="${pc - 4}" rx="3" fill="var(--glow-core)" opacity="${(0.25 + 0.75 * c).toFixed(2)}"/>`; }));
+    s += `<text x="${px0 + 4 * pc}" y="${py0 - 16}" text-anchor="middle" class="cam-plate-t">구멍판 · ${CAM_SHAPES[SEMI.shape].name}</text>`;
+    s += `<path d="M${px0 + 8 * pc + 10} 200L372 160V420L${px0 + 8 * pc + 10} 380Z" fill="var(--glow)" opacity="${(0.35 * c).toFixed(2)}"/>`;
+    const sc = 30, sx0 = 384, sy0 = 190;
+    s += `<rect x="${sx0 - 12}" y="${sy0 - 44}" width="${8 * sc + 24}" height="${6 * sc + 66}" rx="12" fill="#1f2a33"/><text x="${sx0 + 4 * sc}" y="${sy0 - 18}" text-anchor="middle" fill="#dfe8ee" style="font-size:14px;font-weight:700">빛 센서 8×6(반도체)</text>`;
+    rows.forEach((r, j) => [...r].forEach((ch, i) => {
+      const lit = ch === 'X' && c > 0, x = sx0 + i * sc, y = sy0 + j * sc, br = lit ? clamp(c + (c < 0.2 ? (camNoise(i, j) - 0.5) * 0.3 : 0), 0, 1) : 0;
+      s += `<rect x="${x + 1.5}" y="${y + 1.5}" width="${sc - 3}" height="${sc - 3}" rx="3" fill="${lit ? mixHex('#3a4a56', '#ffd84a', 0.2 + 0.8 * br) : '#3a4a56'}"/>`;
+      if (lit) s += `<circle cx="${x + sc / 2}" cy="${y + sc / 2}" r="5" fill="var(--electron)"/><path d="M${x + sc / 2 - 2.5} ${y + sc / 2}h5" stroke="#fff" stroke-width="1.4"/>`;
+    }));
+    s += `<text class="lbl" x="${sx0 + 4 * sc}" y="${sy0 + 6 * sc + 42}" text-anchor="middle" style="font-size:13.5px">● 빛을 받은 칸에만 전류가 흘러요</text>`;
+    s += chip(20, 30, `빛의 세기 ${SEMI.cam} %`, { fs: 16, cls: 'strong' });
+    return s;
+  }
+  info_cam(m, x, y, w) {
+    const c = SEMI.cam / 100, rows = CAM_SHAPES[SEMI.shape].rows;
+    let s = `<text class="lbl strong" x="${x}" y="${y + 18}" style="font-size:17px">사진(스마트폰 화면)</text>`;
+    const pw = Math.min(w - 60, 220), cell = pw / 8, ph = cell * 6, fx = x + (w - pw) / 2, fy = y + 50;
+    s += `<rect x="${fx - 14}" y="${fy - 18}" width="${pw + 28}" height="${ph + 40}" rx="18" fill="#20262c"/><rect x="${fx}" y="${fy}" width="${pw}" height="${ph}" fill="#000"/>`;
+    rows.forEach((r, j) => [...r].forEach((ch, i) => {
+      const lit = ch === 'X' && c > 0, n = c < 0.2 ? (camNoise(i, j) - 0.5) * 0.3 : 0, br = clamp((lit ? c : 0) + (c > 0 ? n : 0), 0, 1);
+      if (br > 0.02) s += `<rect x="${(fx + i * cell).toFixed(1)}" y="${(fy + j * cell).toFixed(1)}" width="${(cell + 0.4).toFixed(1)}" height="${(cell + 0.4).toFixed(1)}" fill="${mixHex('#000000', '#ffffff', br)}"/>`;
+    }));
+    const ry = fy + ph + 46;
+    s += `<text class="lbl" x="${x}" y="${ry}" style="font-size:14.5px">밝은 픽셀 <tspan class="lbl strong">${c > 0 ? m.n : 0} / 48</tspan></text><text class="lbl" x="${x}" y="${ry + 24}" style="font-size:14.5px">픽셀 전류(빛 받은 칸) <tspan class="lbl strong">${fmtI(m.I)}</tspan></text><text class="lbl" x="${x}" y="${ry + 48}" style="font-size:14.5px">가린 칸 <tspan class="lbl strong">${fmtI(CAM_DARK)}</tspan> · 사진 <tspan class="lbl strong">${m.q}</tspan></text>`;
+    s += this.say(x, ry + 66, w, c >= 0.2 ? ['빛을 받은 칸에만 전류가 흘러', '그 칸이 밝게 찍혀요.'] : ['빛이 약해 전류가 작아요.', '사진이 어둡고 거칠어요.'], c >= 0.2);
+    return s + `<text class="lbl" x="${x}" y="${ry + 156}" style="font-size:13px">실제 카메라 센서는 수백만 칸이에요(모형 48칸)</text>`;
+  }
+  /* ⑤ 전선 — 구리선(도체)과 피복(부도체) */
+  pic_wire(m) {
+    const p = SEMI.probe, on = m.on;
+    let s = `<rect width="640" height="560" class="room-wall"/>`;
+    s += `<path class="life-wire" d="M150 120H470"/><g filter="url(#fx-shadow)">${useImg('cell', 150, 100, 96)}${useImg('cell', 248, 100, 96)}</g>`;
+    const bk = 1.7, bx = 400, by = 120 - 14 * bk;
+    s += `<g filter="url(#fx-shadow)">${useImg('bulb_base', bx - 20 * bk, by + 2 * bk, 40 * bk)}</g><circle cx="${bx}" cy="${by - 12 * bk}" r="${on ? 64 : 0}" fill="url(#g-glow)"/>` + useImg('bulb_glass', bx - 13 * bk, by - 24.5 * bk, 26 * bk);
+    s += `<text class="lbl strong" x="246" y="80" text-anchor="middle" style="font-size:16px">전지 2개 · 3.0 V</text><text class="lbl strong" x="${bx + 40}" y="70" style="font-size:15px">전구 · ${on ? '켜짐' : '꺼짐'}</text>`;
+    const wy = 400;
+    s += `<g data-act="probe:core" role="button" aria-label="양 끝 구리선에 집게 대기" class="wire-hit${p === 'core' ? ' on' : ''}" style="cursor:pointer"><rect class="wh" x="44" y="${wy - 34}" width="122" height="68" rx="10"/><rect class="wh" x="474" y="${wy - 34}" width="122" height="68" rx="10"/>`;
+    for (const x0 of [60, 480]) for (let i = 0; i < 4; i++) s += `<path d="M${x0} ${wy - 9 + i * 6}h100" stroke="${i % 2 ? '#e08a4a' : '#c7753a'}" stroke-width="5" stroke-linecap="round"/>`;
+    s += `</g><g data-act="probe:cover" role="button" aria-label="가운데 피복에 집게 대기" class="wire-hit${p === 'cover' ? ' on' : ''}" style="cursor:pointer"><rect class="wh" x="170" y="${wy - 34}" width="300" height="68" rx="12"/><rect x="150" y="${wy - 20}" width="340" height="40" rx="18" fill="#2f6fd6" stroke="#1d4c99" stroke-width="2"/><path d="M170 ${wy - 10}H470" stroke="#7aa7f0" stroke-width="4" stroke-linecap="round" opacity=".7"/></g>`;
+    s += chip(110, wy + 64, '구리선(도체)', { fs: 15, anchor: 'middle' }) + chip(320, wy + 64, '플라스틱 피복(부도체)', { fs: 15, anchor: 'middle' }) + chip(530, wy + 64, '구리선(도체)', { fs: 15, anchor: 'middle' });
+    const at = p === 'core' ? [110, 530] : p === 'cover' ? [230, 410] : [190, 450], cy = p ? wy - 34 : 290;
+    s += `<path class="life-lead" d="M150 120C120 200 ${at[0] - 30} ${cy - 90} ${at[0]} ${cy}"/><path class="life-lead" d="M470 120C500 200 ${at[1] + 30} ${cy - 90} ${at[1]} ${cy}"/>`;
+    s += `<g transform="translate(${at[0] + 47} ${cy - 20}) scale(-1 1)">${useImg('clip_black', 0, 0, 94)}</g>${useImg('clip_red', at[1] - 47, cy - 20, 94)}`;
+    if (!p) s += chip(320, 220, '전선의 구리선이나 피복을 눌러 보세요', { fs: 15, anchor: 'middle' });
+    s += chip(20, 30, `집게가 닿은 곳: ${m.cond}`, { fs: 16, cls: 'strong' });
+    return s;
+  }
+  info_wire(m, x, y, w) {
+    let s = `<text class="lbl strong" x="${x}" y="${y + 18}" style="font-size:17px">전선의 단면</text>`;
+    const cx = x + w / 2, cy = y + 112, R = 72;
+    s += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="#2f6fd6" stroke="#1d4c99" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="${R * 0.55}" fill="#c7753a"/>`;
+    for (const [dx, dy] of [[0, 0], [-15, -9], [15, -9], [0, 17], [-16, 9], [16, 9], [0, -19]]) s += `<circle cx="${cx + dx}" cy="${cy + dy}" r="7.5" fill="#e09a5a" stroke="#9a5424" stroke-width="1"/>`;
+    s += `<text class="lbl" x="${cx}" y="${cy + R + 24}" text-anchor="middle" style="font-size:14px">속심 구리(도체) · 겉 플라스틱(부도체)</text>`;
+    const ry = cy + R + 56;
+    s += `<text class="lbl" x="${x}" y="${ry}" style="font-size:14.5px">닿은 곳 <tspan class="lbl strong">${m.cond}</tspan>　전류 <tspan class="lbl strong">${SEMI.probe ? fmtI(m.I) : '—'}</tspan>　전구 <tspan class="lbl strong">${m.on ? '켜짐' : '꺼짐'}</tspan></text>`;
+    s += this.say(x, ry + 18, w, SEMI.probe === 'core' ? ['구리(도체)는 저항이 작아', '전류가 잘 흘러 전구가 켜져요.'] : SEMI.probe === 'cover' ? ['플라스틱(부도체)은 저항이 매우 커서', '전류를 막아요. 전구가 꺼져 있어요.'] : ['구리선과 피복에 차례로', '집게를 대어 비교해 보세요.'], SEMI.probe === 'core');
+    return s;
+  }
+}
+
+/* ══════════ 조작판 · 상태 · 기록 ══════════ */
+const SEMI_DEFS = [
+  ['lead', '물질의 종류에 따라 원자 배열이 다르기 때문에 물질마다 저항의 크기가 달라요.'],
+  ['cond', '<b>도체</b>는 구리나 철같이 저항이 작아 전류가 잘 흐르는 물질이에요.'],
+  ['semi', '<b>반도체</b>는 평소에는 저항이 부도체와 비슷하지만, 특정 온도나 전압, 빛 조건에서 도체처럼 전류가 잘 흐르는 물질이에요. 전류가 흐르는 정도는 도체와 부도체의 중간 정도예요.'],
+  ['ins', '<b>부도체</b>는 고무나 나무같이 저항이 커서 전류가 잘 흐르지 않는 물질이에요.'],
+  ['use', '반도체는 스마트 기기의 중요한 부품(저장 장치, 카메라 등)에 쓰이고, 주변 밝기에 따라 전류가 흐르는 정도가 달라지는 성질을 이용해 자동으로 불을 켜고 끄는 가로등 안에도 쓰여요.'],
+];
+const QUIZ_CARDS = [ // id, 이름, 정답, 맞음, 틀림
+  ['copper', '구리', 'cond', '맞아요. 구리는 저항이 작아 전선의 속심으로 써요.', '구리는 전선의 속심이에요. 전류가 잘 흐르는 도체예요.'],
+  ['iron', '철', 'cond', '맞아요. 철도 금속이라 자유 전자가 많아요.', '철은 금속이에요. 금속은 도체예요.'],
+  ['aluminum', '알루미늄', 'cond', '맞아요. 알루미늄은 송전선에도 쓰는 도체예요.', '알루미늄 포일에도 전류가 잘 흘러요. 도체예요.'],
+  ['rubber', '고무', 'ins', '맞아요. 고무는 저항이 아주 커서 전기 장갑에 써요.', '전기 공사 장갑은 고무로 만들어요. 전류를 막는 부도체예요.'],
+  ['wood', '나무', 'ins', '맞아요. 마른 나무에는 전류가 거의 흐르지 않아요.', '마른 나무 막대에는 전류가 거의 흐르지 않아요. 부도체예요.'],
+  ['plastic', '플라스틱', 'ins', '맞아요. 플라스틱은 전선을 감싸는 피복에 써요.', '전선 피복이 플라스틱이에요. 전류를 막는 부도체예요.'],
+  ['silicon', '규소', 'semi', '맞아요. 규소는 반도체 부품의 기본 재료예요.', '규소는 평소엔 부도체 같지만 조건에 따라 전류가 흘러요. 반도체예요.'],
+  ['germanium', '저마늄', 'semi', '맞아요. 저마늄도 규소처럼 반도체예요.', '저마늄은 규소와 같은 무리예요. 반도체예요.'],
+];
+const KIND_KO = { cond: '도체', semi: '반도체', ins: '부도체' };
+let quizPick = null, quizMsg = null;
+const LIFE_COLS = { lamp: ['주변 밝기', '센서 전류', '가로등'], fire: ['온도', '센서 전류', '경보'], led: ['전압', '전구 전류', 'LED 전류', 'LED'], cam: ['빛의 세기', '픽셀 전류', '사진'], wire: ['집게가 닿은 곳', '전류', '전구'] };
+const LIFE_THINK = { lamp: '낮에 센서를 손으로 가리면 가로등이 켜질까요?', fire: '주전자 김이 바로 닿는 곳에 감지기를 달면 어떤 일이 생길까요?', led: '이 LED 손전등은 전지 1개(1.5 V)로 켜질까요?', cam: '밤에 찍은 사진이 어둡고 거친 것을 픽셀 전류로 설명해 보세요.', wire: '피복이 벗겨진 전선을 보면 어떻게 해야 할까요?' };
+function lifeRow(m) {
+  const c = m.k === 'led' ? [m.cond, fmtI(m.Ib), fmtI(m.I), m.on ? '켜짐' : '꺼짐']
+    : m.k === 'cam' ? [`${SEMI.cam} % · ${CAM_SHAPES[SEMI.shape].name}`, fmtI(m.I), m.q]
+    : m.k === 'wire' ? [m.cond, fmtI(m.I), m.on ? '켜짐' : '꺼짐']
+    : [m.cond, fmtI(m.I), m.k === 'lamp' ? (m.on ? '켜짐' : '꺼짐') : (m.on ? '울림' : '대기')];
+  return { key: c[0], c };
+}
+
+function renderSemi() {
+  const life = matMode === 'life';
+  $('#main').innerHTML = labFrame({ tab: 'material', card: 'material', ribbon: false, rec: life, wide: true, flow: false, head: matModeSeg(), tools: '', panel: `<div id="semiPanel"></div>`, foot: life ? `<button class="btn primary" id="lifeRec">기록</button>` : '' }).replace('class="lab lab-material', `class="lab lab-material lab-semi lab-semi-${matMode}`);
+  semiScene = life ? new LifeScene() : new BandScene();
+  semiScene.camera = workspaceCamera('semi-' + matMode);
+  semiScene.mount($('#stage')); stageHeight();
+  bindCommon(semiScene); bindMatModeSeg();
+  if (life) $('#lifeRec').onclick = $('#recTop').onclick = recordLife;
+  semiPanel();
+}
+function semiPanel() {
+  const h = $('#semiPanel'); if (!h) return;
+  if (matMode === 'band') {
+    const heat = SEMI.src === 'heat';
+    h.innerHTML = `<section class="pg"><h2 class="pg-title"><span class="n">01</span>에너지 주기</h2>
+      <div class="seg full" role="group" aria-label="에너지를 주는 방법">${[['heat', '열(온도)'], ['light', '빛']].map(([v, l]) => `<button data-src="${v}" aria-pressed="${SEMI.src === v}">${l}</button>`).join('')}</div>
+      <div class="field" style="margin-top:10px"><span class="field-label"><label for="bandR">${heat ? '시료 온도' : '빛의 세기'}</label><output id="bandOut" class="num"></output></span><input type="range" id="bandR" min="${heat ? 20 : 0}" max="${heat ? 200 : 100}" step="5" value="${heat ? SEMI.T : SEMI.light}"></div>
+      <div class="row"><button class="btn small ghost" id="bandReset">처음으로</button></div>
+      <p class="help">규소에 열이나 빛으로 에너지를 주면 전자가 띠 간격을 넘어 전도대로 올라가요. 전압은 올라간 전자를 떠밀 뿐이에요.</p></section>
+      <section class="pg"><h2 class="pg-title"><span class="n">02</span>핵심 정리</h2>
+      <ol class="semi-defs">${SEMI_DEFS.map(([k, t]) => `<li data-def="${k}"${['cond', 'semi', 'ins'].includes(k) ? ' role="button" tabindex="0"' : ''}>${t}</li>`).join('')}</ol>
+      <button class="semi-link" id="toLed">전압에 따라 달라지는 반도체 소자(LED)는 → 생활 속 실험 3에서</button></section>
+      <section class="pg"><h2 class="pg-title"><span class="n">03</span>분류 확인<button class="btn small ghost" id="quizReset" style="margin-left:auto;min-height:30px">다시 하기</button></h2>
+      <p class="semi-score" id="quizScore"></p>
+      <div class="semi-cards" id="quizCards"></div>
+      <div class="seg full semi-bins" role="group" aria-label="분류">${['cond', 'semi', 'ins'].map(k => `<button data-qk="${k}">${KIND_KO[k]}</button>`).join('')}</div>
+      <p class="sv-fb" id="quizFb" role="status" hidden></p></section>`;
+    $$('[data-src]').forEach(b => b.onclick = () => { if (SEMI.src === b.dataset.src) return; SEMI.src = b.dataset.src; semiSave(); semiPanel(); semiScene.render(); semiSync(false, `전원을 ${SEMI.src === 'heat' ? '열' : '빛'}으로 바꿨어요.`); });
+    $('#bandR').oninput = e => { if (SEMI.src === 'heat') SEMI.T = +e.target.value; else SEMI.light = +e.target.value; semiSave(); semiScene.render(); semiSync(); };
+    $('#bandReset').onclick = () => { SEMI.T = 20; SEMI.light = 0; semiSave(); semiPanel(); semiScene.render(); };
+    $$('[data-def][role="button"]').forEach(li => { li.onclick = () => { SEMI.look = li.dataset.def; semiSave(); semiScene.render(); semiSync(); }; li.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.click(); } }; });
+    $('#toLed').onclick = () => { SEMI.life = 'led'; semiSave(); setMatMode('life'); };
+    $$('[data-qk]').forEach(b => b.onclick = () => quizAnswer(b.dataset.qk));
+    $('#quizReset').onclick = () => { semiQuiz = {}; save('semiQuiz', semiQuiz); quizPick = null; quizMsg = null; semiSync(); };
+  } else {
+    const k = SEMI.life;
+    const slider = (label, min, max, step, val) => `<div class="field"><span class="field-label"><label for="lifeR">${label}</label><output id="lifeOut" class="num"></output></span><input type="range" id="lifeR" min="${min}" max="${max}" step="${step}" value="${val}"></div>`;
+    const quick = list => `<div class="semi-quick">${list.map(([v, l]) => `<button class="btn small ghost" data-q="${v}">${l}</button>`).join('')}<button class="btn small ghost" id="lifeReset">처음으로</button></div>`;
+    const ctl = {
+      lamp: slider('주변 밝기', 0, 100, 5, SEMI.lux) + quick([[100, '한낮'], [50, '흐린 날'], [25, '해 질 녘'], [0, '한밤']]),
+      fire: slider('주변 온도', 20, 90, 1, SEMI.fireT) + quick([[25, '보통 방'], [50, '요리 중'], [80, '불이 남']]),
+      led: slider('전압', 0, 3.5, 0.1, SEMI.ledV) + quick([[1.5, '1.5 V'], [2, '2.0 V'], [3, '3.0 V']]),
+      cam: slider('빛의 세기', 0, 100, 5, SEMI.cam) + `<span class="seg-label">구멍판 모양</span><div class="seg full" role="group" aria-label="구멍판 모양">${Object.entries(CAM_SHAPES).map(([v, o]) => `<button data-shape="${v}" aria-pressed="${SEMI.shape === v}">${o.name}</button>`).join('')}</div>` + quick([]),
+      wire: `<div class="seg full" role="group" aria-label="집게를 댈 곳">${[['cover', '피복에 대기'], ['core', '구리선에 대기'], ['', '떼기']].map(([v, l]) => `<button data-probe="${v}" aria-pressed="${(SEMI.probe || '') === v}">${l}</button>`).join('')}</div><p class="help">장면의 전선을 눌러도 집게를 댈 수 있어요.</p>`,
+    }[k];
+    h.innerHTML = `<section class="pg"><h2 class="pg-title"><span class="n">00</span>생활 속 예</h2>
+      <div class="semi-life-tiles" role="group" aria-label="생활 속 예">${LIFE_ORDER.map((x, i) => `<button class="tile semi-life-tile" data-life="${x}" aria-pressed="${k === x}"><b>${i + 1}</b><span>${LIFE[x].name}</span><small>${LIFE[x].cond}</small></button>`).join('')}</div></section>
+      <section class="pg"><h2 class="pg-title"><span class="n">01</span>조건 · ${LIFE[k].cond}</h2>${ctl}<p class="semi-model">교육용 모형 — 실제 측정값이 아니에요</p></section>
+      <section class="pg pg-grow"><h2 class="pg-title"><span class="n">02</span>관찰 기록<button class="btn small ghost" id="lifeClear" style="margin-left:auto;min-height:30px">기록 지우기</button></h2>
+      <div class="rec-wrap"><table class="rec" id="lifeTable"></table></div></section>
+      <section class="pg"><h2 class="pg-title"><span class="n">03</span>설명</h2>
+      <p class="semi-say" id="lifeSay"></p>
+      <p class="semi-think"><b>생각해 보기</b> ${LIFE_THINK[k]}</p>
+      <p class="semi-uses"><b>반도체가 쓰이는 곳</b><span>저장 장치(메모리)</span><span>카메라(이미지 센서)</span><span>LED</span><span>센서</span></p></section>`;
+    $$('[data-life]').forEach(b => b.onclick = () => { if (SEMI.life === b.dataset.life) return; SEMI.life = b.dataset.life; semiSave(); semiPanel(); semiScene.render(); $('#panelScroll').scrollTop = 0; });
+    const setV = v => { if (k === 'lamp') SEMI.lux = v; else if (k === 'fire') SEMI.fireT = v; else if (k === 'led') SEMI.ledV = Math.round(v * 10) / 10; else if (k === 'cam') SEMI.cam = v; semiSave(); semiScene.render(); semiSync(); };
+    const r = $('#lifeR'); if (r) r.oninput = e => setV(+e.target.value);
+    $$('[data-q]').forEach(b => b.onclick = () => { const v = +b.dataset.q; if (r) r.value = v; setV(v); });
+    const rs = $('#lifeReset'); if (rs) rs.onclick = () => { Object.assign(SEMI, LIFE_DEF[k]); semiSave(); semiPanel(); semiScene.render(); };
+    $$('[data-shape]').forEach(b => b.onclick = () => { SEMI.shape = b.dataset.shape; semiSave(); $$('[data-shape]').forEach(x => x.setAttribute('aria-pressed', x === b)); semiScene.render(); semiSync(); });
+    $$('[data-probe]').forEach(b => b.onclick = () => { SEMI.probe = b.dataset.probe || null; semiSave(); semiSync(true); });
+    $('#lifeClear').onclick = () => { const list = semiRec[k]; if (!list.length) return toast('지울 기록이 없어요.'); const keep = list.slice(); semiRec[k] = []; save('semiRec', semiRec); semiSync(); toastUndo('기록을 지웠어요.', () => { semiRec[k] = keep; save('semiRec', semiRec); semiSync(); }); };
+  }
+  semiSync();
+}
+// 조작판의 값 · 표 · 관찰 칸을 지금 상태에 맞춘다(rerender: 장면도 다시 그림)
+function semiSync(rerender, extra = '') {
+  if (rerender && semiScene?.svg) semiScene.render();
+  if (matMode === 'band') {
+    const o = $('#bandOut'); if (o) o.textContent = SEMI.src === 'heat' ? `${SEMI.T} ℃` : `${SEMI.light} %`;
+    $$('[data-def]').forEach(li => li.classList.toggle('look', li.dataset.def === SEMI.look));
+    const cards = $('#quizCards');
+    if (cards) {
+      cards.innerHTML = QUIZ_CARDS.map(([id, name]) => { const q = semiQuiz[id]; return `<button class="semi-card${q?.done ? ' done' : ''}${quizPick === id ? ' pick' : ''}${quizMsg?.bad === id ? ' shake' : ''}" data-qc="${id}" aria-pressed="${quizPick === id}"${q?.done ? ' aria-disabled="true"' : ''}>${name}${q?.done ? `<small>✓ ${KIND_KO[q.kind]}</small>` : ''}</button>`; }).join('');
+      $$('[data-qc]').forEach(b => b.onclick = () => { if (semiQuiz[b.dataset.qc]?.done) return; quizPick = quizPick === b.dataset.qc ? null : b.dataset.qc; quizMsg = null; semiSync(); });
+      const done = QUIZ_CARDS.filter(c => semiQuiz[c[0]]?.done).length, first = QUIZ_CARDS.filter(c => semiQuiz[c[0]]?.first).length;
+      $('#quizScore').textContent = `맞힌 것 ${done} / 8 · 첫 시도 맞힘 ${first}${!quizPick && done < 8 ? ' — 카드를 하나 골라요' : ''}`;
+      const fb = $('#quizFb'); fb.hidden = !quizMsg; if (quizMsg) { fb.className = 'sv-fb ' + (quizMsg.ok ? 'ok' : 'bad'); fb.textContent = quizMsg.t; }
+      $$('[data-qk]').forEach(b => b.disabled = !quizPick);
+    }
+    const n = semiUp(), src = SEMI.src === 'heat' ? `열 · 시료 온도 ${SEMI.T} ℃` : `빛 · 세기 ${SEMI.light} %`;
+    setStatus({ tag: '에너지 띠', head: `${src} · 반도체 전도대 전자 ${n}개(${bandWords('semi')[0]})`, ex: `${bandWords('semi')[1]}. ${n === 0 ? '반도체도 지금은 부도체처럼 전류가 거의 흐르지 않아요.' : '반도체는 띠 간격이 좁아 에너지를 받은 전자가 전도대로 올라가요.'} 부도체는 간격이 넓어 못 넘고, 도체는 띠가 겹쳐 늘 잘 흘러요.${extra ? ' ' + extra : ''}` });
+  } else {
+    const k = SEMI.life, m = lifeNow(k), o = $('#lifeOut');
+    if (o) o.textContent = k === 'lamp' ? `${SEMI.lux} %` : k === 'fire' ? `${SEMI.fireT} ℃` : k === 'led' ? `${SEMI.ledV.toFixed(1)} V` : `${SEMI.cam} %`;
+    $$('[data-probe]').forEach(b => b.setAttribute('aria-pressed', (SEMI.probe || '') === b.dataset.probe));
+    const t = $('#lifeTable'), cols = LIFE_COLS[k];
+    if (t) t.innerHTML = `<thead><tr>${cols.map(c => `<th scope="col">${c}</th>`).join('')}</tr></thead><tbody>${semiRec[k].length ? semiRec[k].map(r => `<tr>${r.c.map(c => `<td>${c}</td>`).join('')}</tr>`).join('') : `<tr><td colspan="${cols.length}" class="empty" style="text-align:left;white-space:normal">조건을 바꿀 때마다 ‘기록’을 눌러 비교해요. 같은 조건은 덮어써요.</td></tr>`}</tbody>`;
+    const [obs, why] = lifeWords(m), say = $('#lifeSay');
+    if (say) say.innerHTML = `<b>관찰</b> ${obs}<br><b>설명</b> ${why}`;
+    setStatus({ tag: LIFE[k].name, head: obs, ex: why });
+    recState(k !== 'wire' || !!SEMI.probe, '먼저 집게를 구리선이나 피복에 대어 보세요.', '지금 조건과 결과를 기록표에 적어요', 'lifeRec');
+  }
+}
+function quizAnswer(kind) {
+  if (!quizPick) return toast('먼저 카드를 하나 골라요.');
+  const c = QUIZ_CARDS.find(x => x[0] === quizPick), q = semiQuiz[quizPick] || { tries: 0 };
+  q.tries++;
+  if (kind === c[2]) { q.done = true; q.kind = kind; q.first = q.tries === 1; quizMsg = { ok: true, t: `✓ ${c[3]}` }; quizPick = null; }
+  else { quizMsg = { ok: false, bad: c[0], t: `✗ ${c[4]} 카드를 다시 골라 보세요.` }; quizPick = null; }
+  semiQuiz[c[0]] = q; save('semiQuiz', semiQuiz); semiSync();
+  if (quizMsg.bad) setTimeout(() => { $('.semi-card.shake')?.classList.remove('shake'); if (quizMsg) quizMsg.bad = null; }, 650);
+  if (kind === c[2] && QUIZ_CARDS.every(x => semiQuiz[x[0]]?.done)) toast('모두 맞았어요! 분류 마스터');
+}
+function recordLife() {
+  const k = SEMI.life, m = lifeNow(k);
+  if (k === 'wire' && !SEMI.probe) return toast('먼저 집게를 구리선이나 피복에 대어 보세요.');
+  const row = lifeRow(m), list = semiRec[k], i = list.findIndex(r => r.key === row.key);
+  if (i >= 0) list[i] = row; else list.push(row);
+  save('semiRec', semiRec); semiSync(); toast(`${LIFE[k].name} · ${row.c.join(' · ')} 기록했어요.`);
+}
+function semiCaptureLines(t) {
+  if (matMode === 'band') { const n = semiUp(); return { title: `${t.title} · 에너지 띠`, cond: SEMI.src === 'heat' ? `열(시료 온도) ${SEMI.T} ℃` : `빛 ${SEMI.light} %`, state: `반도체 전도대 전자 ${n}개(${bandWords('semi')[0]}) · 부도체 거의 안 흐름 · 도체 잘 흐름` }; }
+  const m = lifeNow(), [obs] = lifeWords(m); return { title: `${t.title} · 생활 속 실험 · ${LIFE[m.k].name}`, cond: `${LIFE[m.k].cond} 조건 · ${m.cond}`, state: obs };
+}
+function semiModelNote() {
+  if (matMode === 'band') return '에너지 띠는 개념 그림 · 띠 간격·전자 수는 실제 비율이 아님';
+  return { lamp: '빛 센서 20만 Ω(한밤)~2000 Ω(한낮) 모형 · 전원 5.0 V', fire: '온도 센서 10만 Ω(20 ℃)~1000 Ω(90 ℃) 모형 · 전원 5.0 V', led: 'LED는 1.8 V부터 흐르는 모형 · 꼬마전구 100 Ω', cam: '이미지 센서 48칸 모형 · 픽셀 전류 최대 20 µA', wire: '전지 3.0 V · 전구 10 Ω · 피복 5×10¹⁶ Ω' }[SEMI.life];
+}
+const semiRecCount = () => Object.values(semiRec).reduce((n, l) => n + l.length, 0) + Object.keys(semiQuiz).length;
+function semiReportHTML() {
+  let s = '';
+  const qd = QUIZ_CARDS.filter(c => semiQuiz[c[0]]?.done);
+  if (qd.length) s += `<article><h3>분류 확인 · 도체 · 반도체 · 부도체</h3><p>맞힌 것 ${qd.length} / 8 · 첫 시도 맞힘 ${qd.filter(c => semiQuiz[c[0]].first).length}</p></article>`;
+  for (const k of LIFE_ORDER) if (semiRec[k].length) s += `<article><h3>생활 속 실험 · ${LIFE[k].name}(${LIFE[k].cond} 조건)</h3><table><tr>${LIFE_COLS[k].map(c => `<th>${c}</th>`).join('')}</tr>${semiRec[k].map(r => `<tr>${r.c.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</table></article>`;
+  return s;
+}
+
 /* v2: Beginners' circuit coach, synchronized instrument readouts and flow controls. */
 const coachState = {active:true,step:0,completed:false};
 const COACH_STEPS = [
@@ -5417,10 +6080,11 @@ function syncFlowLegend(){
 function modelNote(forPng){
  if(current==='meters')return '학교 실험실의 바늘 계기를 본뜬 그림 · 최소 눈금의 1/10까지 어림 · 계기를 연결해 생기는 전류·전압 변화는 생략';
  const base=forPng?'이동 속도·입자 수는 확대 모형':'교육용 모형 · 속도·입자 수는 실제 비율과 다름';
- return base+' · '+(current==='resist'?'니크롬 1배 1 cm당 1 Ω · 원자 한 줄 = 2 cm · 1초 전자 수 = 전류(mA) ÷ 25':current==='ohm'?'니크롬선 1 cm당 1 Ω · 온도에 따른 저항 변화 무시':current==='material'?'시료 길이 5 cm · 온도·빛 반응은 경향 비교용':'전구 10 Ω 고정 저항 모형');
+ return base+' · '+(current==='resist'?'니크롬 1배 1 cm당 1 Ω · 원자 한 줄 = 2 cm · 1초 전자 수 = 전류(mA) ÷ 25':current==='ohm'?'니크롬선 1 cm당 1 Ω · 온도에 따른 저항 변화 무시':current==='material'?(matMode==='exp'?'시료 길이 5 cm · 온도·빛 반응은 경향 비교용':semiModelNote()):'전구 10 Ω 고정 저항 모형');
 }
 function syncMeterRibbon(){
  const h=$('#meterRibbon');if(!h)return;
+ if(current==='material'&&matMode!=='exp')return;
  const sc=current==='material'?matScene:null, b=boards[current];
  if(!sc&&!b)return;
  const els=sc?sc.sol.els:b.els, res=sc?sc.sol.res:b.res;
@@ -5683,12 +6347,18 @@ function theory(card) {
     <p>이 실험의 그래프는 가로축이 전압, 세로축이 전류예요. 그래서 기울기가 <b>가파를수록 저항이 작아요</b>. 그래프의 한 점에서 <b>전압 ÷ 전류</b>를 계산하면 그 니크롬선의 저항이 나와요.</p>
     <p class="link">실험 연결 · 03 옴의 법칙 조작판의 ‘식으로 풀기’에서 문제 10개를 풀고, 답을 실험판에서 확인해 보세요.</p></article>
   <article class="th-card" id="card-material"><h3><span>04</span>도체 · 부도체 · 반도체</h3>
-    <table class="th-table"><thead><tr><th>분류</th><th>성질</th><th>예</th></tr></thead><tbody>
-    <tr><td><b>도체</b></td><td>저항이 작아 전류가 잘 흐름. 자유 전자가 많음</td><td>은, 구리, 철, 알루미늄, 흑연</td></tr>
-    <tr><td><b>부도체</b>(절연체)</td><td>저항이 커서 전류가 거의 흐르지 않음</td><td>고무, 플라스틱, 나무, 유리</td></tr>
-    <tr><td><b>반도체</b></td><td>온도·빛·불순물에 따라 전도성이 크게 달라짐. 순수 규소는 실온에서 금속보다 전류가 훨씬 작음</td><td>규소, 저마늄</td></tr></tbody></table>
-    <p>전선의 안쪽은 전류가 잘 흐르는 구리(도체)로, 바깥은 전류가 새지 않도록 플라스틱(부도체)으로 만들어요. 반도체는 스마트 기기의 부품, 주변 밝기에 따라 켜지는 가로등의 센서에 쓰여요.</p>
-    <p class="link">실험 연결 · ‘물질과 저항’ 화면에서 규소를 끼우고 온도와 빛을 올려 보세요. 구리 같은 금속은 온도가 오르면 격자의 진동이 커져 저항이 증가하지만, 이 회로에서는 전구의 저항에 비해 아주 작아 전류가 거의 그대로예요.</p></article>
+    <p class="def">물질의 종류에 따라 <b>원자 배열이 다르기 때문에</b> 물질마다 저항의 크기가 달라요.</p>
+    <ul class="help th-list"><li><b>도체</b> — 구리나 철같이 저항이 작아 전류가 잘 흐르는 물질</li><li><b>부도체</b> — 고무나 나무같이 저항이 커서 전류가 잘 흐르지 않는 물질</li><li><b>반도체</b> — 평소에는 저항이 부도체와 비슷하지만, 특정 온도나 전압, 빛 조건에서 도체처럼 전류가 잘 흐르는 물질. 전류가 흐르는 정도는 도체와 부도체의 중간 정도</li></ul>
+    <table class="th-table"><thead><tr><th>구분</th><th>도체</th><th>부도체</th><th>반도체</th></tr></thead><tbody>
+    <tr><td><b>전류가 흐르는 정도</b></td><td>매우 잘 흐름</td><td>거의 흐르지 않음</td><td>조건에 따라 달라짐(중간)</td></tr>
+    <tr><td><b>자유 전자</b></td><td>매우 많음</td><td>거의 없음</td><td>적음 · 온도·빛 등에 따라 늘어남</td></tr>
+    <tr><td><b>에너지 띠</b>(더 알아보기)</td><td>가전자대와 전도대가 겹쳐 있음(간격 없음)</td><td>띠 간격이 매우 넓음</td><td>띠 간격이 좁음</td></tr>
+    <tr><td><b>온도가 오르면</b></td><td>저항이 조금 커짐</td><td>거의 그대로(매우 큼)</td><td>저항이 크게 작아짐</td></tr>
+    <tr><td><b>예</b></td><td>구리, 철, 금, 은, 알루미늄</td><td>고무, 플라스틱, 유리, 나무</td><td>규소, 저마늄</td></tr></tbody></table>
+    <figure class="th-fig" aria-label="부도체, 반도체, 도체의 에너지 띠 그림">${bandFig()}</figure>
+    <p><b>더 알아보기 · 에너지 띠</b> 전자가 전류로 흐르려면 위쪽 띠(<b>전도대</b>)에 있어야 해요. 부도체는 아래 띠(<b>가전자대</b>)와 전도대 사이의 <b>띠 간격</b>이 넓어 전자가 올라가지 못하고, 반도체는 간격이 좁아 열이나 빛 에너지를 받으면 전자가 올라가요. 도체는 두 띠가 겹쳐 있어 전자가 늘 움직일 수 있어요. 이 내용은 고등학교에서 자세히 배워요.</p>
+    <p><b>쓰임</b> 반도체는 스마트 기기의 중요한 부품(저장 장치, 카메라 등)에 쓰여요. 주변 밝기에 따라 전류가 흐르는 정도가 달라지는 성질을 이용해 자동으로 불을 켜고 끄는 가로등 안에도 반도체가 쓰여요. 화재 감지기의 온도 센서, LED, 카메라의 이미지 센서도 반도체예요. 전선은 속심이 구리(도체), 겉이 플라스틱(부도체)이에요.</p>
+    <p class="link">실험 연결 · ‘물질과 저항’의 시료 실험에서 규소에 온도·빛을 올려 보고, ‘에너지 띠’에서 전자가 넘는 모습을, ‘생활 속 실험’에서 가로등·화재 감지기·LED·카메라·전선을 직접 다뤄 보세요.</p></article>
   <article class="th-card" id="card-meter"><h3><span>05</span>전류계와 전압계 연결하기</h3>
     <figure class="th-fig th-pair" aria-label="같은 회로의 실물 그림과 회로도">${staticBoard(meters, { cols: 6, rows: 4, schem: false, k: 1.35 })}${staticBoard(meters, { cols: 6, rows: 4, schem: true, k: 1.35 })}</figure>
     <ul class="help" style="margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.8"><li><b>전류계</b>는 전류를 재려는 곳에 <b>직렬</b>로, <b>전압계</b>는 전압을 재려는 기구의 양 끝에 <b>병렬</b>로 연결해요.</li><li>두 계기의 <b>(+)단자는 전원의 (+)극 쪽</b>, (−)단자는 (−)극 쪽에 연결해요. 반대로 연결하면 디지털 계기에 −가 표시되고, <b>바늘 계기는 바늘이 거꾸로 움직여 고장 날 수 있어요.</b></li><li>전류계를 전원에 바로(병렬로) 연결하면 아주 센 전류가 흘러 위험해요.</li><li>실험하기 전이나 후에는 전원 장치의 전압을 0 V로 맞춰요.</li></ul></article>
@@ -5792,6 +6462,7 @@ function captureLines() {
     return { title: `${t.title} · 식으로 풀기`, cond: `V = I × R · 전압 ${SV.mask === 'V' ? '?' : fmtV1(SV.V)} V · 저항 ${SV.mask === 'R' ? '?' : Math.round(SV.R * 10) / 10} Ω → 전류 ${SV.mask === 'I' ? '?' : fmtMA(svMA(svI()))} mA`,
       state: SV.intro ? '식으로 나타내기 — 전압 ÷ 전류 = 저항' : `문제 ${SV.q + 1}/10(${q.chip}) ${r?.done ? (r.ok ? '맞힘' : '풀이 봄') : '푸는 중'} · 점수 ${sc}/20` };
   }
+  if (current === 'material' && matMode !== 'exp') return semiCaptureLines(t);
   if (current === 'bench' && benchMode === 'mission') {
     const m = MISSIONS[MS.i], st = msStore[m.id];
     return { title: `${t.title} · 회로도 미션 ${MS.i + 1} ${m.name}`, cond: m.goal, state: MS.last ? (MS.last.ok ? `✓ ${m.ok}` : `✗ ${MS.last.msg}`) + (st ? ` · ★${st.stars}` : '') : '아직 확인하지 않음' };
@@ -5890,7 +6561,7 @@ async function capture() {
 }
 
 /* ── 학습 리포트 · 빈 학습지 ── */
-const hasRecords = () => rsRec.length + Object.keys(ohmRec.long).length + Object.keys(ohmRec.short).length + Object.keys(serRec).length + matRec.length + meterScore().total > 0;
+const hasRecords = () => rsRec.length + Object.keys(ohmRec.long).length + Object.keys(ohmRec.short).length + Object.keys(serRec).length + matRec.length + meterScore().total + semiRecCount() > 0;
 function reportOptions() {
   openModal('학습 리포트', `<p>처음 생각과 다시 정리한 생각을 함께 남겨요. 인쇄 창에서 ‘PDF로 저장’을 고를 수 있어요.</p>
     <label class="check"><input type="checkbox" id="optModels">모범 답안 함께 인쇄</label>
@@ -5919,6 +6590,7 @@ function reportHTML(blank, o = {}) {
     if (Object.keys(serRec).length) recs += `<article><h3>저항의 직렬연결과 병렬연결</h3><table><tr><th></th>${Object.values(SER_NAME).map(n => `<th>${n}</th>`).join('')}</tr><tr><th>전구 하나의 밝기</th>${Object.keys(SER_NAME).map(c => `<td>${serRec[c]?.b === undefined ? '' : Math.round(serRec[c].b * 100) + ' %'}</td>`).join('')}</tr><tr><th>전체 전류</th>${Object.keys(SER_NAME).map(c => `<td>${serRec[c]?.I === undefined ? '' : fmtA(serRec[c].I)}</td>`).join('')}</tr><tr><th>하나를 빼면 나머지는</th>${Object.keys(SER_NAME).map(c => `<td>${{ on: '켜져 있음', off: '모두 꺼짐', alone: '회로가 끊김' }[serRec[c]?.off] || ''}</td>`).join('')}</tr></table></article>`;
     const ms = meterScore(); if (ms.total) recs += `<article><h3>전류계 · 전압계 눈금 읽기</h3><p>문제 ${ms.total}개 중 처음 답이 맞은 문제 ${ms.correct}개 · 가장 긴 연속 정답 ${ms.best}개</p></article>`;
     if (matRec.length) recs += `<article><h3>도체 · 부도체 · 반도체</h3><table><tr><th>시료</th><th>조건</th><th>전류</th><th>내 분류</th></tr>${matRec.map(r => `<tr><td>${MATERIALS[r.mat].name}</td><td>${r.T} ℃ · 빛 ${Math.round(r.light * 100)} %</td><td>${fmtA(r.I)}</td><td>${r.cls || ''}</td></tr>`).join('')}</table></article>`;
+    recs += semiReportHTML();
   }
   const qs = QUESTIONS.map((q, i) => {
     const id = q.id, fig = `<div class="fig">${situationFigure(q)}</div>${q.mini === 'ceiling' ? '<p class="meta">그림은 비교 실험용 직렬 회로입니다. 문제의 천장 등 연결은 관찰 조건을 바탕으로 추론해 보세요.</p>' : ''}`;
@@ -5969,6 +6641,7 @@ function frame(t) {
   if (!document.hidden) {
     const d = reduced.matches || view.paused ? 0 : dt * (Number(view.speed)||1);
     if (current === 'meters' && meterScene?.svg?.isConnected) meterScene.step(dt);
+    else if (current === 'material' && matMode !== 'exp' && semiScene?.svg?.isConnected) semiScene.step(reduced.matches ? 0 : dt);
     else if (current === 'material' && matScene?.svg?.isConnected) matScene.step(d);
     else if (current === 'resist' && rsScene?.svg?.isConnected) rsScene.step(d);
     else if (current === 'ohm' && ohmMode === 'solve') solveStep(d);
@@ -5979,7 +6652,7 @@ function frame(t) {
 }
 
 /* ── 시작 ── */
-addEventListener('resize', () => { stageHeight(); if (current === 'material') matScene?.refit(); if (current === 'resist') { rsScene?.refit(); if (rsScene?.isPort !== undefined) syncResist(); } if (current === 'meters') meterScene?.refit(); for (const m of Object.values(minis)) m.obj.fit?.(); });
+addEventListener('resize', () => { stageHeight(); if (current === 'material') (matMode === 'exp' ? matScene : semiScene)?.refit(); if (current === 'resist') { rsScene?.refit(); if (rsScene?.isPort !== undefined) syncResist(); } if (current === 'meters') meterScene?.refit(); for (const m of Object.values(minis)) m.obj.fit?.(); });
 $('#yt').innerHTML = `<svg class="brand-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS.yt}</svg>`;
 $('#ig').innerHTML = `<svg class="brand-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS.ig}</svg>`;
 $('#bookBtn').innerHTML = `<svg viewBox="0 0 24 24">${ICONS.book}</svg>`;
