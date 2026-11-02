@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
-<meta name="version" content="6.2">
+<meta name="version" content="6.3">
 <meta name="description" content="전원 장치·스위치·전구·니크롬선·전류계·전압계를 격자 실험판에 연결해 옴의 법칙, 저항의 직렬·병렬 연결, 도체·부도체·반도체를 탐구하는 가상실험실">
 <meta property="og:title" content="송쌤과학 가상실험실 | 옴의 법칙 · 직렬 · 병렬 연결">
 <meta property="og:description" content="회로를 직접 연결하고 전압·전류·저항의 관계를 측정해 보는 중학교 과학 가상실험실">
@@ -1408,7 +1408,7 @@ const IMAGES={"supply": {"w": 460, "h": 340, "src": "data:image/png;base64,iVBOR
    · 묶인 마디 안의 갈래 전류는 전선 한 칸 = 같은 작은 저항으로 보고 다시 나눈다(흐름 표시·전류계 값).
    · 전원 장치는 내부 저항 0.002 Ω(거의 이상적인 직류 전원), 2 A를 넘으면 보호 회로가 출력을 끈다.
    ═══════════════════════════════════════════════════════════════════ */
-const APP_VERSION = '6.2', APP_DATE = '2026-11-02';
+const APP_VERSION = '6.3', APP_DATE = '2026-11-02';
 
 const MODEL = {
   bulbR: 10,            // 전구 저항(Ω) — 3.0 V에서 0.30 A. 필라멘트 온도에 따른 저항 변화는 무시
@@ -4416,7 +4416,7 @@ const RS_PRED = {
       '굵기가 2배라 통로도 2배 넓어요. 길이 2배의 효과와 비겨 전류는 같아요.'] },
 };
 const RS_SERIES = ['var(--series-a)', 'var(--series-b)', 'var(--accent)'], RS_DASH = ['', '6 4', '2 4'];
-lab.rs = { mode: 'length', wire: null, V: RS.baseV, closed: false, ref: innerWidth > 600, follow: true };
+lab.rs = { mode: 'length', wire: null, V: RS.baseV, closed: true, ref: innerWidth > 600, follow: true }; // 스위치 기본 닫힘(v6.3)
 let rsScene = null, rsRec = getSaved('resist', []), rsPred = getSaved('rsPred', {}), rsFresh = null, rsNote = null, rsGraphRO = null;
 const rsTold = {};
 const rsR = w => w ? w.L / w.A : Infinity;
@@ -4742,25 +4742,23 @@ function rsSet(patch) {
   if ('closed' in patch && patch.closed !== was) rsNote = null;
   rsScene?.render(); syncResist();
 }
-// 도선 끼우기(null = 빼기). 바꿀 때는 스위치를 먼저 연다(실제 실험의 안전 습관)
+// 도선 끼우기(null = 빼기). 스위치는 그대로 둔다 — 기본이 닫힘이라 고르면 바로 전류가 흐른다(v6.3, 선생님 요청)
 function rsInsert(w) {
   const st = lab.rs, M = RS_MODES[st.mode].fixed;
   if (w) { w = { L: M.L ?? w.L, A: M.A ?? w.A }; if (st.wire && st.wire.L === w.L && st.wire.A === w.A) return; }
-  const opened = st.closed && (w || st.wire);
-  if (opened) { st.closed = false; if (!rsTold[st.mode]) { rsTold[st.mode] = true; toast('도선을 바꿀 땐 스위치를 먼저 열어요. 스위치를 다시 닫으면 전류가 흘러요.', 3800); } }
   st.wire = w; rsNote = null;
   rsScene?.render(); syncResist();
-  if (!opened && w && !st.closed && !rsTold.first) { rsTold.first = true; toast(`${rsWireName(w)} 도선을 끼웠어요. 스위치를 닫아 보세요.`); }
+  if (w && !st.closed && !rsTold.first) { rsTold.first = true; toast(`${rsWireName(w)} 도선을 끼웠어요. 스위치를 닫아 보세요.`); }
 }
 function rsSetMode(m) {
   const st = lab.rs, M = RS_MODES[m].fixed; if (st.mode === m) return;
   st.mode = m;
   if (M.V !== undefined) st.V = M.V;
-  if (st.wire && ((M.L !== undefined && st.wire.L !== M.L) || (M.A !== undefined && st.wire.A !== M.A))) { st.wire = null; st.closed = false; }
+  if (st.wire && ((M.L !== undefined && st.wire.L !== M.L) || (M.A !== undefined && st.wire.A !== M.A))) st.wire = null;
   rsNote = null; rsScene?.render(); renderRsPanelParts(); syncResist();
 }
 // 탐구 질문의 ‘실험하러 가기’: 길이 비교 · 10 cm가 끼워진 상태로 연다
-function rsPreset(mode = 'length') { const st = lab.rs; st.mode = mode; st.V = RS.baseV; st.wire = { L: 10, A: 1 }; st.closed = false; rsNote = null; }
+function rsPreset(mode = 'length') { const st = lab.rs; st.mode = mode; st.V = RS.baseV; st.wire = { L: 10, A: 1 }; st.closed = true; rsNote = null; }
 function rsCycle(what) {
   const st = lab.rs, M = RS_MODES[st.mode].fixed;
   if (what === 'L' && M.L === undefined) { const L = st.wire ? RS.lens[(RS.lens.indexOf(st.wire.L) + 1) % 3] : 10; rsInsert({ L, A: st.wire?.A ?? 1 }); }
@@ -4917,7 +4915,7 @@ function syncResist() {
 function syncRsTable() {
   const t = $('#rsTable'); if (!t) return;
   const rows = rsRec.slice().sort((a, b) => a.A - b.A || a.L - b.L || a.V - b.V);
-  t.innerHTML = `<thead><tr><th scope="col">도선</th><th scope="col">전류(mA)</th><th scope="col" title="전자 1개가 도선을 지나며 부딪힌 횟수">부딪힘</th><th scope="col" title="모형값 = 길이 ÷ 굵기">저항(Ω)</th></tr></thead><tbody>${rows.length ? rows.map(r => `<tr class="${rsFresh === rsKey(r.L, r.A, r.V) ? 'fresh' : ''}"><td><span class="mk" style="background:${RS_SERIES[r.A - 1]};border-radius:${r.A === 1 ? '50%' : r.A === 2 ? '0' : '2px'}"></span>${r.L} cm · ${r.A}배</td><td>${fmtNum(r.mA)}${Math.abs(r.V - 3) > .01 ? `<span class="vtag">${r.V.toFixed(1)} V</span>` : ''}</td><td>${r.hits == null ? '<span class="vtag">세는 중</span>' : r.hits + '번'}</td><td>${fmtR(r.R).replace(' Ω', '')}</td></tr>`).join('') : `<tr><td colspan="4" class="empty rec-empty" style="text-align:left;white-space:normal">도선을 끼우고 스위치를 닫은 뒤 ‘측정값 기록’을 눌러요. 길이 3개 또는 굵기 3개를 모으면 정리 문장이 나와요.</td></tr>`}</tbody>`;
+  t.innerHTML = `<thead><tr><th scope="col">도선</th><th scope="col">전류(mA)</th><th scope="col" title="전자 1개가 도선을 지나며 부딪힌 횟수">부딪힘</th><th scope="col" title="모형값 = 길이 ÷ 굵기">저항(Ω)</th></tr></thead><tbody>${rows.length ? rows.map(r => `<tr class="${rsFresh === rsKey(r.L, r.A, r.V) ? 'fresh' : ''}"><td><span class="mk" style="background:${RS_SERIES[r.A - 1]};border-radius:${r.A === 1 ? '50%' : r.A === 2 ? '0' : '2px'}"></span>${r.L} cm · ${r.A}배</td><td>${fmtNum(r.mA)}${Math.abs(r.V - 3) > .01 ? `<span class="vtag">${r.V.toFixed(1)} V</span>` : ''}</td><td>${r.hits == null ? '<span class="vtag">세는 중</span>' : r.hits + '번'}</td><td>${fmtR(r.R).replace(' Ω', '')}</td></tr>`).join('') : `<tr><td colspan="4" class="empty rec-empty" style="text-align:left;white-space:normal">도선을 끼우고 전류계 값을 본 뒤 ‘측정값 기록’을 눌러요. 길이 3개 또는 굵기 3개를 모으면 정리 문장이 나와요.</td></tr>`}</tbody>`;
   const fresh = t.querySelector('tr.fresh'), wrap = $('#rsWrap');
   if (fresh && wrap.scrollHeight > wrap.clientHeight) { const head = t.tHead.offsetHeight; if (fresh.offsetTop < wrap.scrollTop + head) wrap.scrollTop = fresh.offsetTop - head; else if (fresh.offsetTop + fresh.offsetHeight > wrap.scrollTop + wrap.clientHeight) wrap.scrollTop = fresh.offsetTop + fresh.offsetHeight - wrap.clientHeight; }
 }
