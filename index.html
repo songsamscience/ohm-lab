@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
-<meta name="version" content="6.1">
+<meta name="version" content="6.2">
 <meta name="description" content="전원 장치·스위치·전구·니크롬선·전류계·전압계를 격자 실험판에 연결해 옴의 법칙, 저항의 직렬·병렬 연결, 도체·부도체·반도체를 탐구하는 가상실험실">
 <meta property="og:title" content="송쌤과학 가상실험실 | 옴의 법칙 · 직렬 · 병렬 연결">
 <meta property="og:description" content="회로를 직접 연결하고 전압·전류·저항의 관계를 측정해 보는 중학교 과학 가상실험실">
@@ -1342,6 +1342,32 @@ textarea{font-size:16px}
 .semi-uses span{padding:2px 8px;border-radius:999px;background:var(--surface-2);font-weight:600}
 .th-list{margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.8}
 @media (max-width:420px){.semi-life-tiles{display:flex!important;overflow-x:auto;gap:5px;padding-bottom:2px}.semi-life-tile{flex:0 0 auto;min-width:76px}}
+/* ═══ V6.2 02 부딪힘 카드 강조 · 02·04 조작판 측정 막대(설계 V6.2) ═══ */
+.rs-cnt{fill:var(--text-1)}
+.rs-hitcard[data-on="true"] rect{fill:var(--hint-bg);stroke:var(--warn);stroke-width:1.8}
+.rs-hitcard[data-on="true"] .lbl{fill:var(--text-1);stroke:var(--hint-bg)} /* .board .lbl 후광을 카드 바탕색으로 */
+.rs-hitcard[data-on="true"] .rs-cnt{fill:var(--warn)}
+/* 측정 막대: 02는 머리 줄 안(높이 그대로), 04는 활동 세그 아래 한 줄(없앤 아래 단추 줄보다 낮게) */
+.meas-head{display:flex;align-items:center;gap:6px;flex:1;min-width:0}
+.lab-resist .panel-heading{padding-top:4px;padding-bottom:4px} /* 40px 막대를 넣어도 머리 줄이 높아지지 않게 */
+.panel>.meas-head{flex:none;padding:6px 8px 6px 14px;border-bottom:1px solid var(--line-1)}
+.meas-head .readout{flex:1;min-width:0;height:40px;padding:0 10px;align-items:center;justify-content:flex-start;gap:6px;overflow:hidden}
+.meas-head .readout strong{font-size:19px;line-height:1}
+.meas-head .btn,.meas-head .btn.primary{flex:none;height:40px;min-height:40px;padding:0 12px;font-size:var(--fs-3)}
+.meas-head .btn svg.ic{width:16px;height:16px}
+.meas-head .ts{display:none}
+.meas-head [data-next]{box-shadow:0 0 0 1.5px var(--surface-1),0 0 0 3.5px var(--accent);animation:nextRing 1s ease-in-out 2}
+.meas-head .btn:not(.primary)[data-next]{border-color:var(--accent);color:var(--accent-strong)}
+.lab-resist .seg button[data-next]{box-shadow:inset 0 0 0 2px var(--accent);color:var(--accent-strong);animation:nextSeg 1s ease-in-out 2}
+@keyframes nextRing{50%{box-shadow:0 0 0 1.5px var(--surface-1),0 0 0 3.5px transparent}}
+@keyframes nextSeg{50%{box-shadow:inset 0 0 0 2px transparent}}
+@media (prefers-reduced-motion:reduce){.meas-head [data-next],.lab-resist .seg button[data-next]{animation:none}}
+.lab-resist .panel-foot,.lab-material:not(.lab-semi) .panel-foot{display:none}
+.lab.panel-off .meas-head{display:none}
+@media (min-width:861px){.lab-resist:not(.panel-off) #recTop,.lab-material:not(.lab-semi):not(.panel-off) #recTop{display:none}}
+@media (max-width:1200px) and (min-width:861px){.meas-head .rl,.meas-head .tl{display:none}.meas-head .ts{display:inline}}
+@media (max-width:860px){.meas-head .readout,.meas-head .btn,.meas-head .btn.primary{height:44px;min-height:44px}}
+@media (max-width:600px){.meas-head .tl{display:none}.meas-head .ts{display:inline}.meas-head .btn,.meas-head .btn.primary{padding:0 10px}.panel>.meas-head{padding:6px 10px}}
 </style>
 </head>
 <body>
@@ -1382,7 +1408,7 @@ const IMAGES={"supply": {"w": 460, "h": 340, "src": "data:image/png;base64,iVBOR
    · 묶인 마디 안의 갈래 전류는 전선 한 칸 = 같은 작은 저항으로 보고 다시 나눈다(흐름 표시·전류계 값).
    · 전원 장치는 내부 저항 0.002 Ω(거의 이상적인 직류 전원), 2 A를 넘으면 보호 회로가 출력을 끈다.
    ═══════════════════════════════════════════════════════════════════ */
-const APP_VERSION = '6.1', APP_DATE = '2026-11-01';
+const APP_VERSION = '6.2', APP_DATE = '2026-11-02';
 
 const MODEL = {
   bulbR: 10,            // 전구 저항(Ω) — 3.0 V에서 0.30 A. 필라멘트 온도에 따른 저항 변화는 무시
@@ -3474,6 +3500,19 @@ function setStatus(s) {
 function recState(ok, why, okTitle, ...ids) {
   for (const id of ['recTop', ...ids]) { const b = document.getElementById(id); if (!b) continue; b.setAttribute('aria-disabled', !ok); b.style.opacity = ok ? '' : .55; b.title = ok ? okTitle : why; }
 }
+// 조작판 머리 줄 측정 막대(02·04): 전류계 값 · 스위치 · 기록. 고르기 단추 바로 위라 실험판까지 오가지 않는다
+function measHead(p) {
+  return `<div class="meas-head" id="${p}Meas" role="group" aria-label="지금 측정값 · 스위치 · 기록"><div class="readout"><span class="rl">전류계</span><strong class="num" id="${p}MI" aria-live="off">—</strong></div><button class="btn" id="${p}MSwitch"><span class="tl">스위치 닫기</span><span class="ts">닫기</span></button><button class="btn primary" id="${p}MRec">${icon('rec')}<span class="tl">측정값 기록</span><span class="ts">기록</span></button></div>`;
+}
+// 값·스위치 글자·‘다음에 누를 단추’(data-next: 'sw' | 'rec' | '')를 맞춘다. 상태가 바뀔 때만 부른다
+function syncMeasHead(p, { I, has, closed, next }) {
+  const v = $('#' + p + 'MI'); if (!v) return;
+  v.innerHTML = has ? fmtA(I).replace(/\s(\S+)$/, '<small>$1</small>') : '—';
+  const sw = $('#' + p + 'MSwitch');
+  sw.querySelector('.tl').textContent = closed ? '스위치 열기' : '스위치 닫기'; sw.querySelector('.ts').textContent = closed ? '열기' : '닫기';
+  sw.setAttribute('aria-pressed', closed);
+  sw.toggleAttribute('data-next', next === 'sw'); $('#' + p + 'MRec').toggleAttribute('data-next', next === 'rec');
+}
 
 /* ── 회로 상태를 문장으로 ─────────────────────────────── */
 function boardStatus(b, tab) {
@@ -3843,18 +3882,18 @@ function renderMaterial() {
         <div class="rec-wrap"><table class="rec" id="matTable"></table></div>
         <p class="help" id="sampleCondition"></p><p class="help">‘내 분류’에서 도체·부도체·반도체를 직접 골라 보세요.</p></section>`,
     foot: `<button class="btn primary" id="matRec">측정값 기록하기</button>`,
-  });
+  }).replace('<div class="panel-scroll"', measHead('mat') + '<div class="panel-scroll"');
   matScene = new MaterialScene(st, { onSwitch: () => setMat({ closed: !st.closed }) });
   matScene.flowMode = view.flow; matScene.camera = workspaceCamera('material');
   matScene.mount($('#stage')); stageHeight();
   bindCommon(matScene); bindMatModeSeg();
-  $('#matSwitch').onclick = () => setMat({ closed: !st.closed });
+  $('#matSwitch').onclick = $('#matMSwitch').onclick = () => setMat({ closed: !st.closed });
   $$('[data-mat]').forEach(x => x.onclick = () => setMat({ mat: x.dataset.mat }, true));
   $('#matOut').onclick = () => setMat({ mat: null }, true);
   $('#tempR').oninput = e => setMat({ T: +e.target.value });
   $('#lightR').oninput = e => setMat({ light: +e.target.value / 100 });
   $('#matReset').onclick = () => { $('#tempR').value = 20; $('#lightR').value = 0; setMat({ T: 20, light: 0 }); };
-  $('#matRec').onclick = $('#recTop').onclick = recordMat;
+  $('#matRec').onclick = $('#matMRec').onclick = $('#recTop').onclick = recordMat;
   $('#clearMat').onclick = () => { if (!matRec.length) return toast('지울 기록이 없어요.'); const keep = matRec.slice(); matRec = []; save('mat', matRec); syncMat(); toastUndo('기록을 지웠어요.', () => { matRec = keep; save('mat', matRec); syncMat(); }); };
   syncMat();
 }
@@ -3882,7 +3921,9 @@ function syncMat() {
   $$('[data-mat]').forEach(x => x.setAttribute('aria-pressed', x.dataset.mat === st.mat));
   $('#matSwitch').textContent = st.closed ? '스위치 열기' : '스위치 닫기';
   setStatus(matStatus());
-  recState(!!st.mat && st.closed, !st.mat ? '먼저 시료를 골라 집게에 끼워 주세요.' : '스위치를 닫고 기록해요.', '지금 시료·조건·전류를 기록표에 적어요', 'matRec');
+  recState(!!st.mat && st.closed, !st.mat ? '먼저 시료를 골라 집게에 끼워 주세요.' : '스위치를 닫고 기록해요.', '지금 시료·조건·전류를 기록표에 적어요', 'matRec', 'matMRec');
+  const done = matRec.some(r => r.mat === st.mat && r.T === st.T && r.light === st.light);
+  syncMeasHead('mat', { I: matScene.sol.I, has: !!st.mat, closed: st.closed, next: !st.mat ? '' : !st.closed ? 'sw' : done ? '' : 'rec' });
   const opts = c => ['', '도체', '부도체', '반도체'].map(o => `<option value="${o}" ${c === o ? 'selected' : ''}>${o || '고르기'}</option>`).join('');
   $('#matTable').innerHTML = `<thead><tr><th scope="col">시료</th><th scope="col">조건</th><th scope="col">전류</th><th scope="col">내 분류</th></tr></thead><tbody>${matRec.length ? matRec.map((r, i) => `<tr><td>${MATERIALS[r.mat].name.replace('(연필심)', '')}</td><td>${r.T} ℃${r.light ? ` · 빛 ${Math.round(r.light * 100)}%` : ''}</td><td>${fmtA(r.I)}</td><td><select data-cls="${i}" aria-label="${MATERIALS[r.mat].name} 분류">${opts(r.cls)}</select></td></tr>`).join('') : '<tr><td colspan="4" class="empty" style="text-align:left;white-space:normal">시료를 바꿀 때마다 ‘측정값 기록하기’를 눌러 전류를 비교해요.</td></tr>'}</tbody>`;
   $$('[data-cls]').forEach(s => s.onchange = () => { matRec[+s.dataset.cls].cls = s.value; save('mat', matRec); });
@@ -4555,10 +4596,10 @@ class RsScene {
     const cw = (mw - 48) / 2;
     [['hit', '전자 1개가 지나며 부딪힌 횟수'], ['rate', '1초에 끝면을 지난 전자 (모형)']].forEach(([id, t], i) => {
       const cx = mx + 18 + i * (cw + 12);
-      s += `<rect ${i ? '' : 'data-hitcard '}x="${cx}" y="${g.cnt}" width="${cw}" height="74" rx="10" fill="var(--surface-0)" stroke="var(--line-1)"/>
+      s += `<g class="rs-hitcard"${i ? '' : ' data-hitcard'}><rect x="${cx}" y="${g.cnt}" width="${cw}" height="74" rx="10" fill="var(--surface-0)" stroke="var(--line-1)"/>
         <text class="lbl" x="${cx + 14}" y="${g.cnt + 22}" style="font-size:12.5px">${t}</text>
-        <text data-cnt="${id}" x="${cx + 14}" y="${g.cnt + 58}" style="font-size:27px;font-weight:800;fill:var(--text-1)"></text>
-        <text data-cnt="${id}-s" x="${cx + cw - 14}" y="${g.cnt + 58}" text-anchor="end" style="font-size:12px;fill:var(--text-2);font-weight:600"></text>`;
+        <text class="rs-cnt" data-cnt="${id}" x="${cx + 14}" y="${g.cnt + 58}" style="font-size:27px;font-weight:800"></text>
+        <text data-cnt="${id}-s" x="${cx + cw - 14}" y="${g.cnt + 58}" text-anchor="end" style="font-size:12px;fill:var(--text-2);font-weight:600"></text></g>`;
     });
     s += `<text class="lbl" x="${mx + mw / 2}" y="${my + mh - 12}" text-anchor="middle" style="font-size:11.5px">교육용 모형 · 입자의 크기·수·빠르기는 실제와 달라요 · 원자는 제자리에서 떨리기만 해요</text>`;
     this.svg.innerHTML = s;
@@ -4666,10 +4707,10 @@ class RsScene {
         d.badge.querySelector('text').textContent = f.hits;
         d.trail.setAttribute('d', m.trail.length ? 'M' + m.trail.map(([x, y]) => `${X(x).toFixed(1)} ${Y(y).toFixed(1)}`).join('L') + `L${ex.toFixed(1)} ${ey.toFixed(1)}` : '');
       } else d.trail.setAttribute('d', '');
-      // 완주 스탬프 2초
-      const done = f.done && m.t - f.done.t0 < 2.2 && this.st.follow ? f.done : null;
+      // 완주 스탬프 3초
+      const done = f.done && m.t - f.done.t0 < 3 && this.st.follow ? f.done : null;
       const key = (done ? 1 : 0) + ':' + (done?.hits ?? '');
-      if (k === 'main') { const on2 = !!done; if (this.hitCard && this.hitCard.dataset.on !== String(on2)) { this.hitCard.dataset.on = on2; this.hitCard.setAttribute('fill', on2 ? '#fff1c2' : 'var(--surface-0)'); this.hitCard.setAttribute('stroke', on2 ? '#f0b400' : 'var(--line-1)'); } }
+      if (k === 'main') { const on2 = !!done; if (this.hitCard && this.hitCard.dataset.on !== String(on2)) this.hitCard.dataset.on = on2; }
       else if (d.stamp && d.stamp.dataset.k !== key) {
         d.stamp.dataset.k = key;
         d.stamp.innerHTML = done ? (() => { const t = `${m.L} cm 지나며 ${done.hits}번 부딪힘`, w = rsEstW(t, 13.5) + 24, x = k === 'ref' ? g.bx + c.w + 40 : Math.max(g.bx + c.w - w, g.bx - 30 + rsEstW(`지금 끼운 도선 · ${rsWireName(m)}`, 14) + 14), y = k === 'ref' ? c.top + 50 : c.top - 32; return `<rect x="${x}" y="${y}" width="${w}" height="26" rx="13" fill="#f0b400"/><text x="${x + w / 2}" y="${y + 18}" text-anchor="middle" style="font-size:13.5px;font-weight:800;fill:#1d1d1d">${t}</text>`; })() : '';
@@ -4782,7 +4823,7 @@ function renderResist() {
   const st = lab.rs;
   rsGraphRO?.disconnect();
   $('#main').innerHTML = labFrame({
-    tab: 'resist', card: 'cause', rec: true, wide: true, ribbon: false,
+    tab: 'resist', card: 'cause', rec: true, wide: true, ribbon: false, head: measHead('rs'),
     tools: flowSeg() + `<button class="tool" id="rsSwitch"></button><button class="tool" id="rsRefBtn" aria-pressed="${st.ref}" aria-label="기준 도선(10 cm · 1배) 함께 보기" title="10 cm · 1배 기준 도선을 확대 모형에 함께 보여요">${icon('bulbs')}<span class="t">기준</span></button><button class="tool" id="rsFollowBtn" aria-pressed="${st.follow}" aria-label="전자 1개 따라가기" title="전자 1개를 골라 끝까지 따라가며 부딪힌 횟수를 세요">${icon('target')}<span class="t">따라가기</span></button>`,
     panel: `<div class="pg-duo"><section class="pg"><h2 class="pg-title"><span class="n">01</span>비교 방법</h2>
         <div class="seg full" role="radiogroup" aria-label="비교 방법" id="rsMode">${Object.entries(RS_MODES).map(([k, m]) => `<button role="radio" data-rsmode="${k}">${m.name}</button>`).join('')}</div>
@@ -4805,7 +4846,7 @@ function renderResist() {
   rsScene.camera = workspaceCamera('resist');
   rsScene.mount($('#stage')); stageHeight();
   bindCommon(rsScene);
-  $('#rsSwitch').onclick = () => rsSet({ closed: !st.closed });
+  $('#rsSwitch').onclick = $('#rsMSwitch').onclick = () => rsSet({ closed: !st.closed });
   $('#rsRefBtn').onclick = () => { st.ref = !st.ref; if (rsScene.isPort) { rsScene.mount($('#stage')); stageHeight(); rsScene.applyView(); } rsSet({}); };
   $('#rsFollowBtn').onclick = () => { const on = !st.follow; if (rsScene.main) { rsScene.main.follow.armed = on; if (!on) rsScene.main.follow.e = null; } rsSet({ follow: on }); toast(on ? '전자 1개를 골라 끝까지 따라가요. 노란 숫자가 부딪힌 횟수예요.' : '따라가기를 껐어요.'); };
   $$('[data-rsmode]').forEach(b => b.onclick = () => rsSetMode(b.dataset.rsmode));
@@ -4819,7 +4860,7 @@ function renderResist() {
   $('#rsOut').onclick = () => { if (!st.wire) return toast('끼운 도선이 없어요.'); rsInsert(null); };
   $('#rsVDown').onclick = () => rsSet({ V: clamp(r1(st.V - MODEL.supplyStep), 0, MODEL.supplyMax) });
   $('#rsVUp').onclick = () => rsSet({ V: clamp(r1(st.V + MODEL.supplyStep), 0, MODEL.supplyMax) });
-  $('#rsRec').onclick = $('#recTop').onclick = recordResist;
+  $('#rsRec').onclick = $('#rsMRec').onclick = $('#recTop').onclick = recordResist;
   $('#rsClear').onclick = () => { if (!rsRec.length) return toast('지울 기록이 없어요.'); const keep = rsRec.slice(); rsRec = []; save('resist', rsRec); syncResist(); toastUndo('기록을 지웠어요.', () => { rsRec = keep; save('resist', rsRec); syncResist(); }); };
   $$('[data-axis]').forEach(b => b.onclick = () => { save('rsAxis', b.dataset.axis); syncRsGraphTools(); drawRsGraph(); });
   $('#rsShowR').checked = !!getSaved('rsShowR', false);
@@ -4855,6 +4896,12 @@ function syncResist() {
   $$('[data-rsmode]').forEach(b => { const on = b.dataset.rsmode === st.mode; b.setAttribute('aria-checked', on); b.setAttribute('aria-pressed', on); b.tabIndex = on ? 0 : -1; });
   const seg = (sel, attr, val, lock) => $$(sel).forEach(b => { const v = +b.dataset[attr], on = st.wire ? v === val : false, dis = lock !== undefined && v !== lock; b.setAttribute('aria-checked', on); b.setAttribute('aria-pressed', on); b.setAttribute('aria-disabled', dis); b.tabIndex = on && !dis ? 0 : -1; if (dis) b.setAttribute('aria-label', `${b.textContent}, ${RS_MODES[st.mode].name} 중이라 고정`); else b.removeAttribute('aria-label'); });
   seg('[data-rsl]', 'rsl', st.wire?.L, M.L); seg('[data-rsa]', 'rsa', st.wire?.A, M.A);
+  const vary = st.mode === 'length' ? 'L' : st.mode === 'thick' ? 'A' : null, opts = vary === 'L' ? RS.lens : RS.areas;
+  const fixedRow = v => vary === 'L' ? rsFind(v, 1, 3) : rsFind(10, v, 3), recNow = !!st.wire && !!rsFind(st.wire.L, st.wire.A, st.V);
+  let nextV = null;
+  if (vary && (recNow || (!st.wire && rsRec.length)) && rsProgress() < 3) { const i0 = st.wire ? opts.indexOf(st.wire[vary]) : -1; for (let k = 1; k <= opts.length && nextV == null; k++) { const v = opts[(i0 + k + opts.length) % opts.length]; if (!fixedRow(v)) nextV = v; } }
+  $$('[data-rsl]').forEach(b => b.toggleAttribute('data-next', vary === 'L' && +b.dataset.rsl === nextV));
+  $$('[data-rsa]').forEach(b => b.toggleAttribute('data-next', vary === 'A' && +b.dataset.rsa === nextV));
   for (const g of ['#rsLen', '#rsArea']) { const bs = [...$(g).children]; if (!bs.some(b => b.tabIndex === 0)) { const f = bs.find(b => b.getAttribute('aria-disabled') !== 'true'); if (f) f.tabIndex = 0; } }
   $('#rsLockL').hidden = M.L === undefined; $('#rsLockA').hidden = M.A === undefined;
   $('#rsOut').disabled = !st.wire;
@@ -4862,7 +4909,8 @@ function syncResist() {
   $('#rsSwitch').textContent = st.closed ? '스위치 열기' : '스위치 닫기';
   $('#rsRefBtn').setAttribute('aria-pressed', st.ref); $('#rsFollowBtn').setAttribute('aria-pressed', st.follow);
   setStatus(rsStatus());
-  recState(sol.on, !st.wire ? '먼저 도선을 집게 사이에 끼워요.' : !st.closed ? '스위치를 닫고 기록해요.' : '전압을 올려 전류가 흐를 때 기록해요.', '지금 도선·전류를 기록표에 적어요', 'rsRec');
+  recState(sol.on, !st.wire ? '먼저 도선을 집게 사이에 끼워요.' : !st.closed ? '스위치를 닫고 기록해요.' : '전압을 올려 전류가 흐를 때 기록해요.', '지금 도선·전류를 기록표에 적어요', 'rsRec', 'rsMRec');
+  syncMeasHead('rs', { I: sol.I, has: !!st.wire, closed: st.closed, next: !st.wire ? '' : !st.closed ? 'sw' : sol.on && !recNow ? 'rec' : '' });
   syncRsTable(); syncRsGraphTools(); drawRsGraph(); renderRsPred();
   const sum = rsSummary().text; $('#rsSum').textContent = sum.length ? sum[sum.length - 1] : '';
 }
