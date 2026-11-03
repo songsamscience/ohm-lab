@@ -1901,6 +1901,7 @@ class Board {
       host.addEventListener('blur', () => { this.cursor.on = false; this.drawCursor(); });
     }
     svg.addEventListener('pointerdown', e => this.onDown(e));
+    svg.addEventListener('touchstart', e => { if (e.touches.length !== 1) return; const t = e.target; if ((this.tool === 'erase' && this.perm.erase) || (this.perm.wire && !this.armed && t.closest?.('.node-hit')) || (this.perm.move && t.closest?.('.part')) || (this.camera?.z || 1) > 1.0001) e.preventDefault(); }, { passive: false }); // SVG 안쪽 touch-action은 무시되어 세로 끌기가 스크롤로 끊기던 문제
     svg.addEventListener('pointermove', e => this.onHover(e));   // 마우스: 고른 기구·옮길 기구를 놓을 칸 미리 보기
     svg.addEventListener('pointerleave', () => { if (!this.gesture && this.hotSlot && (this.armed || this.pendingMove)) { this.hotSlot = null; this.drawSlots(); } });
     // 기구를 가리키면 그 기구를(비교 보기에서는 다른 쪽의 짝까지) 함께 밝힌다
@@ -3644,10 +3645,11 @@ function syncTrayCounts() { const b = boards.bench; if (!b) return; for (const [
 function syncArm(type) {
   $$('.tile').forEach(t => t.setAttribute('aria-pressed', t.dataset.part === type));
   const h = $('#armHelp'); if (!h) return;
-  h.innerHTML = type ? `<b>${PARTS[type].name}</b>를 놓을 칸을 판에서 누르세요. ${type === 'wire' ? '여러 칸을 차례로 누를 수 있어요.' : '전선 칸에 놓으면 전선이 바뀌어요.'} <kbd>Esc</kbd> 취소` : '기구를 판의 빈 칸에 끌어다 놓거나, 눌러 고른 뒤 놓을 칸을 누르세요.';
+  h.innerHTML = type ? `<b>${PARTS[type].name}</b>${msJosa(PARTS[type].name, '을', '를')} 놓을 칸을 판에서 누르세요. ${type === 'wire' ? '여러 칸을 차례로 누를 수 있어요.' : '전선 칸에 놓으면 전선이 바뀌어요.'} <kbd>Esc</kbd> 취소` : '기구를 판의 빈 칸에 끌어다 놓거나, 눌러 고른 뒤 놓을 칸을 누르세요.';
 }
 function bindTray(b) {
   $$('.tile').forEach(tile => {
+    if (tile.dataset.bound) return; tile.dataset.bound = '1'; // 같은 타일에 두 번 묶지 않는다(눌러 고르기가 바로 풀리던 문제)
     const type = tile.dataset.part;
     tile.addEventListener('pointerdown', ev => {
       if (ev.button) return;
@@ -3994,7 +3996,7 @@ function recordSeries() {
 
 /* ═══════════════════════════════════════════════════════════════════
    07 전류계 · 전압계 눈금 읽기 — 학교 실험실의 바늘(아날로그) 계기
-   · (−)단자 세 개: 전류계 50 mA · 500 mA · 5 A, 전압계 3 V · 15 V · 30 V. 연결한 (−)단자의 값이 눈금 끝 값.
+   · (−)단자 세 개: 전류계 50 mA · 500 mA · 5 A, 전압계 3 V · 15 V · 300 V. 연결한 (−)단자의 값이 눈금 끝 값.
    · 눈금판에는 줄이 세 개(맨 위 = 가장 큰 단자). 작은 눈금은 큰 눈금 한 칸의 1/10, 그 1/10까지 어림해 읽는다.
    · 단자를 바꾸면 흐르는 전류(걸린 전압)는 그대로이고 바늘이 움직인다 — 끝을 넘으면 바늘이 멈춤쇠에 걸린다.
    · 눈금 왼쪽의 작은 음(−) 구간은 극을 반대로 연결했을 때 바늘이 거꾸로 가는 것을 보여 준다(교과서 그림의 계기와 같음).
@@ -4006,9 +4008,9 @@ const METERS = {
   A: { name: '전류계', q: '전류', qq: '전류의 세기', letter: 'A', umin: -1, umax: 5, units: ['mA', 'A'], vmin: 0.002, vmax: 6,
     terms: [{ fs: 0.05, label: '50 mA', row: 2, div: 0.001, unit: 'mA' }, { fs: 0.5, label: '500 mA', row: 1, div: 0.01, unit: 'mA' }, { fs: 5, label: '5 A', row: 0, div: 0.1, unit: 'A' }],
     rows: [{ k: 1, unit: 'A' }, { k: 100, unit: 'mA' }, { k: 10, unit: 'mA' }] },
-  V: { name: '전압계', q: '전압', qq: '전압의 크기', letter: 'V', umin: -1, umax: 3, units: ['mV', 'V'], vmin: 0.05, vmax: 36,
-    terms: [{ fs: 3, label: '3 V', row: 2, div: 0.1, unit: 'V' }, { fs: 15, label: '15 V', row: 1, div: 0.5, unit: 'V' }, { fs: 30, label: '30 V', row: 0, div: 1, unit: 'V' }],
-    rows: [{ k: 10, unit: 'V' }, { k: 5, unit: 'V' }, { k: 1, unit: 'V' }] },
+  V: { name: '전압계', q: '전압', qq: '전압의 크기', letter: 'V', umin: -1, umax: 3, units: ['mV', 'V'], vmin: 0.05, vmax: 360,
+    terms: [{ fs: 3, label: '3 V', row: 2, div: 0.1, unit: 'V' }, { fs: 15, label: '15 V', row: 1, div: 0.5, unit: 'V' }, { fs: 300, label: '300 V', row: 0, div: 10, unit: 'V' }],
+    rows: [{ k: 100, unit: 'V' }, { k: 5, unit: 'V' }, { k: 1, unit: 'V' }] },
 };
 const UNIT_F = { A: 1, mA: 1e-3, V: 1, mV: 1e-3 };
 const ROW_NAME = ['맨 위 줄', '가운데 줄', '맨 아래 줄'];
@@ -4255,7 +4257,7 @@ function renderMeters() {
       <details class="pg m-how" open><summary class="pg-title"><span class="n">03</span>눈금 읽는 순서</summary>
         <ol class="m-steps">
           <li><b>연결</b>전류계는 회로에 <b>직렬</b>, 전압계는 재려는 부분에 <b>병렬</b>로 이어요. (+)단자는 전원의 (+)극 쪽, (−)단자는 (−)극 쪽 선에 연결해요. <b>거꾸로 연결하면 바늘이 거꾸로 돌아 고장 날 수 있어요.</b></li>
-          <li><b>(−)단자</b>값을 모를 때는 <b>가장 큰 단자</b>(5 A · 30 V)에 먼저 연결해요.</li>
+          <li><b>(−)단자</b>값을 모를 때는 <b>가장 큰 단자</b>(5 A · 300 V)에 먼저 연결해요.</li>
           <li><b>눈금 줄</b>연결한 (−)단자의 값이 <b>끝 값인 줄</b>을 읽어요. 500 mA 단자라면 끝이 500인 줄이에요.</li>
           <li><b>어림</b>바늘이 가리키는 곳을 <b>최소 눈금의 1/10</b>까지 어림해 읽고 단위를 붙여요.</li>
           <li><b>단자 바꾸기</b>바늘이 조금밖에 안 움직이면 더 작은 (−)단자로 바꿔요. 바늘이 끝을 넘으면 곧바로 큰 단자로!</li></ol>
@@ -5036,8 +5038,8 @@ const MISSIONS = [
     hint: '두 전구가 각자 길을 가지면 병렬연결이에요. 스위치는 갈라지기 전에!', ok: '스위치 하나로 둘 다 꺼져요. 집 콘센트와 같은 방식이에요.' },
 ];
 const MS = { i: 0, hints: 0, tries: 0, done: false, last: null, savedView: null, savedEls: null, savedPerm: null, pick: null, target: null };
-const msStore = (() => { try { return JSON.parse(localStorage.getItem('ohm-v6-missions') || '{}') || {}; } catch (e) { return {}; } })();
-function msSave() { try { localStorage.setItem('ohm-v6-missions', JSON.stringify(msStore)); } catch (e) { } }
+const msStore = (() => { try { return JSON.parse(sessionStorage.getItem('ohm-v6-missions') || '{}') || {}; } catch (e) { return {}; } })();
+function msSave() { try { sessionStorage.setItem('ohm-v6-missions', JSON.stringify(msStore)); } catch (e) { } }
 const missionTarget = () => (current === 'bench' && benchMode === 'mission' ? MS.target : null);
 const msJosa = (w, a, b) => { const c = w.charCodeAt(w.length - 1) - 0xac00; return c >= 0 && c % 28 ? a : b; };
 const MS_NAME = { source: '전원', switch: '스위치', bulb: '전구', nichrome: '니크롬선', ammeter: '전류계', voltmeter: '전압계' };
@@ -5222,9 +5224,9 @@ function msPick(type) {
 let ohmMode = getSaved('ohmMode', 'exp');
 const R_OPTS = [5, 10, 15, 20, 30];
 const SV_KEY = 'ohm-v6-solve';
-const svStore = (() => { try { return JSON.parse(localStorage.getItem(SV_KEY) || '{}') || {}; } catch (e) { return {}; } })();
+const svStore = (() => { try { return JSON.parse(sessionStorage.getItem(SV_KEY) || '{}') || {}; } catch (e) { return {}; } })();
 svStore.res ||= {};
-function svSave() { try { localStorage.setItem(SV_KEY, JSON.stringify(svStore)); } catch (e) { } }
+function svSave() { try { sessionStorage.setItem(SV_KEY, JSON.stringify(svStore)); } catch (e) { } }
 const SV = { V: 3, R: 20, form: 'VIR', q: Math.min(svStore.q || 0, 9), mask: null, intro: !svStore.introSeen, anim: 0, shownI: null, phase: 0, tries: 0, input: '', choice: null, verdict: null, checking: false, verify: null, dbl: '' };
 const svI = () => (SV.R > 0 ? SV.V / SV.R : 0);   // A
 const svMA = i => Math.round(i * 10000) / 10;       // mA, 소수 1자리까지
@@ -5243,7 +5245,7 @@ const SV_Q = [
     ok: 'R = 6.0 V ÷ 0.3 A = 20 Ω', bad: '전압을 전류(A)로 나눠요. 300 mA = 0.3 A예요.' },
   { id: 'q6', type: 'R', chip: 'R 구하기', text: '1.5 V를 걸었더니 100 mA가 흘러요. 저항은 몇 Ω일까요?', V: 1.5, I: 100, ans: 15, unit: 'Ω', form: 'RVI',
     ok: 'R = 1.5 V ÷ 0.1 A = 15 Ω', bad: '100 mA = 0.1 A로 바꿔 계산해요.' },
-  { id: 'q7', type: 'slope', chip: '기울기', text: '어떤 니크롬선의 측정 결과예요. 이 니크롬선의 저항은 몇 Ω일까요?', table: [[1.5, 75], [3, 150], [4.5, 225]], V: 3, I: 150, ans: 20, unit: 'Ω', form: 'RVI',
+  { id: 'q7', type: 'slope', chip: '전압÷전류', text: '어떤 니크롬선의 측정 결과예요. 이 니크롬선의 저항은 몇 Ω일까요?', table: [[1.5, 75], [3, 150], [4.5, 225]], V: 3, I: 150, ans: 20, unit: 'Ω', form: 'RVI',
     ok: '어느 줄로 계산해도 20 Ω — 전압 ÷ 전류가 늘 같아요. 이 값이 곧 저항이에요.', bad: '한 줄만 골라 전압 ÷ 전류(A)를 해 보세요. 75 mA = 0.075 A예요.' },
   { id: 'q8', type: 'choice', chip: '비례', text: '같은 저항에서 전압을 2배로 하면 전류는 어떻게 될까요?', choices: ['½', '같음', '2배', '4배'], ans: '2배', from: [1.5, 20], to: [3, 20], form: 'IVR',
     ok: '전류는 전압에 비례해요. 75 mA → 150 mA', bad: '슬라이더로 1.5 V → 3.0 V를 직접 해 보고 전류계를 보세요.' },
@@ -5954,7 +5956,7 @@ function semiPanel() {
       <div class="semi-cards" id="quizCards"></div>
       <div class="seg full semi-bins" role="group" aria-label="분류">${['cond', 'semi', 'ins'].map(k => `<button data-qk="${k}">${KIND_KO[k]}</button>`).join('')}</div>
       <p class="sv-fb" id="quizFb" role="status" hidden></p></section>`;
-    $$('[data-src]').forEach(b => b.onclick = () => { if (SEMI.src === b.dataset.src) return; SEMI.src = b.dataset.src; semiSave(); semiPanel(); semiScene.render(); semiSync(false, `전원을 ${SEMI.src === 'heat' ? '열' : '빛'}으로 바꿨어요.`); });
+    $$('[data-src]').forEach(b => b.onclick = () => { if (SEMI.src === b.dataset.src) return; SEMI.src = b.dataset.src; semiSave(); semiPanel(); semiScene.render(); semiSync(false, `에너지를 주는 방법을 ${SEMI.src === 'heat' ? '열로' : '빛으로'} 바꿨어요.`); });
     $('#bandR').oninput = e => { if (SEMI.src === 'heat') SEMI.T = +e.target.value; else SEMI.light = +e.target.value; semiSave(); semiScene.render(); semiSync(); };
     $('#bandReset').onclick = () => { SEMI.T = 20; SEMI.light = 0; semiSave(); semiPanel(); semiScene.render(); };
     $$('[data-def][role="button"]').forEach(li => { li.onclick = () => { SEMI.look = li.dataset.def; semiSave(); semiScene.render(); semiSync(); }; li.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.click(); } }; });
@@ -6415,7 +6417,7 @@ function theory(card) {
     <p class="link">실험 연결 · 실험판 머리 막대의 ‘보기 → 비교’를 누르면 실물 그림과 회로도가 나란히 보이고, 어느 쪽에서든 기구를 놓고 전선을 이을 수 있어요. 조작판의 ‘회로도 미션’ 8개로 회로도를 읽고 그려 보세요.</p></article>
   <article class="th-card" id="card-reading"><h3><span>07</span>전류계 · 전압계 눈금 읽기</h3>
     <figure class="th-fig">${meterStaticSVG([{ kind: 'A', term: 1, v: 0.3 }, { kind: 'V', term: 0, v: 1.5 }])}</figure>
-    <ol class="help" style="margin:0 0 10px;padding-left:20px;font-size:14px;line-height:1.8"><li>(+)단자는 전원의 (+)극 쪽에, (−)단자는 값을 모를 때 <b>가장 큰 값</b>(5 A · 30 V)에 먼저 연결해요.</li><li>연결한 <b>(−)단자의 값이 눈금의 끝 값</b>이에요. 500 mA 단자라면 끝이 500인 줄, 3 V 단자라면 끝이 3인 줄을 읽어요.</li><li>작은 눈금 한 칸의 크기를 확인하고, 바늘이 가리키는 곳을 <b>최소 눈금의 1/10까지 어림</b>해 읽은 뒤 단위를 붙여요.</li><li>바늘이 조금밖에 움직이지 않으면 더 작은 (−)단자로 바꿔 정확하게 읽어요. 바늘이 끝을 넘으면 계기가 고장 날 수 있으니 곧바로 큰 단자로 바꿔요.</li></ol>
+    <ol class="help" style="margin:0 0 10px;padding-left:20px;font-size:14px;line-height:1.8"><li>(+)단자는 전원의 (+)극 쪽에, (−)단자는 값을 모를 때 <b>가장 큰 값</b>(5 A · 300 V)에 먼저 연결해요.</li><li>연결한 <b>(−)단자의 값이 눈금의 끝 값</b>이에요. 500 mA 단자라면 끝이 500인 줄, 3 V 단자라면 끝이 3인 줄을 읽어요.</li><li>작은 눈금 한 칸의 크기를 확인하고, 바늘이 가리키는 곳을 <b>최소 눈금의 1/10까지 어림</b>해 읽은 뒤 단위를 붙여요.</li><li>바늘이 조금밖에 움직이지 않으면 더 작은 (−)단자로 바꿔 정확하게 읽어요. 바늘이 끝을 넘으면 계기가 고장 날 수 있으니 곧바로 큰 단자로 바꿔요.</li></ol>
     <p class="link">실험 연결 · ‘계기 읽기’ 화면에서 단자를 바꿔 가며 눈금을 읽는 문제를 풀어 보세요.</p></article>
   <article class="th-card" id="card-series"><h3><span>08</span>저항의 직렬연결</h3>
     <figure class="th-fig">${staticBoard(series2, { schem: true })}</figure>
@@ -6442,11 +6444,14 @@ function theory(card) {
   $('#switchStudent').onclick = () => confirmClear(true);
 }
 function confirmClear(student) {
-  const list = '학번·이름 · 처음 쓴 답안 · 다시 쓴 답안 · 모범 답안 잠금 · 힌트 기록 · 도선과 저항 기록표·예측 · 옴의 법칙 기록표 · 직렬·병렬 관찰 기록 · 물질 기록표 · 계기 읽기 점수';
+  const list = '학번·이름 · 처음 쓴 답안 · 다시 쓴 답안 · 모범 답안 잠금 · 힌트 기록 · 도선과 저항 기록표·예측 · 옴의 법칙 기록표 · 직렬·병렬 관찰 기록 · 물질 기록표 · 계기 읽기 점수 · 생활 속 실험 기록·분류 확인 · 식으로 풀기 결과 · 회로도 미션 기록';
   openModal(student ? '다음 학생으로 바꿀까요?' : '학습 데이터를 모두 지울까요?', `<p>지우는 것: ${list}. 실험판의 회로와 테마는 그대로 남아요.</p><div class="dialog-actions"><button class="btn" id="cc">취소</button><button class="btn primary" id="okc">${student ? '기록을 지우고 다음 학생으로' : '학습 데이터 모두 지우기'}</button></div>`);
   $('#cc').onclick = closeModal;
   $('#okc').onclick = () => {
     answers = {}; revisions = {}; locks = {}; hints = {}; identity = null; ohmRec = { long: {}, short: {} }; serRec = {}; matRec = []; rsRec = []; rsPred = {}; save('resist', rsRec); save('rsPred', rsPred);
+    semiRec = { lamp: [], fire: [], led: [], cam: [], wire: [] }; semiQuiz = {}; quizPick = quizMsg = null; save('semiRec', semiRec); save('semiQuiz', semiQuiz);
+    svStore.res = {}; svStore.q = 0; Object.assign(SV, { q: 0, tries: 0, input: '', choice: null, verdict: null }); svSave();
+    for (const k of Object.keys(msStore)) delete msStore[k]; msSave(); MS.done = false; MS.last = null;
     for (const [k, v] of Object.entries({ answers, revisions, locks, hints, identity, 'ohm-v3': ohmRec, series: serRec, mat: matRec, meterScore: { correct: 0, total: 0, streak: 0, best: 0 } })) save(k, v);
     mLab.n = 0; mLab.prob = null;
     closeModal(); if (student) { setTab('bench'); toast('다음 학생이 시작할 수 있어요.'); } else { const c = current; current = ''; setTab(c); toast('학습 기록과 학번·이름을 지웠어요.'); }
